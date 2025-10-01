@@ -7,7 +7,7 @@ function App() {
     <div className="app-container">
       <div className="liquid-ether-background">
         <LiquidEther
-          colors={['#5227FF', '#FF9FFC', '#B19EEF']}
+          colors={['#0F1A3A', '#4E36FD', '#1BCAC9']}
           mouseForce={20}
           cursorSize={100}
           isViscous={false}
