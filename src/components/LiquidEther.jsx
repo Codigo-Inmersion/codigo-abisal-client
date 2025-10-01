@@ -65,7 +65,7 @@ export default function LiquidEther({
     }
 
     const paletteTex = makePaletteTexture(colors);
-    const bgVec4 = new THREE.Vector4(0, 0, 0, 0);
+    const bgVec4 = new THREE.Vector4(0, 0, 0, 0); // IMPORTANTE: siempre transparente
 
     class CommonClass {
       constructor() {
@@ -240,7 +240,7 @@ export default function LiquidEther({
         this.manager = manager;
         this.enabled = opts.enabled;
         this.speed = opts.speed;
-        this.resumeDelay = opts.resumeDelay || 3000;
+        this.resumeDelay = opts.resumeDelay || 3000; // ms
         this.rampDurationMs = (opts.rampDuration || 0) * 1000;
         this.active = false;
         this.current = new THREE.Vector2(0, 0);
@@ -948,7 +948,7 @@ export default function LiquidEther({
         this.output.update();
       }
       loop() {
-        if (!this.running) return;
+        if (!this.running) return; // safety
         this.render();
         rafRef.current = requestAnimationFrame(this._loop);
       }
@@ -1020,6 +1020,7 @@ export default function LiquidEther({
 
     webgl.start();
 
+    // Pausar rendering cuando no está visible
     const io = new IntersectionObserver(
       entries => {
         const entry = entries[0];
