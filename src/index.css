@@ -5,16 +5,16 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #0A1125;
+  background-color: var(--black-abisal);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --blue-dark: #0A1125;
-  --blue-navy: #0F1A3A;     
+  --black-abisal: #06000f;
   --blue-retro: #4E36FD; 
-  --blue-sky: #1BCAC9;
+  --blue-baby: #A4DEFB;     
+  --blue-sky: #A4FBFB;
 }
 
 * {

@@ -1,13 +1,12 @@
-import './App.css'
-import LiquidEther from './components/LiquidEther.jsx'
-import FormCard from './components/FormCard.jsx';
+import "./App.css";
+import LiquidEther from "./components/LiquidEther";
 
 function App() {
   return (
     <div className="app-container">
       <div className="liquid-ether-background">
         <LiquidEther
-          colors={['#0F1A3A', '#4E36FD', '#1BCAC9']}
+          colors={["#5227FF", "#A4DEFB", "#A4FBFB"]}
           mouseForce={20}
           cursorSize={100}
           isViscous={false}
@@ -25,13 +24,14 @@ function App() {
         />
       </div>
 
+      {/* Contenido de la app */}
       <div className="app-content">
         <h1>Bienvenido a Código Abisal</h1>
-        <p>Tu contenido aquí</p>
-        <FormCard />
+        <p>Prueba</p>
+        {/* Aquí rutas, componentes, etc */}
       </div>
     </div>
-  )
+  );
 }
 
 export default App;

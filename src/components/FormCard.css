@@ -107,9 +107,9 @@
 
 .form-group input:focus,
 .form-group textarea:focus {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(14, 220, 182, 0.2);
   border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.785);
 }
 
 .form-group textarea {
@@ -120,9 +120,9 @@
 
 .submit-button {
   display: flex;
-  justify-content:center;
+  align-items: center;
   padding: 1rem 3rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eea 0%, rgb(105, 204, 223) 100%);
   color: #ffffff;
   font-weight: 600;
   font-size: 1rem;
@@ -137,7 +137,7 @@
 .submit-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  background: linear-gradient(135deg, #50e6d2 0%, #667eea 100%);
 }
 
 /* Responsive */
