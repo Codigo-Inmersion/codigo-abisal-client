@@ -1,5 +1,5 @@
 import "./App.css";
-import Background from "./components/layout/Background/background";
+import Background from "./components/layout/Background/Background";
 
 
 function App() {
