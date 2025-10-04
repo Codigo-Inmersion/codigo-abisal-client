@@ -1,4 +1,9 @@
-/* Reset del root original */
+/* APP.CSS => Estilos específicos del componente App
+
+-Layout principal de la aplicación
+-Estilos específicos del wrapper principal
+-Estilos que afectan solo a App.jsx */
+
 #root {
   max-width: 100%;
   margin: 0;

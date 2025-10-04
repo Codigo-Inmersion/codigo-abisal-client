@@ -1,5 +1,5 @@
 import "./App.css";
-import LiquidEther from "./components/LiquidEther";
+import LiquidEther from "./components/layout/LiquidEther/LiquidEther";
 
 function App() {
   return (
