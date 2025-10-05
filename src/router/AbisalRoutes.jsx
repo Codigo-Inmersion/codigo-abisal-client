@@ -1,48 +1,77 @@
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
-
-// Layout components
-import Background from '../components/layout/Background/Background';
-import Navbar from '../components/layout/Navbar/Navbar';
-import Footer from '../components/layout/Footer/Footer';
+// Layouts
+import Layout_Intro from "../components/layout/Layout_Intro/Layout_Intro";
+import Layout_User from "../components/layout/Layout_User/Layout_User";
+import Layout_Admin from "../components/layout/Layout_Admin/Layout_Admin";
 
 // Pages
-import RegisterPage from '../pages/user/RegisterPage';
+import HomePage from "../pages/user/HomePage";
+import RegisterPage from "../pages/user/RegisterPage";
+import LoginPage from "../pages/user/LoginPage";
+import DetailPage from "../pages/user/DetailPage";
+import AboutPage from "../pages/user/AboutPage";
+import DashboardPage from "../pages/admin/DashboardPage";
+import CreateArticlePage from "../pages/admin/CreateArticlePage";
+import EditArticlePage from "../pages/admin/EditArticlePage";
 
 
-//RootLayout - Componente que envuelve todas las páginas
+//poner aquí resto de páginas
 
-function RootLayout() {
-  return (
-    <>
-      <Background />
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
-  );
-}
-
-
-//Router Configuration - Más adelante resto de rutas
-
-const router = createBrowserRouter([
+const abisalRouter = createBrowserRouter([
   {
-    path: '/',
-    element: <RootLayout />,
+    element: <Layout_Intro />,
     children: [
       {
-        path: 'register',
-        element: <RegisterPage />
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
+      },
+    ],
+  },
+
+  {
+    
+    element: <Layout_User />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "/article/:id",
+        element: <DetailPage />,
+      },
+      {
+        path: "/about",
+        element: <AboutPage />,
+      },
+    ],
+  },
+{
+    path: '/admin',
+    element: <Layout_Admin />,
+//    loader: checkAdminLoader, // Protección de rutas
+    children: [
+      {
+        path: 'dashboard',
+        element: <DashboardPage />
+      },
+      {
+        path: 'articles/create',
+        element: <CreateArticlePage />
+      },
+      {
+        path: 'articles/edit/:id',
+        element: <EditArticlePage />
       }
     ]
-  }
+  },
+
 ]);
 
+export default abisalRouter;
 
-
-export default function AbisalRoutes() {
-  return <RouterProvider router={router} />;
-}
