@@ -1,5 +1,9 @@
 .navbar {
-  background-color: #667eea;
+  background-color: rgba(255, 255, 255, 0.2); /* blanco muy transparente */
+  backdrop-filter: blur(10px); /* difumina lo que está detrás */
+  -webkit-backdrop-filter: blur(10px); 
+  border: 1px solid rgba(255, 255, 255, 0.3); /* borde sutil para resaltar */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   color: #fff;
   display: flex;
   justify-content: space-between;

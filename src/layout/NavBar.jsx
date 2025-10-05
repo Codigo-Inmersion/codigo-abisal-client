@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/navbar.css"; // Importamos los estilos
+import "../styles/NavBar.css"; // Importamos los estilos
 
 const NavBar = () => {
   const linkHover = (e, color) => {

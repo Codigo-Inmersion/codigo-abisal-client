@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./LoginPage.css";
+import "../styles/LoginPage.css"; // Importamos los estilos
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
