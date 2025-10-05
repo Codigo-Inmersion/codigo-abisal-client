@@ -1,9 +1,17 @@
 import "./App.css";
 import LiquidEther from "./components/LiquidEther";
+import Footer from "./layout/Footer";
+import NavBar from "./layout/NavBar";
+import NavBar2 from "./layout/NavBar2";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
     <div className="app-container">
+      <NavBar/>
+      <NavBar2/>
+      <LoginPage/>
+
       {/* Fondo LiquidEther fijo */}
       <div className="liquid-ether-background">
         <LiquidEther
@@ -31,6 +39,7 @@ function App() {
         <p>Prueba</p>
         {/* Aquí rutas, componentes, etc */}
       </div>
+      <Footer/>
     </div>
   );
 }
