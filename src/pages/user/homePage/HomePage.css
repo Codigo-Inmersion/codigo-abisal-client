@@ -6,7 +6,7 @@
   color: white;
   display: flex;
   flex-direction: column;
-  /* SIN align-items: center */
+  /* align-items: center;  <-- REMOVE THIS LINE */
   gap: 2rem;
 }
 
