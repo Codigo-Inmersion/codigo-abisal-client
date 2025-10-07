@@ -1,15 +1,12 @@
 import "./App.css";
 import LiquidEther from "./components/LiquidEther";
-import Footer from "./layout/Footer";
-import NavBar from "./layout/NavBar";
-import NavBar2 from "./layout/NavBar2";
-import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/RegisterPage";
+
 
 function App() {
   return (
     <div className="app-container">
-      <NavBar/>
-      <NavBar2/>
+
       <LoginPage/>
 
       {/* Fondo LiquidEther fijo */}
@@ -32,14 +29,7 @@ function App() {
           autoRampDuration={0.6}
         />
       </div>
-
-      {/* Contenido de la app */}
-      <div className="app-content">
-        <h1>Bienvenido a Código Abisal</h1>
-        <p>Prueba</p>
-        {/* Aquí rutas, componentes, etc */}
-      </div>
-      <Footer/>
+      
     </div>
   );
 }
