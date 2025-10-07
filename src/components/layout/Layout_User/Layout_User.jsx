@@ -1,19 +1,21 @@
+// src/components/layout/Layout_User/Layout_User.jsx
+
 import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_User.css';
 
-
-
-export default function layoutUser() {
+export default function LayoutUser() {
   return (
-    <div className="intro-layout">
+    <div className="user-layout">
       <Background />
-      <div className="intro-content">
-        <Outlet />
-      </div>
       
-      {/* Opcional: Link pequeño para volver */}
-      <div className="intro-footer">
+      {/* El <main> sigue siendo el contenedor principal para el contenido de la página */}
+      <main className="user-layout-content">
+        <Outlet />
+      </main>
+
+      {/* Restauramos el footer con el enlace para volver al inicio */}
+      <div className="user-layout-footer">
         <a href="/" className="back-link">
           ← Volver al inicio
         </a>
