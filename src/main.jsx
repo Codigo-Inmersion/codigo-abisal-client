@@ -7,8 +7,19 @@ import './App.css'
 import { RouterProvider } from 'react-router-dom'
 import useAuthStore from './stores/authStore.js'
 
+export function AppWrapper() {
+  const initAuth = useAuthStore(state => state.initAuth);
+
+  useEffect(() => {
+    // Inicializar autenticación al montar la app
+    initAuth();
+  }, [initAuth]);
+
+  return <RouterProvider router={abisalRouter} />;
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={abisalRouter} />
+    <AppWrapper />
   </StrictMode>,
 )

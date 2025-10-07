@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import ProtectedRoute from "../components/common/ProtectedRoute/ProtectedRoute";
 
 // Layouts
 import Layout_Intro from "../components/layout/Layout_Intro/Layout_Intro";
@@ -14,11 +15,12 @@ import AboutPage from "../pages/user/AboutPage";
 import DashboardPage from "../pages/admin/DashboardPage";
 import CreateArticlePage from "../pages/admin/CreateArticlePage";
 import EditArticlePage from "../pages/admin/EditArticlePage";
-
-
-//poner aquí resto de páginas
+import ForbiddenPage from "../pages/errors/ForbiddenPage";
 
 const abisalRouter = createBrowserRouter([
+  // ========================================
+  // RUTAS PÚBLICAS (Login & Register)
+  // ========================================
   {
     element: <Layout_Intro />,
     children: [
@@ -32,10 +34,15 @@ const abisalRouter = createBrowserRouter([
       },
     ],
   },
-
+  // ========================================
+  // RUTAS DE USUARIO (Requieren autenticación)
+  // ========================================
   {
-    
-    element: <Layout_User />,
+    element: (
+      <ProtectedRoute>
+        <Layout_User />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -51,10 +58,16 @@ const abisalRouter = createBrowserRouter([
       },
     ],
   },
-{
+  // ========================================
+  // RUTAS DE ADMINISTRADOR (Requieren rol admin)
+  // ========================================
+  {
     path: '/admin',
-    element: <Layout_Admin />,
-//    loader: checkAdminLoader, // Protección de rutas
+    element: (
+      <ProtectedRoute requiredRole="admin">
+        <Layout_Admin />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: 'dashboard',
@@ -70,6 +83,13 @@ const abisalRouter = createBrowserRouter([
       }
     ]
   },
+  // ========================================
+  // PÁGINA DE ERROR 403
+  // ========================================
+  {
+    path: "/403",
+    element: <ForbiddenPage />
+  }
 
 ]);
 
