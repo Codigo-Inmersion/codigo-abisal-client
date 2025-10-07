@@ -17,42 +17,58 @@ const CloseIcon = () => (
   </svg>
 );
 
+const filterCategories = ["Fauna Abisal", "Ecosistemas", "Exploración", "Conservación"];
 
 function HomePage() {
   const { articles, isLoading, error } = useArticles();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredArticles, setFilteredArticles] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
-    if (!searchTerm) {
-      setFilteredArticles(articles);
-      return;
-    }
-    const lowercasedTerm = searchTerm.toLowerCase();
-    const filtered = articles.filter(article => 
-      (article.title && article.title.toLowerCase().includes(lowercasedTerm)) ||
-      (article.description && article.description.toLowerCase().includes(lowercasedTerm))
-    );
-    setFilteredArticles(filtered);
-  }, [searchTerm, articles]);
+    let articlesToFilter = articles;
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+    if (selectedCategory) {
+      articlesToFilter = articles.filter(article => 
+        article.category && article.category.toLowerCase() === selectedCategory.toLowerCase()
+      );
+    }
+
+    if (searchTerm) {
+      const lowercasedTerm = searchTerm.toLowerCase();
+      articlesToFilter = articlesToFilter.filter(article => 
+        (article.title && article.title.toLowerCase().includes(lowercasedTerm)) ||
+        (article.description && article.description.toLowerCase().includes(lowercasedTerm))
+      );
+    }
+
+    setFilteredArticles(articlesToFilter);
+  }, [searchTerm, selectedCategory, articles]);
+
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
   
+  const handleCategoryClick = (category) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category);
+    }
+  };
+
   const toggleSearch = () => {
     setIsSearchVisible(prev => !prev);
     if (isSearchVisible) {
       setSearchTerm("");
+      setSelectedCategory(null);
     }
   };
 
   const renderContent = () => {
     if (isLoading) return <div className="loading-spinner">Cargando descubrimientos...</div>;
     if (error) return <div className="error-message">Error: {error.message}</div>;
-    if (filteredArticles.length === 0 && searchTerm) {
-      return <p className="no-items-message">No se encontraron resultados para "{searchTerm}"</p>;
+    if (filteredArticles.length === 0) {
+      return <p className="no-items-message">No se encontraron resultados.</p>;
     }
     return <Carousel items={filteredArticles} />;
   };
@@ -66,13 +82,9 @@ function HomePage() {
       <div className="content-wrapper">
         <div className="search-toggle-header">
           {isSearchVisible ? (
-            <button onClick={toggleSearch} className="search-toggle-btn">
-              <CloseIcon />
-            </button>
+            <button onClick={toggleSearch} className="search-toggle-btn"><CloseIcon /></button>
           ) : (
-            <button onClick={toggleSearch} className="search-toggle-btn">
-              <SearchIcon />
-            </button>
+            <button onClick={toggleSearch} className="search-toggle-btn"><SearchIcon /></button>
           )}
         </div>
         
@@ -86,15 +98,19 @@ function HomePage() {
               value={searchTerm}
               onChange={handleSearchChange}
             />
-            <button type="submit" className="search-submit-btn">
-              <span>&#10140;</span>
-            </button>
+            <button type="submit" className="search-submit-btn"><span>&#10140;</span></button>
           </form>
+          
           <div className="filter-tags">
-            <Button variant="secondary">Fauna Abisal</Button>
-            <Button variant="secondary">Ecosistemas</Button>
-            <Button variant="secondary">Exploración</Button>
-            <Button variant="secondary">Conservación</Button>
+            {filterCategories.map(category => (
+              <Button 
+                key={category}
+                variant={selectedCategory === category ? 'primary' : 'secondary'}
+                onClick={() => handleCategoryClick(category)}
+              >
+                {category}
+              </Button>
+            ))}
           </div>
         </div>
 
