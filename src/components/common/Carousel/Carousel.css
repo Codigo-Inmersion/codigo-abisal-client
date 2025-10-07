@@ -2,19 +2,47 @@
 
 .carousel-container {
   width: 100%;
-  padding: 0 2.5rem; /* Espacio para que se vean los botones de navegación */
+  padding: 0 50px; /* Más padding para los botones */
   position: relative;
+  box-sizing: border-box;
 }
 
-/* Estilo para los items que la librería crea */
-.carousel-item-wrapper {
-  padding: 0 10px;
+/* FORZAR que el carrusel use TODO el ancho */
+.react-multi-carousel-list {
+  width: 100% !important;
 }
 
-/* Nuestra tarjeta individual */
+.react-multi-carousel-track {
+  display: flex !important;
+  width: 100% !important;
+}
+
+/* Cada item del carrusel debe ocupar 1/3 del ancho en desktop */
+.react-multi-carousel-item {
+  width: 33.333% !important; /* 3 items = 33.33% cada uno */
+  padding: 0 12px !important;
+  box-sizing: border-box !important;
+}
+
+/* En tablet 50% cada uno (2 items) */
+@media (max-width: 1024px) and (min-width: 640px) {
+  .react-multi-carousel-item {
+    width: 50% !important;
+  }
+}
+
+/* En mobile 100% (1 item) */
+@media (max-width: 640px) {
+  .react-multi-carousel-item {
+    width: 100% !important;
+  }
+}
+
+/* La tarjeta debe ocupar TODO el espacio de su contenedor */
 .carousel-item {
-  height: 350px;
-  width: 300px; /* <-- CAMBIO: Ancho fijo para cada tarjeta */
+  height: 450px;
+  width: 100% !important;
+  max-width: none !important;
   border-radius: 15px;
   overflow: hidden;
   position: relative;
@@ -22,11 +50,12 @@
   color: white;
   background-color: #0c0c1a;
   transition: transform 0.3s ease;
-  display: flex;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .carousel-item:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
 }
 
 .carousel-image {
@@ -36,7 +65,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.6; /* Oscurecemos la imagen para que el texto resalte */
+  opacity: 0.6;
 }
 
 .carousel-caption {
@@ -44,37 +73,56 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1.5rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 20%, transparent 100%);
-  z-index: 2; /* Nos aseguramos que el texto esté por encima de la imagen */
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 30%, transparent 100%);
+  z-index: 2;
 }
 
 .carousel-caption h3 {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
   margin: 0;
+  font-weight: 700;
+  text-transform: capitalize;
 }
 
 .carousel-caption p {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 0.6rem;
+  font-weight: 500;
 }
 
-/* Personalización de los botones de la librería para que coincidan con Figma */
+/* Botones de navegación */
 .react-multiple-carousel__arrow {
-  background: rgba(255, 255, 255, 0.1) !important;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  min-width: 50px !important;
+  min-height: 50px !important;
+  z-index: 10 !important;
 }
 
 .react-multiple-carousel__arrow:hover {
-  background: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.react-multiple-carousel__arrow::before {
+  font-size: 22px !important;
+  color: white !important;
 }
 
 .react-multiple-carousel__arrow--left {
-  left: 0px !important;
+  left: 15px !important;
 }
 
 .react-multiple-carousel__arrow--right {
-  right: 0px !important;
+  right: 15px !important;
+}
+
+/* Mensaje de no hay items */
+.no-items-message {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
 }
