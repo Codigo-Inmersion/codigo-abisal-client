@@ -5,7 +5,6 @@ import 'react-multi-carousel/lib/styles.css';
 import { useArticles } from '../../../hooks/useArticles.js';
 import './HomePage.css';
 
-// --- Iconos como componentes para mayor limpieza ---
 const SearchIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M15.7955 15.8111L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -45,7 +44,6 @@ function HomePage() {
 
       <div className="content-wrapper">
         
-        {/* Contenedor para los botones de abrir/cerrar */}
         <div className="search-toggle-header">
           {isSearchVisible ? (
             <button onClick={toggleSearch} className="search-toggle-btn">
@@ -58,7 +56,6 @@ function HomePage() {
           )}
         </div>
         
-        {/* Panel de controles que se muestra u oculta */}
         <div className={`controls-container ${isSearchVisible ? 'visible' : ''}`}>
           <form className="search-form" onSubmit={handleSearch}>
             <input type="text" name="search" placeholder="Buscar..." className="search-input" />

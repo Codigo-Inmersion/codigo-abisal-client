@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import './CarouselItem.css';
 
-// Componente para un único elemento del carrusel
 const CarouselItem = ({ item }) => {
   const navigate = useNavigate();
   const { id, image, title, category, description, created_at, username } = item;
@@ -12,14 +11,12 @@ const CarouselItem = ({ item }) => {
     navigate(`/discoveries/${id}`);
   };
 
-  // Permite la navegación con la tecla "Enter" por accesibilidad
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       handleClick();
     }
   };
 
-  // Renderiza una imagen o un fondo de color si no hay imagen
   const renderImage = () => {
     if (image) {
       return (
@@ -31,7 +28,6 @@ const CarouselItem = ({ item }) => {
         />
       );
     }
-    // Si no hay imagen, muestra un fondo oscuro (placeholder)
     return <div className="carousel-item-placeholder"></div>;
   };
 
@@ -44,13 +40,10 @@ const CarouselItem = ({ item }) => {
     tabIndex={0}
   >
     <div className="carousel-item-content">
-      {/* La imagen se renderiza primero para que quede de fondo */}
       {renderImage()}
       
-      {/* La etiqueta ahora es un span para mejor semántica */}
       <span className='category-tag'>{category}</span>
 
-      {/* El contenido de texto va después */}
       <div className="carousel-item-caption">
         <h3>{title}</h3>
         <p>{description}</p>
