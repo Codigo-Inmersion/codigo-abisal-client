@@ -6,7 +6,7 @@ import './CarouselItem.css';
 // Componente para un único elemento del carrusel
 const CarouselItem = ({ item }) => {
   const navigate = useNavigate();
-  const { id, image, title, category, description } = item;
+  const { id, image, title, category, description, created_at, username } = item;
 
   const handleClick = () => {
     navigate(`/discoveries/${id}`);
@@ -54,6 +54,8 @@ const CarouselItem = ({ item }) => {
       <div className="carousel-item-caption">
         <h3>{title}</h3>
         <p>{description}</p>
+        <p>{created_at.split('T')[0].split('-').reverse().join('/')}</p>
+         <p>{username}</p>
       </div>
     </div>
   </div>

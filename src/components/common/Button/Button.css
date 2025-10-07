@@ -1,4 +1,5 @@
-.submit-button {
+
+.btn {
   display: flex;
   align-items: center;
   padding: 1rem 3rem;
@@ -14,8 +15,25 @@
   margin-top: 0.5rem;
 }
 
-.submit-button:hover {
+.btn.primary {
+  background: linear-gradient(135deg, #667eea 0%, rgb(105, 204, 223) 100%);
+  color: #ffffff;
+}
+
+.btn.primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
   background: linear-gradient(135deg, #50e6d2 0%, #667eea 100%);
+}
+
+.btn.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }

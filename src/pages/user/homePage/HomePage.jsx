@@ -3,25 +3,25 @@
 import React from 'react';
 import Carousel from '../../../components/common/Carousel/Carousel.jsx';
 import 'react-multi-carousel/lib/styles.css';
-import { useArticles } from '../../../hooks/useArticles.js'; // Importamos el nuevo hook
+import { useArticles } from '../../../hooks/useArticles.js'; 
 import './HomePage.css';
+import Button from '../../../components/common/Button/Button.jsx';
 
 function HomePage() {
-  // Usamos el hook para obtener los datos y los estados
   const { articles, isLoading, error } = useArticles();
+    const handleSearchClick = () => {
+    // Aquí puedes añadir la lógica para la búsqueda
+    console.log("Botón de búsqueda clickeado");}
 
-  // Función para renderizar el contenido principal
   const renderContent = () => {
     if (isLoading) {
       return <div className="loading-spinner">Cargando descubrimientos...</div>;
     }
     if (error) {
-      // Mostramos un mensaje más descriptivo y un botón para reintentar (opcional)
       return (
         <div className="error-message">
           <p>Ha ocurrido un error al conectar con el abismo: {error.message}</p>
-          {/* Opcional: podrías implementar una función para reintentar */}
-          {/* <button onClick={() => window.location.reload()}>Reintentar</button> */}
+
         </div>
       );
     }
@@ -37,7 +37,9 @@ function HomePage() {
       <div className="content-wrapper">
         <main className="carousel-section">
           <div className="search-bar">
-            <button className="search-button">Buscar</button>
+            <Button onClick={handleSearchClick} variant="primary">
+              Buscar
+            </Button>
           </div>
           {renderContent()}
         </main>
