@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Carousel from "../../../components/common/Carousel/Carousel.jsx";
 import Button from "../../../components/common/Button/Button.jsx";
 import 'react-multi-carousel/lib/styles.css';
@@ -17,23 +17,44 @@ const CloseIcon = () => (
   </svg>
 );
 
+
 function HomePage() {
   const { articles, isLoading, error } = useArticles();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredArticles, setFilteredArticles] = useState([]);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    console.log("Buscando:", e.target.elements.search.value);
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredArticles(articles);
+      return;
+    }
+    const lowercasedTerm = searchTerm.toLowerCase();
+    const filtered = articles.filter(article => 
+      (article.title && article.title.toLowerCase().includes(lowercasedTerm)) ||
+      (article.description && article.description.toLowerCase().includes(lowercasedTerm))
+    );
+    setFilteredArticles(filtered);
+  }, [searchTerm, articles]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
   
   const toggleSearch = () => {
     setIsSearchVisible(prev => !prev);
+    if (isSearchVisible) {
+      setSearchTerm("");
+    }
   };
 
   const renderContent = () => {
     if (isLoading) return <div className="loading-spinner">Cargando descubrimientos...</div>;
     if (error) return <div className="error-message">Error: {error.message}</div>;
-    return <Carousel items={articles} />;
+    if (filteredArticles.length === 0 && searchTerm) {
+      return <p className="no-items-message">No se encontraron resultados para "{searchTerm}"</p>;
+    }
+    return <Carousel items={filteredArticles} />;
   };
 
   return (
@@ -43,7 +64,6 @@ function HomePage() {
       </header>
 
       <div className="content-wrapper">
-        
         <div className="search-toggle-header">
           {isSearchVisible ? (
             <button onClick={toggleSearch} className="search-toggle-btn">
@@ -57,8 +77,15 @@ function HomePage() {
         </div>
         
         <div className={`controls-container ${isSearchVisible ? 'visible' : ''}`}>
-          <form className="search-form" onSubmit={handleSearch}>
-            <input type="text" name="search" placeholder="Buscar..." className="search-input" />
+          <form className="search-form" onSubmit={(e) => e.preventDefault()}>
+            <input 
+              type="text" 
+              name="search" 
+              placeholder="Buscar por título o descripción..." 
+              className="search-input"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
             <button type="submit" className="search-submit-btn">
               <span>&#10140;</span>
             </button>
