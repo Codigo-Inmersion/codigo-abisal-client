@@ -7,7 +7,7 @@ import Layout_User from "../components/layout/Layout_User/Layout_User";
 import Layout_Admin from "../components/layout/Layout_Admin/Layout_Admin";
 
 // Pages
-import HomePage from "../pages/user/HomePage";
+import HomePage from "../pages/user/homePage/HomePage";
 import RegisterPage from "../pages/user/RegisterPage";
 import LoginPage from "../pages/user/LoginPage";
 import DetailPage from "../pages/user/DetailPage";
@@ -70,18 +70,18 @@ const abisalRouter = createBrowserRouter([
     ),
     children: [
       {
-        path: 'dashboard',
-        element: <DashboardPage />
+        path: "dashboard",
+        element: <DashboardPage />,
       },
       {
-        path: 'articles/create',
-        element: <CreateArticlePage />
+        path: "articles/create",
+        element: <CreateArticlePage />,
       },
       {
-        path: 'articles/edit/:id',
-        element: <EditArticlePage />
-      }
-    ]
+        path: "articles/edit/:id",
+        element: <EditArticlePage />,
+      },
+    ],
   },
   // ========================================
   // PÁGINA DE ERROR 403
@@ -94,4 +94,3 @@ const abisalRouter = createBrowserRouter([
 ]);
 
 export default abisalRouter;
-
