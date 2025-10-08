@@ -1,0 +1,218 @@
+/* Contenedor del Artículo */
+.article-detail-wrapper {
+  width: 60%;  /*Ancho del contenedor para que ocupe más de la mitad de la página */
+  max-width: 1200px;
+  background-color: rgba(255, 255, 255, 0.15) ; /* Fondo oscuro y transparente */
+ backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 10px;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px); /*Efecto de desenfoque */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    font-family: var(--font-rajdhani, sans-serif);
+}
+
+/* Hero Card */
+ .article-detail-hero {
+  position: relative;
+  height: 450px;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  color: white;
+  backdrop-filter: blur(10px);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+} 
+
+/* Imagen del artículo */
+.article-detail-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  font-family: var(--font-rajdhani, sans-serif);
+}
+
+/* Placeholder de la imagen */
+.article-detail-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+  opacity: 0.4;
+}
+
+/* Título y descripción sobre la imagen */
+.article-detail-category-tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 3;
+  background-color: #AEF7A6;
+  color: #0c0c1a;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+    font-family: var(--font-rajdhani, sans-serif);
+
+}
+
+.article-detail-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 30%, transparent 100%);
+  z-index: 2;
+  align-self: flex-end;
+  color: rgba(255, 255, 255, 0.9); /* Asegura que el texto sea legible */
+  font-family: var(--font-rajdhani, sans-serif);
+}
+
+.article-detail-title {
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 0.6rem;
+  font-family: var(--font-rajdhani, sans-serif);
+}
+
+.article-detail-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0.6rem 0;
+  font-weight: 500;
+  font-family: var(--font-rajdhani, sans-serif);
+}
+
+.article-detail-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.8rem;
+    font-family: var(--font-rajdhani, sans-serif);
+}
+
+/* Content Card */
+/* .article-detail-content {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente para el contenido 
+  border-radius: 15px;
+  padding: 2.5rem;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+  backdrop-filter: blur(5px); /* Efecto de desenfoque 
+} */
+
+/* Botones de acción */
+.article-detail-actions {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-top:  20px;
+}
+
+.article-detail-actions-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Estilo de los botones */
+.article-detail-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+    font-family: var(--font-rajdhani, sans-serif);
+}
+
+.article-detail-button:hover {
+  transform: scale(1.05);
+}
+
+.article-detail-button-like {
+  background-color: rgba(174, 247, 166, 0.1);
+  color: #AEF7A6;
+  border: 2px solid rgba(174, 247, 166, 0.3);
+}
+
+.article-detail-button-like.liked {
+  background-color: #AEF7A6;
+  color: #0c0c1a;
+  border: 2px solid #AEF7A6;
+}
+
+.article-detail-button-like:not(.liked):hover {
+  background-color: rgba(174, 247, 166, 0.2);
+}
+
+.article-detail-button-edit {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.article-detail-button-edit:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.article-detail-button-delete {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 2px solid rgba(239, 68, 68, 0.3);
+}
+
+.article-detail-button-delete:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .article-detail-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .article-detail-content {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .article-detail-title {
+    font-size: 1.5rem;
+  }
+
+  .article-detail-hero {
+    height: 350px;
+  }
+
+  .article-detail-wrapper {
+    width: 90%;
+  }
+}
+
+
+
