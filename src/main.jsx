@@ -5,7 +5,7 @@ import './styles/index.css'
 import './App.css'
 
 import { RouterProvider } from 'react-router-dom'
-import useAuthStore from './stores/authStore.js'
+import useAuthStore from './stores/useAuthStore.js'
 
 export function AppWrapper() {
   const initAuth = useAuthStore(state => state.initAuth);

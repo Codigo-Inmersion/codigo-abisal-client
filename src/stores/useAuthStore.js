@@ -11,7 +11,7 @@
 
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import authService from '../services/authService';
+import authService from '../services/AuthServices';
 
 const useAuthStore = create(
   devtools(
