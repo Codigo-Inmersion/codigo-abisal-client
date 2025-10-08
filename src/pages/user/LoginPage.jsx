@@ -1,16 +1,12 @@
 import React from "react";
-import FormCard from "../../components/common/RegisterForm/RegisterForm";
+import LoginForm from "../../components/common/LoginForm/LoginForm";
+
 
 
 
 
 function LoginPage() {
-  return (
-    <div>
-        <h1>Página de Login</h1>
-      <FormCard />
-    </div>
-  );
+  return <LoginForm />;
 }
 
 export default LoginPage;
