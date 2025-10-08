@@ -1,73 +1,116 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import "../styles/RegisterPage.css";
 
-const Register = () => {
+const FormCard = ({ onSubmit, isLoading = false, type = "register" }) => {
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    name: "",
+    last_name: ""
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("User registered:", formData);
-    // Aquí puedes añadir la lógica para enviar los datos al backend
+
+    // Validaciones básicas
+    if (!formData.email || !formData.password || !formData.username) {
+      alert("Por favor completa todos los campos requeridos");
+      return;
+    }
+
+    // Llamar a la función que maneja la autenticación
+    await onSubmit(formData);
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2 className="login-title">Create Account</h2>
+        <h2 className="login-title">
+          {type === "login" ? "Inicia sesión" : "Crea una cuenta"}
+        </h2>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+        {/* Campos solo para registro */}
+        {type === "register" && (
+          <>
+            <input
+              type="text"
+              name="username"
+              placeholder="Nombre de usuario"
+              value={formData.username}
+              onChange={handleChange}
+              disabled={isLoading}
+              required
+            />
 
+            <input
+              type="text"
+              name="name"
+              placeholder="Nombre"
+              value={formData.name}
+              onChange={handleChange}
+              disabled={isLoading}
+              required
+            />
+
+            <input
+              type="text"
+              name="last_name"
+              placeholder="Apellido"
+              value={formData.last_name}
+              onChange={handleChange}
+              disabled={isLoading}
+              required
+            />
+          </>
+        )}
+
+        {/* Campos comunes (email y password) */}
         <input
           type="email"
           name="email"
-          placeholder="Email Address"
+          placeholder="Correo electrónico"
           value={formData.email}
           onChange={handleChange}
+          disabled={isLoading}
           required
         />
 
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Contraseña"
           value={formData.password}
           onChange={handleChange}
+          disabled={isLoading}
           required
         />
 
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-
-        <button type="submit">Register</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading
+            ? "Cargando..."
+            : type === "login"
+            ? "Iniciar sesión"
+            : "Registrarse"}
+        </button>
       </form>
     </div>
   );
 };
 
-export default Register;
+FormCard.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+  type: PropTypes.oneOf(["login", "register"]).isRequired
+};
 
+export default FormCard;
