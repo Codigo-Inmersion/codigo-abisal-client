@@ -8,7 +8,7 @@ const CarouselItem = ({ item }) => {
   const { id, image, title, category, description, created_at, username } = item;
 
   const handleClick = () => {
-    navigate(`/discoveries/${id}`);
+    navigate(`/article/${id}`);
   };
 
   const handleKeyDown = (e) => {
