@@ -11,14 +11,17 @@
   },
   "dependencies": {
     "@developer-hub/liquid-glass": "^1.2.3",
+    "@tiptap/extension-horizontal-rule": "^3.6.5",
     "@tiptap/react": "^3.6.5",
     "@tiptap/starter-kit": "^3.6.5",
     "axios": "^1.12.2",
+    "emoji-picker-react": "^4.14.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-multi-carousel": "^2.8.6",
     "react-router-dom": "^7.9.2",
-    "three": "^0.180.0"
+    "three": "^0.180.0",
+    "tippy.js": "^6.3.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
