@@ -1,13 +1,12 @@
-// src/components/common/ArticleForm/ArticleForm.jsx
-
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
+import RichTextEditor from '../RichTextEditor/RichTextEditor'; // 1. Importa el nuevo editor
 import './ArticleForm.css';
 
 const articleCategories = ["Fauna Abisal", "Ecosistemas", "Exploración", "Conservación"];
 
-const ArticleForm = ({ onSubmit, initialData = null, isEditing = false }) => {
+const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmitting = false }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -35,6 +34,11 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // 2. Nueva función para manejar el cambio en el editor de texto
+  const handleContentChange = (content) => {
+    setFormData(prev => ({ ...prev, content: content }));
+  };
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title || formData.title.length < 10) {
@@ -43,8 +47,9 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false }) => {
     if (!formData.description) {
       newErrors.description = 'La descripción es obligatoria.';
     }
-    if (!formData.content || formData.content.length < 100) {
-      newErrors.content = 'El contenido debe tener al menos 100 caracteres.';
+    // La validación del contenido ahora revisa el HTML del editor
+    if (!formData.content || formData.content.replace(/<(.|\n)*?>/g, '').trim().length < 100) {
+      newErrors.content = 'El contenido debe tener al menos 100 caracteres (sin contar formato).';
     }
     if (!formData.image) {
       newErrors.image = 'La URL de la imagen es obligatoria.';
@@ -99,15 +104,12 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false }) => {
           {errors.description && <span className="error-text">{errors.description}</span>}
         </div>
 
+        {/* 3. Reemplaza el <textarea> por el nuevo editor */}
         <div className="form-group">
           <label htmlFor="content">Contenido Principal</label>
-          <textarea
-            id="content"
-            name="content"
+          <RichTextEditor
             value={formData.content}
-            onChange={handleChange}
-            placeholder="Escribe aquí el cuerpo del artículo..."
-            rows="10"
+            onChange={handleContentChange}
           />
           {errors.content && <span className="error-text">{errors.content}</span>}
         </div>
@@ -146,7 +148,13 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false }) => {
 
         <div className="form-actions">
           <Button type="button" variant="secondary">Cancelar</Button>
-          <Button type="submit" variant="primary">{isEditing ? 'Guardar Cambios' : 'Publicar'}</Button>
+          <Button 
+            type="submit" 
+            variant="primary" 
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Publicando...' : (isEditing ? 'Guardar Cambios' : 'Publicar')}
+          </Button>
         </div>
       </form>
     </div>
@@ -157,6 +165,7 @@ ArticleForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     initialData: PropTypes.object,
     isEditing: PropTypes.bool,
+    isSubmitting: PropTypes.bool,
 };
 
 export default ArticleForm;
