@@ -86,3 +86,20 @@ export async function getArticleById(id) {
     return { ok: false, error: error.message || "Error desconocido" };
   }
 }
+
+export async function getAbisalArticles(params = {}) {
+  try {
+    const { data } = await api.get("/article", { params });
+
+    // 👇 Normalizo: si data ya es array, lo uso; si es objeto con .items, uso ese array;
+    //               si no, dejo array vacío.
+    const list = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
+
+    // (Opcional) Puedes exponer meta si venía paginado:
+    // const meta = !Array.isArray(data) ? { total: data.total, page: data.page, limit: data.limit, pages: data.pages } : null;
+
+    return { ok: true, data: list };
+  } catch (error) {
+    return { ok: false, error: error.message || "Error desconocido" };
+  }
+}
