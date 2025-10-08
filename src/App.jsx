@@ -1,5 +1,6 @@
 import "./App.css";
 import LiquidEther from "./components/LiquidEther";
+import FormCard from "./components/LoginForm"; 
 
 function App() {
   return (
@@ -29,9 +30,14 @@ function App() {
         <h1>Bienvenido a Código Abisal</h1>
         <p>Prueba</p>
         {/* Aquí rutas, componentes, etc */}
+          <FormCard /> 
       </div>
+
+     
     </div>
   );
 }
+
+
 
 export default App;

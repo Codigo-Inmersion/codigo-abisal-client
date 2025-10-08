@@ -1,4 +1,4 @@
-import FormCard from './components/FormCard.jsx';
+import FormCard from './components/LoginForm.jsx';
 
 function FormPage() {
   return (
