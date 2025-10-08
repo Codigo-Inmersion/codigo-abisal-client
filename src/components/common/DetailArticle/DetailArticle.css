@@ -5,6 +5,7 @@
   background-color: rgba(255, 255, 255, 0.15) ; /* Fondo oscuro y transparente */
  backdrop-filter: blur(10px) !important;
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 10px;
   margin: 0 auto;
   padding: 2rem;
   box-sizing: border-box;
@@ -13,6 +14,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+    font-family: var(--font-rajdhani, sans-serif);
 }
 
 /* Hero Card */
@@ -37,6 +39,7 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.6;
+  font-family: var(--font-rajdhani, sans-serif);
 }
 
 /* Placeholder de la imagen */
@@ -63,6 +66,8 @@
   font-size: 0.75rem;
   font-weight: bold;
   text-transform: uppercase;
+    font-family: var(--font-rajdhani, sans-serif);
+
 }
 
 .article-detail-caption {
@@ -75,6 +80,7 @@
   z-index: 2;
   align-self: flex-end;
   color: rgba(255, 255, 255, 0.9); /* Asegura que el texto sea legible */
+  font-family: var(--font-rajdhani, sans-serif);
 }
 
 .article-detail-title {
@@ -83,6 +89,7 @@
   font-weight: 700;
   text-transform: capitalize;
   margin-bottom: 0.6rem;
+  font-family: var(--font-rajdhani, sans-serif);
 }
 
 .article-detail-description {
@@ -90,6 +97,7 @@
   color: rgba(255, 255, 255, 0.85);
   margin: 0.6rem 0;
   font-weight: 500;
+  font-family: var(--font-rajdhani, sans-serif);
 }
 
 .article-detail-meta {
@@ -98,6 +106,7 @@
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
   margin-top: 0.8rem;
+    font-family: var(--font-rajdhani, sans-serif);
 }
 
 /* Content Card */
@@ -138,6 +147,7 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
+    font-family: var(--font-rajdhani, sans-serif);
 }
 
 .article-detail-button:hover {
