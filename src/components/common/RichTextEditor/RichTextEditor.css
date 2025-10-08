@@ -1,0 +1,52 @@
+
+.text-editor-container {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.editor-menu-bar {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editor-menu-bar button {
+  background: none;
+  border: 1px solid transparent;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.editor-menu-bar button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.editor-menu-bar button.is-active {
+  background-color: #667eea;
+}
+
+/* Estilos para el área de texto */
+.ProseMirror {
+  padding: 0.8rem 1rem;
+  min-height: 200px;
+  outline: none;
+  color: white;
+}
+
+.ProseMirror p {
+  margin: 0 0 1rem 0;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5em;
+  margin-top: 1.5rem;
+}
+
+.ProseMirror ul {
+  padding-left: 1.5rem;
+}
