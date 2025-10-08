@@ -1,9 +1,3 @@
-/* INDEX.CSS => Estilos globales 
--Variables CSS globales (:root)
--Estilos del body, html
--Fuentes globales
-*/
-
 :root {
   --black-abisal: #06000f;
   --blue-retro: #4e36fd;
@@ -34,7 +28,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
