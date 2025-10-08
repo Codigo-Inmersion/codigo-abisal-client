@@ -15,7 +15,7 @@ import AboutPage from "../pages/user/AboutPage";
 import DashboardPage from "../pages/admin/DashboardPage";
 import CreateArticlePage from "../pages/admin/CreateArticlePage";
 import EditArticlePage from "../pages/admin/EditArticlePage";
-import ForbiddenPage from "../pages/errors/ForbiddenPage";
+import ForbiddenPage from "../pages/user/ForbiddenPage/ForbiddenPage";
 
 const abisalRouter = createBrowserRouter([
   // ========================================

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import useAuthStore from "../../stores/useAuthStore";
+import useAuthStore from "../../stores/useAuthStore.js";
 import FormCard from "../../components/common/RegisterForm/RegisterForm";
 
 function RegisterPage() {

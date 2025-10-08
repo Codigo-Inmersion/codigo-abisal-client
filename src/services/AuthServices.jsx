@@ -1,4 +1,3 @@
-
 /**
  * SERVICIO DE AUTENTICACIÓN
  * 
@@ -6,21 +5,18 @@
  * - Tokens JWT (guardar, leer, validar)
  * - Login/Logout
  * - Verificación de roles
- * 
- * NOTA: Actualmente usa datos MOCK para desarrollo independiente.
- * Cuando el backend esté listo, activar la versión real.
  */
 
 const TOKEN_KEY = 'abisal_token';
 const REFRESH_TOKEN_KEY = 'abisal_refresh_token';
 
+// 🔧 Configuración de la API desde variables de entorno
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 // ============================================
 // FUNCIONES AUXILIARES
 // ============================================
 
-/**
- * Decodificar JWT manualmente
- */
 const decodeJWT = (token) => {
   try {
     const base64Url = token.split('.')[1];
@@ -38,9 +34,6 @@ const decodeJWT = (token) => {
   }
 };
 
-/**
- * Verificar si el token ha expirado
- */
 const isTokenExpired = (token) => {
   const decoded = decodeJWT(token);
   if (!decoded || !decoded.exp) return true;
@@ -110,163 +103,122 @@ const authService = {
   },
 
   // ============================================
-  // LOGIN - VERSIÓN MOCK
+  // LOGIN - VERSIÓN REAL
   // ============================================
 
   /**
-   * LOGIN CON MOCK
-   * 
-   * 🎭 Simula autenticación para desarrollo independiente
-   * 
-   * Usuarios de prueba:
-   * - user@test.com (cualquier password) → rol 'user'
-   * - admin@test.com (cualquier password) → rol 'admin'
-   * - Cualquier email con 'admin' → rol 'admin'
+   * LOGIN con Backend Real
    * 
    * @param {string} email 
    * @param {string} password 
    * @returns {Promise<{token: string, user: object}>}
    */
   async login(email, password) {
-    // 🎭 MOCK TEMPORAL - Eliminar cuando backend esté listo
-    console.log('🎭 Usando LOGIN MOCK - reemplazar con backend real');
-    
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Validaciones básicas
-        if (!email || !password) {
-          reject(new Error('Email y password son requeridos'));
-          return;
-        }
+    try {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
 
-        if (password.length < 3) {
-          reject(new Error('Password debe tener al menos 3 caracteres'));
-          return;
-        }
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error al iniciar sesión');
+      }
 
-        // Determinar rol según el email
-        const role = email.toLowerCase().includes('admin') ? 'admin' : 'user';
-        
-        // Crear payload del token
-        const payload = {
-          userId: '123',
-          email: email,
-          role: role,
-          name: role === 'admin' ? 'Admin User' : 'Normal User',
-          exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24h
-          iat: Math.floor(Date.now() / 1000)
-        };
-        
-        // Crear token simulado
-        const fakeToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(JSON.stringify(payload))}.fake_signature`;
-        
-        resolve({
-          token: fakeToken,
-          user: {
-            id: '123',
-            email: email,
-            name: payload.name,
-            role: role
-          }
-        });
-      }, 500); // Simular latencia de red
-    });
+      const data = await response.json();
+      
+      // Guardar tokens
+      if (data.token) {
+        this.setToken(data.token);
+      }
+      
+      if (data.refreshToken) {
+        this.setRefreshToken(data.refreshToken);
+      }
+
+      return {
+        token: data.token,
+        user: data.user
+      };
+    } catch (error) {
+      console.error('Error en login:', error);
+      throw new Error(error.message || 'Error al iniciar sesión');
+    }
   },
 
   // ============================================
-  // LOGIN - VERSIÓN REAL (COMENTADA)
+  // REGISTER - VERSIÓN REAL
   // ============================================
-  
+
   /**
-   * LOGIN REAL - DESCOMENTAR CUANDO BACKEND ESTÉ LISTO
+   * REGISTRO con Backend Real
    * 
-   * Reemplazar la función login() de arriba con esta:
-   * 
-   * async login(email, password) {
-   *   const API_URL = import.meta.env.VITE_API_URL;
-   *   
-   *   try {
-   *     const response = await fetch(`${API_URL}/auth/login`, {
-   *       method: 'POST',
-   *       headers: {
-   *         'Content-Type': 'application/json'
-   *       },
-   *       body: JSON.stringify({ email, password })
-   *     });
-   * 
-   *     if (!response.ok) {
-   *       const error = await response.json();
-   *       throw new Error(error.message || 'Error al iniciar sesión');
-   *     }
-   * 
-   *     const data = await response.json();
-   *     
-   *     if (data.token) {
-   *       this.setToken(data.token);
-   *     }
-   *     
-   *     if (data.refreshToken) {
-   *       this.setRefreshToken(data.refreshToken);
-   *     }
-   * 
-   *     return {
-   *       token: data.token,
-   *       user: data.user
-   *     };
-   *   } catch (error) {
-   *     throw new Error(error.message || 'Error al iniciar sesión');
-   *   }
-   * }
+   * @param {object} userData - {email, password, name}
+   * @returns {Promise<{token: string, user: object}>}
    */
+  async register(userData) {
+    try {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Error al registrarse');
+      }
+
+      const data = await response.json();
+      
+      // Guardar tokens
+      if (data.token) {
+        this.setToken(data.token);
+      }
+      
+      if (data.refreshToken) {
+        this.setRefreshToken(data.refreshToken);
+      }
+
+      return {
+        token: data.token,
+        user: data.user
+      };
+    } catch (error) {
+      console.error('Error en registro:', error);
+      throw new Error(error.message || 'Error al registrarse');
+    }
+  },
 
   // ============================================
   // LOGOUT
   // ============================================
 
   async logout() {
-    // TODO: Opcional - Llamar al backend para invalidar token
-    this.removeToken();
-  },
-
-  // ============================================
-  // REGISTER - VERSIÓN MOCK
-  // ============================================
-
-  async register(userData) {
-    // 🎭 MOCK TEMPORAL
-    console.log('🎭 Usando REGISTER MOCK - reemplazar con backend real');
-    
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (!userData.email || !userData.password) {
-          reject(new Error('Email y password son requeridos'));
-          return;
-        }
-
-        // Simular registro exitoso
-        const role = 'user';
-        const payload = {
-          userId: '124',
-          email: userData.email,
-          role: role,
-          name: userData.name || 'New User',
-          exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60),
-          iat: Math.floor(Date.now() / 1000)
-        };
-        
-        const fakeToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(JSON.stringify(payload))}.fake_signature`;
-        
-        resolve({
-          token: fakeToken,
-          user: {
-            id: '124',
-            email: userData.email,
-            name: userData.name || 'New User',
-            role: role
+    try {
+      const token = this.getToken();
+      
+      // Opcional: Invalidar token en el backend
+      if (token) {
+        await fetch(`${API_URL}/api/auth/logout`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
           }
         });
-      }, 500);
-    });
+      }
+    } catch (error) {
+      console.error('Error al cerrar sesión en el backend:', error);
+    } finally {
+      // Siempre limpiar tokens locales
+      this.removeToken();
+    }
   }
 };
 

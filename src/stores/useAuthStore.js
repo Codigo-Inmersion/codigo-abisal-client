@@ -63,7 +63,7 @@ const useAuthStore = create(
           set({ isLoading: true, error: null });
 
           try {
-            const { token, user } = await authService.login(email, password);
+            const { token } = await authService.login(email, password);
             authService.setToken(token);
             
             // Decodificar token para obtener info del usuario
