@@ -1,5 +1,5 @@
 import React from "react";
-import FormCard from "../../components/common/RegisterForm/RegisterForm";
+import FormCard from "../../../components/common/RegisterForm/RegisterForm";
 
 
 
