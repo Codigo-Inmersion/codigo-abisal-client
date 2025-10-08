@@ -13,6 +13,8 @@ const LoginForm = () => {
     remember: false
   });
 
+
+
   // Estado de errores de validación
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -83,8 +85,8 @@ const LoginForm = () => {
       email: formData.email.trim(),
       password: formData.password
     };
-
-    await login(credentials);
+    console.log(credentials) // TODO: Borrar este console log (para que no muestre credenciales en consola por seguridad) Y descomentar el await login.
+   // await login(credentials);
   };
 
   return (

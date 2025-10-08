@@ -1,4 +1,3 @@
-// src/services/AuthService.jsx
 /**
  * SERVICIO DE AUTENTICACIÓN - VERSIÓN HÍBRIDA MEJORADA
  * 
@@ -18,7 +17,8 @@ const REFRESH_TOKEN_KEY = 'abisal_refresh_token';
 const USER_KEY = 'abisal_user';
 
 // ⚠️ BACKEND: Confirmar URL base de la API
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/+$/, '');
+//const API_URL = BASE_URL.endsWith('api') ? BASE_URL : `${BASE_URL}/api`;
 
 // ============================================
 // FUNCIONES AUXILIARES PRIVADAS
@@ -183,6 +183,7 @@ const AuthService = {
    * ⚠️ BACKEND: Confirmar:
    * - Endpoint: /api/auth/login
    * - Respuesta esperada: { token, refreshToken?, user }
+   * - IMPORTANTE: El backend debe tener CORS habilitado
    * 
    * @param {string} email 
    * @param {string} password 
@@ -190,7 +191,7 @@ const AuthService = {
    */
   async login(email, password) {
     try {
-      const response = await fetch(`${API_URL}/api/auth/login`, {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -250,13 +251,14 @@ const AuthService = {
    * ⚠️ BACKEND: Confirmar:
    * - Endpoint: /api/auth/register
    * - Campos requeridos: { email, password, name? }
+   * - IMPORTANTE: El backend debe tener CORS habilitado
    * 
    * @param {object} userData - Datos del usuario
    * @returns {Promise<{token: string, user: object}>}
    */
   async register(userData) {
     try {
-      const response = await fetch(`${API_URL}/api/auth/register`, {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -317,7 +319,7 @@ const AuthService = {
       // Opcional: Invalidar token en el backend
       // ⚠️ BACKEND: Confirmar si implementan endpoint de logout
       if (token) {
-        await fetch(`${API_URL}/api/auth/logout`, {
+        await fetch(`${API_URL}/auth/logout`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -353,7 +355,7 @@ const AuthService = {
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/refresh`, {
+      const response = await fetch(`${API_URL}/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
