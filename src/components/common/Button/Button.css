@@ -3,7 +3,6 @@
   display: flex;
   align-items: center;
   padding: 1rem 3rem;
-  background: linear-gradient(135deg, #667eea 0%, rgb(105, 204, 223) 100%);
   color: #ffffff;
   font-weight: 600;
   font-size: 1rem;
@@ -27,26 +26,22 @@
 }
 
 .btn.secondary {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background-color: transparent;
 }
-
 .btn.secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.05);
 }
 
-
+/* 🔴 Tertiary: estilo rojo (Eliminar) */
 .btn.tertiary {
-  background-color: rgba(239, 68, 68, 0.1);
+   background-color: rgba(239, 68, 68, 0.1);
   color: #ef4444;
   border: 2px solid rgba(239, 68, 68, 0.3);
 }
-
-.btn.btn.tertiary:hover {
+.btn.tertiary:hover {
    background-color: rgba(239, 68, 68, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
 }
