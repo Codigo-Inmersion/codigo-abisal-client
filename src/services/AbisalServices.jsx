@@ -147,3 +147,12 @@ export async function deleteArticle(id) {
     return { ok: false, error: error.message || "Error eliminando el artículo" };
   }
 }
+//para sacar el usuaario que has escrito los articulos 
+ export async function getUserById(id) {
+  try {
+    const { data } = await api.get(`/user/${id}`);
+    return { ok: true, data };
+  } catch (error) {
+    return { ok: false, error: error.message };
+  }
+}

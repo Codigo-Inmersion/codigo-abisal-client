@@ -6,6 +6,7 @@ import Button from '../Button/Button';
 import { getArticleById } from "../../../services/AbisalServices";
 import DOMPurify from 'dompurify';
 import api from "../../../api/client";
+ import { getUserById } from "../../../services/AbisalServices";
 
 
 export default function DetailArticle() {
@@ -47,6 +48,54 @@ export default function DetailArticle() {
           setLikes(typeof data.likes === "number" ? data.likes : 0);
           setIsLiked(Boolean(data.isLiked));
           setCanEdit(Boolean(data.isAdmin) || Boolean(data.isAuthor));
+        }
+      } catch (e) {
+        setError("Error al cargar el artículo");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [id]);
+//para sacar el monbre de  usuario que escribe el articulo por su id
+const [authorName, setAuthorName] = useState(""); // 👈 nuevo estado
+
+  useEffect(() => {
+    if (!id || Number.isNaN(Number(id))) {
+      setError("Identificador de artículo inválido.");
+      setArticle(null);
+      setLoading(false);
+      return;
+    }
+
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await getArticleById(id);
+        if (!res.ok) {
+          setError(res.error || "No se pudo cargar el artículo");
+          setArticle(null);
+          setAuthorName("");
+        } else {
+          const data = res.data;
+          setArticle(data);
+
+          // Likes/permisos locales (si te sirven)
+          setLikes(typeof data.likes === "number" ? data.likes : 0);
+          setIsLiked(Boolean(data.isLiked));
+
+          // 👇 AQUÍ: si viene creator_id, pedimos el usuario y guardamos el nombre
+          if (data?.creator_id) {
+            const ures = await getUserById(data.creator_id);
+            if (ures.ok) {
+              // Ajusta el campo según devuelva tu API: name / username / full_name
+              setAuthorName(ures.data.name || ures.data.username || `Usuario #${data.creator_id}`);
+            } else {
+              setAuthorName(`Usuario #${data.creator_id}`);
+            }
+          } else {
+            setAuthorName(""); // no hay creator_id
+          }
         }
       } catch (e) {
         setError("Error al cargar el artículo");
@@ -183,7 +232,8 @@ export default function DetailArticle() {
             <div className="article-detail-meta">
               <span>{formattedDate}</span>
               <span>•</span>
-              <span>{article.username || "Autor"}</span>
+              {/* <span>{article.username || `Usuario #${article.creator_id}`}</span> */}
+               <span>{authorName || `Usuario #${article?.creator_id ?? "?"}`}</span>
             </div>
           </div>
         </div>
@@ -202,7 +252,7 @@ export default function DetailArticle() {
               className={`article-detail-button article-detail-button-like ${isLiked ? "liked" : ""}`}
             >
               <Heart size={20} fill={isLiked ? "#0c0c1a" : "none"} />
-              <span>{likes} Me gusta</span>
+              <span>{likes}</span>
             </Button>
 
             {/* Editar y Eliminar SIEMPRE visibles por ahora */}
