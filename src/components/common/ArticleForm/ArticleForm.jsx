@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
-import RichTextEditor from '../RichTextEditor/RichTextEditor'; // 1. Importa el nuevo editor
+import RichTextEditor from '../RichTextEditor/RichTextEditor';
 import './ArticleForm.css';
 
 const articleCategories = ["Fauna Abisal", "Ecosistemas", "Exploración", "Conservación"];
@@ -16,16 +16,21 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
   });
 
   const [errors, setErrors] = useState({});
+  const [editorKey, setEditorKey] = useState(0);
 
+  // ✅ Cargar datos iniciales cuando cambia initialData
   useEffect(() => {
     if (isEditing && initialData) {
-      setFormData({
+      const newFormData = {
         title: initialData.title || '',
         description: initialData.description || '',
         content: initialData.content || '',
         category: initialData.category || articleCategories[0],
         image: initialData.image || '',
-      });
+      };
+      setFormData(newFormData);
+      // ✅ Forzar remontaje del editor para que cargue el contenido
+      setEditorKey(prev => prev + 1);
     }
   }, [initialData, isEditing]);
 
@@ -34,7 +39,6 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // 2. Nueva función para manejar el cambio en el editor de texto
   const handleContentChange = (content) => {
     setFormData(prev => ({ ...prev, content: content }));
   };
@@ -47,7 +51,6 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
     if (!formData.description) {
       newErrors.description = 'La descripción es obligatoria.';
     }
-    // La validación del contenido ahora revisa el HTML del editor
     if (!formData.content || formData.content.replace(/<(.|\n)*?>/g, '').trim().length < 100) {
       newErrors.content = 'El contenido debe tener al menos 100 caracteres (sin contar formato).';
     }
@@ -104,10 +107,11 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
           {errors.description && <span className="error-text">{errors.description}</span>}
         </div>
 
-        {/* 3. Reemplaza el <textarea> por el nuevo editor */}
+        {/* ✅ Agregar key al editor para forzar remontaje */}
         <div className="form-group">
           <label htmlFor="content">Contenido Principal</label>
           <RichTextEditor
+            key={editorKey}
             value={formData.content}
             onChange={handleContentChange}
           />
