@@ -7,31 +7,38 @@ import Layout_User from '../components/layout/Layout_User/Layout_User';
 import Layout_Admin from '../components/layout/Layout_Admin/Layout_Admin';
 
 // Páginas públicas
-import HomePage from '../pages/user/homePage/HomePage';
 import LoginPage from '../pages/user/LoginPage';
 import RegisterPage from '../pages/user/RegisterPage';
+
+// Páginas de usuario (protegidas)
+import HomePage from '../pages/user/homePage/HomePage';
 import AboutPage from '../pages/user/AboutPage';
 import DetailPage from '../pages/user/DetailPage';
+import ForbiddenPage from '../pages/user/ForbiddenPage/ForbiddenPage';
 
-// Páginas de error
-import ForbiddenPage from '../pages/user/forbiddenPage/ForbiddenPage';
-
-// Páginas de admin (protegidas)
+// Páginas de admin (protegidas - solo admin)
 import DashboardPage from '../pages/admin/DashboardPage';
 import CreateArticlePage from '../pages/admin/CreateArticlePage';
 import EditArticlePage from '../pages/admin/EditArticlePage';
 
 /**
- * 🎓 EXPLICACIÓN: Configuración de Rutas con Protección
+ * 🎓 EXPLICACIÓN: Router - Opción B (Aplicación Interna)
  * 
- * Estructura de rutas:
- * - Layout_Intro: Para login y register (sin navbar/footer)
- * - Layout_User: Para páginas de usuarios normales
- * - Layout_Admin: Para páginas de administración (protegidas)
+ * ESTRUCTURA:
+ * - Layout_Intro: Login y Register (PÚBLICAS)
+ * - Layout_User: Home, artículos, about (PROTEGIDAS - cualquier usuario autenticado)
+ * - Layout_Admin: Panel admin (PROTEGIDAS - solo rol "admin")
+ * 
+ * COMPORTAMIENTO:
+ * - Si no estás autenticado → redirige a /login
+ * - Si estás autenticado como "user" → puedes ver Layout_User pero NO Layout_Admin
+ * - Si estás autenticado como "admin" → puedes ver TODO
  */
 
 const router = createBrowserRouter([
-  // 🌍 LAYOUT INTRO - Páginas de autenticación (públicas)
+  // ========================================
+  // 🌍 LAYOUT INTRO - Rutas públicas (NO protegidas)
+  // ========================================
   {
     element: <Layout_Intro />,
     children: [
@@ -46,9 +53,16 @@ const router = createBrowserRouter([
     ]
   },
 
-  // 🌍 LAYOUT USER - Páginas protegidas para user con navbar
+  // ========================================
+  // 🔒 LAYOUT USER - Rutas protegidas (requiere autenticación)
+  // ========================================
+  // Pueden acceder usuarios con rol "user" o "admin"
   {
-    element: <Layout_User />,
+    element: (
+      <ProtectedRoute>
+        <Layout_User />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -69,7 +83,10 @@ const router = createBrowserRouter([
     ]
   },
 
-  // 🔐 LAYOUT ADMIN - Páginas protegidas solo para admins
+  // ========================================
+  // 🔐 LAYOUT ADMIN - Solo administradores
+  // ========================================
+  // Requiere rol "admin" específicamente
   {
     path: '/admin',
     element: (

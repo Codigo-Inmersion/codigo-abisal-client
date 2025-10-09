@@ -90,7 +90,7 @@ export const useAuth = () => {
     navigate('/login');
   };
 
-  /**
+/**
    * 📝 REGISTER - Registrar nuevo usuario
    * 
    * @param {Object} userData - Datos del usuario
@@ -108,11 +108,18 @@ export const useAuth = () => {
       console.log('📝 useAuth.register: Iniciando registro');
 
       // Llamar al servicio de registro
-      const response = await AuthServices.register(userData);
+      const response = await AuthServices.register({
+        username: userData.username,
+        name: userData.name,
+        last_name: userData.last_name,
+        email: userData.email,
+        password: userData.password,
+        role: 'user'  // Por defecto siempre 'user'
+      });
 
       console.log('✅ Registro exitoso:', response.message);
 
-      // Auto-login: Guardar token
+      // Auto-login: Guardar token (se decodifica automáticamente)
       loginStore(response.token);
 
       // Redirigir al home

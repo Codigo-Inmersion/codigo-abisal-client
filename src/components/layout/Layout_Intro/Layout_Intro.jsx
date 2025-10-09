@@ -22,12 +22,6 @@ export default function layoutIntro() {
         <Outlet />
       </div>
       
-      {/* Opcional: Link pequeño para volver */}
-      <div className="intro-footer">
-        <a href="/" className="back-link">
-          ← Volver al inicio
-        </a>
-      </div>
     </div>
   );
 }
