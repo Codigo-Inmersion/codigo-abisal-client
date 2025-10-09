@@ -1,91 +1,116 @@
-import React, { useState } from 'react';
-import './RegisterForm.css';
+import { useState } from "react";
+import PropTypes from "prop-types";
+import "./RegisterForm.css";
 
-const FormCard = () => {
+const Formregister = ({ onSubmit, isLoading = false, type = "register" }) => {
   const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    remember: false
+    username: "",
+    email: "",
+    password: "",
+    name: "",
+    last_name: ""
   });
 
   const handleChange = (e) => {
-    const { name, value, type , checked } = e.target;
-    setFormData(prev => ({
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: type => 'checkbox'? checked : value
+      [name]: value
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Datos del formulario:', formData);
-    // Aquí iría tu lógica de envío
-    alert('Bienvenido!');
+
+    // Validaciones básicas
+    if (!formData.email || !formData.password || !formData.username) {
+      alert("Por favor completa todos los campos requeridos");
+      return;
+    }
+
+    // Llamar a la función que maneja la autenticación
+    await onSubmit(formData);
   };
 
   return (
-    <div className="form-container">
-      <div className="liquid-card">
-        <div className="liquid-card-content">
-          <h2 className="card-title"> Inicia sesión</h2>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2 className="login-title">
+          {type === "login" ? "Inicia sesión" : "Crea una cuenta"}
+        </h2>
 
-          <form onSubmit={handleSubmit} className="form">
-            <div className="form-group">
-              <label htmlFor="email">Email Adress</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="tu@email.com"
-                required
-              />
-            </div>
+        {/* Campos solo para registro */}
+        {type === "register" && (
+          <>
+            <input
+              type="text"
+              name="username"
+              placeholder="Nombre de usuario"
+              value={formData.username}
+              onChange={handleChange}
+              disabled={isLoading}
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="introduce tu contraseña"
-                required
-              />
-              
-            </div>
+            <input
+              type="text"
+              name="name"
+              placeholder="Nombre"
+              value={formData.name}
+              onChange={handleChange}
+              disabled={isLoading}
+              required
+            />
 
-            <div className = "form-options">
-                <label className ="checkbox-wrapper">
-                    <input
-                    type ="checkbox"
-                    name = "remember"
-                    checked={formData.remember}
-                    onChange={handleChange}
-                    />
-                   <span className="checkbox-label">Recuerdame</span> 
-                </label>
-                <a href ="#" className="forgot-link">Forgot Password?</a>
-               <hr></hr> 
+            <input
+              type="text"
+              name="last_name"
+              placeholder="Apellido"
+              value={formData.last_name}
+              onChange={handleChange}
+              disabled={isLoading}
+              required
+            />
+          </>
+        )}
 
-            </div>
+        {/* Campos comunes (email y password) */}
+        <input
+          type="email"
+          name="email"
+          placeholder="Correo electrónico"
+          value={formData.email}
+          onChange={handleChange}
+          disabled={isLoading}
+          required
+        />
 
-            <button 
-            type="button" 
-            onClick = {handleSubmit}
-            className="submit-button">
-              Sign In 
-            </button>
-            <div className='signup-link'>
-               No account yet? <a href ="#">Sign Up</a>
-            </div>
-          </form>
-        </div>
-      </div>
+        <input
+          type="password"
+          name="password"
+          placeholder="Contraseña"
+          value={formData.password}
+          onChange={handleChange}
+          disabled={isLoading}
+          required
+        />
+
+        <button type="submit" disabled={isLoading}>
+          {isLoading
+            ? "Cargando..."
+            : type === "login"
+            ? "Iniciar sesión"
+            : "Registrarse"}
+        </button>
+      </form>
     </div>
   );
 };
 
-export default FormCard;
+Formregister.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+  type: PropTypes.oneOf(["login", "register"]).isRequired
+};
+
+export default Formregister;
