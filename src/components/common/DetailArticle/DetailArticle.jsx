@@ -6,7 +6,7 @@ import Button from '../Button/Button';
 import { getArticleById } from "../../../services/AbisalServices";
 import DOMPurify from 'dompurify';
 import api from "../../../api/client";
- import { getUserById } from "../../../services/AbisalServices";
+ import { getUsernameById  } from "../../../services/AbisalServices";
 
 
 export default function DetailArticle() {
@@ -57,53 +57,59 @@ export default function DetailArticle() {
     })();
   }, [id]);
 //para sacar el monbre de  usuario que escribe el articulo por su id
-const [authorName, setAuthorName] = useState(""); // 👈 nuevo estado
+const [authorName, setAuthorName] = useState("");
 
-  useEffect(() => {
-    if (!id || Number.isNaN(Number(id))) {
-      setError("Identificador de artículo inválido.");
-      setArticle(null);
-      setLoading(false);
-      return;
-    }
+// ...
+useEffect(() => {
+  if (!id || Number.isNaN(Number(id))) {
+    setError("Identificador de artículo inválido.");
+    setArticle(null);
+    setLoading(false);
+    return;
+  }
 
-    (async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await getArticleById(id);
-        if (!res.ok) {
-          setError(res.error || "No se pudo cargar el artículo");
-          setArticle(null);
-          setAuthorName("");
-        } else {
-          const data = res.data;
-          setArticle(data);
+  (async () => {
+    setLoading(true);
+    setError(null);
+    setAuthorName(""); // reset autor
 
-          // Likes/permisos locales (si te sirven)
-          setLikes(typeof data.likes === "number" ? data.likes : 0);
-          setIsLiked(Boolean(data.isLiked));
-
-          // 👇 AQUÍ: si viene creator_id, pedimos el usuario y guardamos el nombre
-          if (data?.creator_id) {
-            const ures = await getUserById(data.creator_id);
-            if (ures.ok) {
-              // Ajusta el campo según devuelva tu API: name / username / full_name
-              setAuthorName(ures.data.name || ures.data.username || `Usuario #${data.creator_id}`);
-            } else {
-              setAuthorName(`Usuario #${data.creator_id}`);
-            }
-          } else {
-            setAuthorName(""); // no hay creator_id
-          }
-        }
-      } catch (e) {
-        setError("Error al cargar el artículo");
-      } finally {
-        setLoading(false);
+    try {
+      const res = await getArticleById(id);
+      if (!res.ok) {
+        setError(res.error || "No se pudo cargar el artículo");
+        setArticle(null);
+        return;
       }
-    })();
-  }, [id]);
+
+      const data = res.data;
+      setArticle(data);
+
+      setLikes(typeof data.likes === "number" ? data.likes : 0);
+      setIsLiked(Boolean(data.isLiked));
+      // si ahora no quieres permisos, deja los botones siempre visibles y no uses canEdit
+
+      // 👇 aquí pedimos el nombre usando creator_id
+      if (data?.creator_id) {
+        const ures = await getUsernameById(data.creator_id);
+        // Logs para ver qué trae tu backend (mira consola si falla)
+        console.debug("[Detail] getUsernameById:", ures);
+        if (ures.ok && ures.name) {
+          setAuthorName(ures.name);
+        } else {
+          setAuthorName(`Usuario #${data.creator_id}`);
+        }
+      } else {
+        setAuthorName("");
+      }
+    } catch (e) {
+      console.error("Error al cargar el artículo:", e);
+      setError("Error al cargar el artículo");
+    } finally {
+      setLoading(false);
+    }
+  })();
+}, [id]);
+
 
   // 5) Formateo fecha
   const formattedDate = useMemo(() => {
@@ -233,7 +239,7 @@ const [authorName, setAuthorName] = useState(""); // 👈 nuevo estado
               <span>{formattedDate}</span>
               <span>•</span>
               {/* <span>{article.username || `Usuario #${article.creator_id}`}</span> */}
-               <span>{authorName || `Usuario #${article?.creator_id ?? "?"}`}</span>
+               <span>@{authorName || `Usuario #${article?.creator_id ?? "?"}`}</span>
             </div>
           </div>
         </div>

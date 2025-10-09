@@ -1,66 +1,3 @@
-// export const API_URL = "http://localhost:8080/article";
-// /**
-//  * Función genérica para hacer peticiones fetch.
-//  * Maneja errores comunes y convierte la respuesta a JSON.
-//  * @param {string} url - La URL a la que hacer la petición.
-//  * @returns {Promise<any>} - La promesa con los datos en formato JSON.
-//  */
-// export const fetchApi = async (url) => {
-//   const response = await fetch(url);
-//   if (!response.ok) {
-//     throw new Error(`Error ${response.status}: No se pudo conectar con el servidor.`);
-//   }
-//   return response.json();
-// };
-
-// /**
-//  * 🔐 Obtiene un artículo por su ID desde el backend.
-//  * Usa try/catch para manejar errores de red.
-//  * En el futuro, si tienes login, añadiremos el token.
-//  *
-//  * @param {number|string} id - //ID del artículo que quieres obtener
-//  * @returns {Promise<object>}  //Devuelve { ok: true, data } o { ok: false, error }
-//  */
-// export async function getArticleById(id) {
-//   try {
-//     // 2️⃣ Construimos la URL completa, por ejemplo: http://localhost:8080/article/3
-//     const url = `${API_URL}/${id}`;
-
-//     // 3️⃣ (Opcional en el futuro) — si hay token de usuario, lo añadiremos aquí:
-//     // const token = localStorage.getItem("access_token");
-
-//     // 4️⃣ Hacemos la petición HTTP al backend
-//     const response = await fetch(url, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         // Authorization: `Bearer ${token}`,  ← la activaremos cuando tengas login
-//       },
-//     });
-
-//     // 5️⃣ Si el servidor responde con error (404, 500, etc.), lanzamos error
-//     if (!response.ok) {
-//       throw new Error(`Error ${response.status}: no se pudo cargar el artículo`);
-//     }
-
-//     // 6️⃣ Si todo fue bien, convertimos la respuesta a JSON
-//     const data = await response.json();
-
-//     // 7️⃣ Devolvemos el artículo dentro de un objeto con ok:true
-//     return { ok: true, data };
-
-//   } catch (error) {
-//     // 8️⃣ Si algo falla (red caída, timeout, error 404...), lo capturamos aquí
-//     console.error("Error al obtener artículo:", error);
-//     return { ok: false, error: error.message || "Error desconocido" };
-//   }
-// }
-// src/services/articles.js
-// =====================================
-// 📄 Servicio para pedir un artículo por ID
-// Ahora usa tu cliente Axios centralizado (api/client.js)
-// =====================================
-
 import api from "../api/client";
 
 /**
@@ -74,14 +11,14 @@ import api from "../api/client";
  */
 export async function getArticleById(id) {
   try {
-    // 1️⃣ Hacemos la petición con Axios usando el cliente ya configurado
-    // Ejemplo: GET http://localhost:8080/article/3
+    // 1️ Hacemos la petición con Axios usando el cliente ya configurado
+   
     const response = await api.get(`/article/${id}`);
 
-    // 2️⃣ Si todo va bien, devolvemos el contenido de la respuesta
+    // 2️ Si todo va bien, devolvemos el contenido de la respuesta
     return { ok: true, data: response.data };
   } catch (error) {
-    // 3️⃣ Si hay error, lo capturamos (el interceptor ya lo limpia)
+    // 3️ Si hay error, lo capturamos (el interceptor ya lo limpia)
     console.error("Error al obtener artículo:", error);
     return { ok: false, error: error.message || "Error desconocido" };
   }
@@ -91,7 +28,7 @@ export async function getAbisalArticles(params = {}) {
   try {
     const { data } = await api.get("/article", { params });
 
-    // 👇 Normalizo: si data ya es array, lo uso; si es objeto con .items, uso ese array;
+    //  Normalizo: si data ya es array, lo uso; si es objeto con .items, uso ese array;
     //               si no, dejo array vacío.
     const list = Array.isArray(data) ? data : (Array.isArray(data?.items) ? data.items : []);
 
@@ -147,12 +84,48 @@ export async function deleteArticle(id) {
     return { ok: false, error: error.message || "Error eliminando el artículo" };
   }
 }
-//para sacar el usuaario que has escrito los articulos 
- export async function getUserById(id) {
+export async function getUsernameById(id) {
+  // Helper que saca el usuario “real” de payloads raros
+  const pickUserObject = (payload) => {
+    // soporta {user:{...}}, {data:{...}}, array, o el objeto directo
+    if (Array.isArray(payload)) return payload[0] || null;
+    return payload?.user ?? payload?.data ?? payload ?? null;
+  };
+
+  // Helper que extrae un nombre visible del objeto usuario
+  const extractName = (u) => {
+    if (!u || typeof u !== "object") return "";
+    if (u.username) return u.username;
+    if (u.name) return u.name;
+    if (u.first_name && u.last_name) return `${u.first_name} ${u.last_name}`;
+    if (u.email && typeof u.email === "string") {
+      // como último recurso, parte local del email
+      return u.email.split("@")[0];
+    }
+    return "";
+  };
+
   try {
-    const { data } = await api.get(`/user/${id}`);
-    return { ok: true, data };
-  } catch (error) {
-    return { ok: false, error: error.message };
+    // Intento 1: /user/:id
+    const r1 = await api.get(`/user/${id}`);
+    const u1 = pickUserObject(r1.data);
+    const name1 = extractName(u1);
+    if (name1) return { ok: true, name: name1, raw: r1.data };
+  } catch (e1) {
+    // si 404 pruebo /users/:id
+    if (e1?.response?.status !== 404) {
+      return { ok: false, error: e1.message || "Error cargando usuario" };
+    }
+  }
+
+  try {
+    // Intento 2: /users/:id
+    const r2 = await api.get(`/users/${id}`);
+    const u2 = pickUserObject(r2.data);
+    const name2 = extractName(u2);
+    if (name2) return { ok: true, name: name2, raw: r2.data };
+    return { ok: false, error: "Usuario sin nombre reconocible" };
+  } catch (e2) {
+    return { ok: false, error: e2.message || "No se encontró el usuario" };
   }
 }
