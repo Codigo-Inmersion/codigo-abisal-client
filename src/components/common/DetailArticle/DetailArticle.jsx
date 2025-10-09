@@ -130,7 +130,7 @@ const [authorName, setAuthorName] = useState(""); // 👈 nuevo estado
   };
  
   const handleEdit = () => {
-    navigate(`/article/${id}/edit`);
+    navigate(`/admin/article/edit/${id}`);
   };
 
   const HOME_PATH = "/";
