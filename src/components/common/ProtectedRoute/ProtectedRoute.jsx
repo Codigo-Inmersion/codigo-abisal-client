@@ -1,18 +1,21 @@
 import { Navigate } from 'react-router-dom';
-import useAuthStore from '../stores/authStore';
+import useAuthStore from '../../../stores/authStore';
 
 /**
  * 🎓 EXPLICACIÓN: Componente ProtectedRoute
  * 
- * Este componente es como un "guardia de seguridad" que verifica:
+ * Este componente actúa como un "guardia de seguridad" que verifica:
  * 1. ¿El usuario está autenticado? (tiene token)
- * 2. ¿Tiene el rol necesario? (si se especifica)
+ * 2. ¿Tiene el rol necesario? (si se especifica con requireRole)
  * 
- * Si no cumple las condiciones, lo redirige a otra página.
+ * CÓMO FUNCIONA:
+ * - Si no hay token → redirige a /login
+ * - Si hay token pero no tiene el rol correcto → redirige a /403
+ * - Si todo está bien → muestra el contenido (children)
  * 
- * USO:
+ * USO EN EL ROUTER:
  * <ProtectedRoute requireRole="admin">
- *   <MiComponenteProtegido />
+ *   <Layout_Admin />
  * </ProtectedRoute>
  */
 
@@ -24,6 +27,7 @@ function ProtectedRoute({ children, requireRole = null }) {
   // Si no hay token, redirige al login
   if (!token) {
     console.log('❌ No hay token, redirigiendo a /login');
+    console.log('→ Redirigiendo a /login');
     return <Navigate to="/login" replace />;
   }
 
@@ -34,6 +38,20 @@ function ProtectedRoute({ children, requireRole = null }) {
     console.log('Redirigiendo a /403');
     return <Navigate to="/403" replace />;
   }
+
+  /*
+  Código más simple/desglosado para la verificación2
+   if (requireRole) {
+    console.log(`🔍 ProtectedRoute: Verificando rol`);
+    console.log(`   - Rol requerido: ${requireRole}`);
+    console.log(`   - Rol del usuario: ${user?.role}`);
+    
+    if (user?.role !== requireRole) {
+      console.log('❌ ProtectedRoute: Rol incorrecto');
+      console.log('→ Redirigiendo a /403');
+      return <Navigate to="/403" replace />;
+    }
+  */
 
   // ✅ TODO OK: Muestra el componente hijo
   console.log('✅ Acceso permitido');
