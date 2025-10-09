@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../../hooks/useAuth';
-import './LoginForm.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../../hooks/useAuth";
+import "./LoginForm.css";
 
 const LoginForm = () => {
   const { login, loading, error, clearError } = useAuth();
-  
+
   // Estado del formulario
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    remember: false
+    email: "",
+    password: "",
+    remember: false,
   });
-
-
 
   // Estado de errores de validación
   const [validationErrors, setValidationErrors] = useState({});
@@ -26,21 +24,21 @@ const LoginForm = () => {
    */
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     // Limpiar error del campo al empezar a escribir
     if (validationErrors[name]) {
-      setValidationErrors(prev => ({
+      setValidationErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
-    
+
     // Limpiar error general si existe
     if (error) clearError();
 
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -53,16 +51,16 @@ const LoginForm = () => {
 
     // Validación de email
     if (!formData.email.trim()) {
-      errors.email = 'El email es obligatorio';
+      errors.email = "El email es obligatorio";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'El formato del email no es válido';
+      errors.email = "El formato del email no es válido";
     }
 
     // Validación de password
     if (!formData.password) {
-      errors.password = 'La contraseña es obligatoria';
+      errors.password = "La contraseña es obligatoria";
     } else if (formData.password.length < 6) {
-      errors.password = 'La contraseña debe tener al menos 6 caracteres';
+      errors.password = "La contraseña debe tener al menos 6 caracteres";
     }
 
     setValidationErrors(errors);
@@ -83,10 +81,10 @@ const LoginForm = () => {
     // Enviar credenciales (sin el campo remember)
     const credentials = {
       email: formData.email.trim(),
-      password: formData.password
+      password: formData.password,
     };
-    console.log(credentials) // TODO: Borrar este console log (para que no muestre credenciales en consola por seguridad) Y descomentar el await login.
-   // await login(credentials);
+    //console.log(credentials) // TODO: Borrar este console log (para que no muestre credenciales en consola por seguridad) Y descomentar el await login.
+    await login(credentials);
   };
 
   return (
@@ -119,10 +117,12 @@ const LoginForm = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="tu@email.com"
-                className={validationErrors.email ? 'error' : ''}
+                className={validationErrors.email ? "error" : ""}
                 disabled={loading}
                 aria-invalid={!!validationErrors.email}
-                aria-describedby={validationErrors.email ? 'email-error' : undefined}
+                aria-describedby={
+                  validationErrors.email ? "email-error" : undefined
+                }
                 autoComplete="email"
               />
               {validationErrors.email && (
@@ -139,30 +139,38 @@ const LoginForm = () => {
               </label>
               <div className="password-wrapper">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className={validationErrors.password ? 'error' : ''}
+                  className={validationErrors.password ? "error" : ""}
                   disabled={loading}
                   aria-invalid={!!validationErrors.password}
-                  aria-describedby={validationErrors.password ? 'password-error' : undefined}
+                  aria-describedby={
+                    validationErrors.password ? "password-error" : undefined
+                  }
                   autoComplete="current-password"
                 />
                 <button
                   type="button"
                   className="toggle-password"
                   onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  aria-label={
+                    showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                  }
                   tabIndex={-1}
                 >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                  {showPassword ? "👁️" : "👁️‍🗨️"}
                 </button>
               </div>
               {validationErrors.password && (
-                <span className="error-message" id="password-error" role="alert">
+                <span
+                  className="error-message"
+                  id="password-error"
+                  role="alert"
+                >
                   {validationErrors.password}
                 </span>
               )}
@@ -186,18 +194,14 @@ const LoginForm = () => {
             </div>
 
             {/* Botón de submit */}
-            <button
-              type="submit"
-              className="submit-button"
-              disabled={loading}
-            >
+            <button type="submit" className="submit-button" disabled={loading}>
               {loading ? (
                 <>
                   <span className="spinner"></span>
                   Iniciando sesión...
                 </>
               ) : (
-                'Iniciar sesión'
+                "Iniciar sesión"
               )}
             </button>
 
