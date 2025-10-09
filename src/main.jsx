@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import router from './router/AbisalRoutes.jsx';
 import './styles/index.css';
+import './App.css'
 
 /**
  * 🎓 EXPLICACIÓN: Punto de entrada de la aplicación
