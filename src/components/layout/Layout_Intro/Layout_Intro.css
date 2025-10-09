@@ -1,0 +1,85 @@
+
+
+.intro-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 2rem;
+}
+
+/* Contenedor del formulario centrado */
+.intro-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 450px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Animación de entrada suave */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Footer minimalista con link de vuelta */
+.intro-footer {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.back-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-link:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .intro-layout {
+    padding: 1rem;
+  }
+  
+  .intro-content {
+    max-width: 100%;
+  }
+  
+  .intro-footer {
+    bottom: 1rem;
+  }
+}
+
+/* pantallas muy pequeñas */
+@media (max-height: 600px) {
+  .intro-layout {
+    justify-content: flex-start;
+    padding-top: 2rem;
+  }
+  
+  .intro-footer {
+    position: relative;
+    margin-top: 2rem;
+    bottom: auto;
+    transform: none;
+  }
+}

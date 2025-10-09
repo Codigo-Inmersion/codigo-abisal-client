@@ -1,4 +1,9 @@
 :root {
+  --black-abisal: #06000f;
+  --blue-retro: #4e36fd;
+  --blue-baby: #a4defb;
+  --blue-sky: #a4fbfb;
+  --font-rajdhani: "Rajdhani", sans-serif;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -11,10 +16,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --black-abisal: #06000f;
-  --blue-retro: #4E36FD; 
-  --blue-baby: #A4DEFB;     
-  --blue-sky: #A4FBFB;
 }
 
 * {
@@ -23,16 +24,17 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* display: flex;
+  place-items: center; */
   min-width: 320px;
   min-height: 100vh;
 }

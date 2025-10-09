@@ -1,0 +1,45 @@
+.carousel-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.carousel-container {
+  padding: 0 50px;
+  box-sizing: border-box;
+}
+
+.carousel-item {
+  height: 100%;
+}
+.react-multiple-carousel__arrow {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  min-width: 50px !important;
+  min-height: 50px !important;
+  z-index: 10 !important;
+}
+
+.react-multiple-carousel__arrow:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.react-multiple-carousel__arrow::before {
+  font-size: 22px !important;
+  color: white !important;
+}
+
+.react-multiple-carousel__arrow--left {
+  left: 15px !important;
+}
+
+.react-multiple-carousel__arrow--right {
+  right: 15px !important;
+}
+
+.no-items-message {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
