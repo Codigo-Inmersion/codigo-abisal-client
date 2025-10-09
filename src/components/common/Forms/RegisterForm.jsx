@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
-import '../LoginForm/LoginForm.css';
+import './Form.css';
 
 /**
  * 🎓 EXPLICACIÓN: Formulario de Registro

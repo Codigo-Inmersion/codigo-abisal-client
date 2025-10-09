@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "../../components/common/LoginForm/LoginForm";
+import LoginForm from "../../components/common/Forms/LoginForm";
 
 /**
  * 🎓 EXPLICACIÓN: LoginPage

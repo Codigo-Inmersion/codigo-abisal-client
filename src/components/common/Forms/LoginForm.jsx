@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
-import './LoginForm.css';
+import './Form.css';
 
 const LoginForm = () => {
   const { login, loading, error, clearError } = useAuth();
