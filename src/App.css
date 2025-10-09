@@ -11,7 +11,7 @@
   text-align: left;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* Container principal de la app */
@@ -19,7 +19,7 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* Fondo LiquidEther fijo en toda la página */

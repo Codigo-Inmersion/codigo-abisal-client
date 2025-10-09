@@ -1,18 +1,18 @@
+// src/components/layout/Layout_Admin/Layout_Admin.jsx
+
 import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
+import './Layout_Admin.css'; // <-- Importa el nuevo CSS
 
-
-
-
-export default function layoutAdmin() {
+export default function LayoutAdmin() {
   return (
-    <div className="intro-layout">
+    // Usa las nuevas clases de CSS
+    <div className="admin-layout">
       <Background />
-      <div className="intro-content">
+      <main className="admin-content">
         <Outlet />
-      </div>
+      </main>
       
-      {/* Opcional: Link pequeño para volver */}
       <div className="intro-footer">
         <a href="/" className="back-link">
           ← Volver al inicio
