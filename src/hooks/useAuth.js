@@ -59,7 +59,7 @@ export const useAuth = () => {
       // Guardar token en el store (se decodifica automáticamente)
       loginStore(response.token);
 
-      // Obtener el usuario del store para verificar su rol
+      // Obtener el usuario actualizado del store
       const currentUser = useAuthStore.getState().user;
 
       // Redirigir según el rol
