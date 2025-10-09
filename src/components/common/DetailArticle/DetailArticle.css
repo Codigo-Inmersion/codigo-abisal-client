@@ -147,7 +147,7 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.3s ease;
-    font-family: var(--font-rajdhani, sans-serif);
+  font-family: var(--font-rajdhani, sans-serif);
 }
 
 .article-detail-button:hover {
@@ -189,7 +189,10 @@
 .article-detail-button-delete:hover {
   background-color: rgba(239, 68, 68, 0.2);
 }
+ .breadcrumb-back-button {
+  cursor: pointer;
 
+ }
 /* Responsive */
 @media (max-width: 768px) {
   .article-detail-content h2 {
