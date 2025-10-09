@@ -63,7 +63,7 @@ const abisalRouter = createBrowserRouter([
         element: <CreateArticlePage />,
       },
       {
-        path: "articles/edit/:id",
+        path: "article/edit/:id",
         element: <EditArticlePage />,
       },
     ],
