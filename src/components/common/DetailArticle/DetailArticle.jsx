@@ -1,10 +1,13 @@
-import {useState, useEffect, useMemo} from "react";
-import  { useParams, useNavigate } from "react-router-dom"
+import { useState, useEffect, useMemo } from "react";
+import { useParams, useNavigate } from "react-router-dom"
 import { ChevronRight, Heart, Edit, Trash2, ArrowLeft } from 'lucide-react';
 import './DetailArticle.css';
 import Button from '../Button/Button';
 import { getArticleById } from "../../../services/AbisalServices";
 import DOMPurify from 'dompurify';
+import api from "../../../api/client";
+ import { getUserById } from "../../../services/AbisalServices";
+
 
 export default function DetailArticle() {
   // 1) Param de ruta
@@ -19,7 +22,7 @@ export default function DetailArticle() {
   // 3) UI local (likes/permisos)
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-  const [canEdit, setCanEdit] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);// esta linea se usara cuando el admin edite o borre solo el admin
 
   // 4) Cargar artículo
   useEffect(() => {
@@ -53,6 +56,54 @@ export default function DetailArticle() {
       }
     })();
   }, [id]);
+//para sacar el monbre de  usuario que escribe el articulo por su id
+const [authorName, setAuthorName] = useState(""); // 👈 nuevo estado
+
+  useEffect(() => {
+    if (!id || Number.isNaN(Number(id))) {
+      setError("Identificador de artículo inválido.");
+      setArticle(null);
+      setLoading(false);
+      return;
+    }
+
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await getArticleById(id);
+        if (!res.ok) {
+          setError(res.error || "No se pudo cargar el artículo");
+          setArticle(null);
+          setAuthorName("");
+        } else {
+          const data = res.data;
+          setArticle(data);
+
+          // Likes/permisos locales (si te sirven)
+          setLikes(typeof data.likes === "number" ? data.likes : 0);
+          setIsLiked(Boolean(data.isLiked));
+
+          // 👇 AQUÍ: si viene creator_id, pedimos el usuario y guardamos el nombre
+          if (data?.creator_id) {
+            const ures = await getUserById(data.creator_id);
+            if (ures.ok) {
+              // Ajusta el campo según devuelva tu API: name / username / full_name
+              setAuthorName(ures.data.name || ures.data.username || `Usuario #${data.creator_id}`);
+            } else {
+              setAuthorName(`Usuario #${data.creator_id}`);
+            }
+          } else {
+            setAuthorName(""); // no hay creator_id
+          }
+        }
+      } catch (e) {
+        setError("Error al cargar el artículo");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [id]);
 
   // 5) Formateo fecha
   const formattedDate = useMemo(() => {
@@ -77,10 +128,12 @@ export default function DetailArticle() {
     setLikes((v) => (isLiked ? Math.max(0, v - 1) : v + 1));
     // FUTURO: POST/DELETE /article/:id/like con tu api client
   };
-
+ 
   const handleEdit = () => {
     navigate(`/article/${id}/edit`);
   };
+
+  const HOME_PATH = "/";
 
   const handleDelete = async () => {
     if (!id || Number.isNaN(Number(id))) return;
@@ -88,14 +141,16 @@ export default function DetailArticle() {
       try {
         // ✅ Usa tu cliente Axios (interceptores, auth, etc.)
         await api.delete(`/article/${id}`);
-        navigate("/articles");
+        navigate( HOME_PATH);// vuelve al home
       } catch (err) {
         alert(err.message || "No se pudo eliminar el artículo");
       }
     }
   };
 
-  const handleBack = () => navigate(-1);
+  const handleBack = () => {
+  navigate( HOME_PATH); // vuelve SIEMPRE al Home del carrusel
+};
 
   // 8) Render imagen
   const renderImage = () => {
@@ -177,7 +232,8 @@ export default function DetailArticle() {
             <div className="article-detail-meta">
               <span>{formattedDate}</span>
               <span>•</span>
-              <span>{article.username || "Autor"}</span>
+              {/* <span>{article.username || `Usuario #${article.creator_id}`}</span> */}
+               <span>{authorName || `Usuario #${article?.creator_id ?? "?"}`}</span>
             </div>
           </div>
         </div>
@@ -192,15 +248,28 @@ export default function DetailArticle() {
           <div className="article-detail-actions-wrapper">
             {/* Like Button */}
             <Button
-              onClick={handleLike}
+              onClick={handleLike} variant="primary"
               className={`article-detail-button article-detail-button-like ${isLiked ? "liked" : ""}`}
             >
               <Heart size={20} fill={isLiked ? "#0c0c1a" : "none"} />
-              <span>{likes} Me gusta</span>
+              <span>{likes}</span>
+            </Button>
+
+            {/* Editar y Eliminar SIEMPRE visibles por ahora */}
+            <Button onClick={handleEdit} variant="secondary"
+            className="article-detail-button article-detail-button-edit">
+              <Edit size={18} />
+              Editar
+            </Button>
+
+            <Button onClick={handleDelete} variant="tertiary"
+             className="article-detail-button article-detail-button-delete">
+              <Trash2 size={18} />
+              Eliminar
             </Button>
 
             {/* Edit and Delete Buttons */}
-            {canEdit && (
+            {/* {canEdit && (
               <>
                 <button onClick={handleEdit} className="article-detail-button article-detail-button-edit">
                   <Edit size={18} />
@@ -212,7 +281,9 @@ export default function DetailArticle() {
                   Eliminar
                 </button>
               </>
-            )}
+            )}  esto esta asi porque solo lo puede borrar y editar el admin y si no no se pintan los botones*/}
+
+
           </div>
         </div>
       </div>
