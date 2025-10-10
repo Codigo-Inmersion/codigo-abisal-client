@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios"; // Asegúrate de importar axios
 import ArticleForm from "../../components/common/ArticleForm/ArticleForm";
-import { getArticleById, updateArticle } from "../../services/AbisalServices";
+import { getArticleById } from "../../services/AbisalServices"; // Asumo que usas este servicio para obtener datos
 
 export default function EditArticlePage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [articleData, setArticleData] = useState(null);
+  const [initialData, setInitialData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Carga los datos del artículo cuando el componente se monta
   useEffect(() => {
     if (!id || isNaN(Number(id))) {
       setError("ID de artículo no válido.");
@@ -19,54 +21,89 @@ export default function EditArticlePage() {
       return;
     }
 
-    (async () => {
+    const fetchArticle = async () => {
       setLoading(true);
       try {
+        // Usamos el servicio para obtener los datos iniciales
         const res = await getArticleById(id);
         if (res.ok) {
-          setArticleData(res.data);
+          setInitialData(res.data);
         } else {
           setError(res.error || "No se encontró el artículo.");
         }
       } catch (e) {
-        setError("Error al cargar el artículo.");
+        setError("Error al cargar los datos del artículo.");
+        console.error("Error fetching article:", e);
       } finally {
         setLoading(false);
       }
-    })();
+    };
+
+    fetchArticle();
   }, [id]);
 
-  // ✅ Manejar envío del formulario
-  const handleSubmit = async (updatedData) => {
+  // Maneja el envío del formulario con los datos actualizados
+  const handleSubmit = async (formData) => {
     setIsSubmitting(true);
+    setError(null);
+
     try {
-      const res = await updateArticle(id, updatedData);
-      if (res.ok) {
-        alert("Artículo actualizado correctamente ✅");
-        navigate(`/article/${id}`); // o a donde quieras volver
-      } else {
-        alert("No se pudo actualizar el artículo ❌");
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error("No estás autenticado para realizar esta acción.");
       }
+
+      // Tu backend espera `category` y no `category_id` según el modelo
+      const dataToSend = {
+        title: formData.title,
+        description: formData.description,
+        content: formData.content,
+        image: formData.image,
+        category: formData.category,
+        species: formData.species,
+      };
+
+      // Se usa axios.put para actualizar, con el token en las cabeceras
+      await axios.put(`http://localhost:8000/article/${id}`, dataToSend, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      alert("Artículo actualizado correctamente ✅");
+      navigate(`/article/${id}`); // Redirige a la página de detalle del artículo
+
     } catch (err) {
-      alert("Error al actualizar el artículo");
+      console.error("Error al actualizar el artículo:", err);
+      const errorMessage = err.response?.data?.message || err.message || "No se pudo actualizar el artículo.";
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // ✅ Render
-  if (loading) return <p>Cargando artículo...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  // Maneja el clic en el botón "Cancelar"
+  const handleCancel = () => {
+    navigate(-1); // Esto navega a la página anterior en el historial
+  };
+
+  if (loading) return <p style={{ textAlign: 'center', marginTop: '2rem' }}>Cargando artículo...</p>;
+  if (error) return <p style={{ color: "red", textAlign: 'center', marginTop: '2rem' }}>{error}</p>;
 
   return (
     <div className="edit-article-page">
+      {/* Le pasamos todos los props necesarios a ArticleForm, incluyendo la nueva función onCancel.
+        La 'key' es importante para forzar a React a renderizar de nuevo el formulario cuando los datos iniciales cambian.
+      */}
       <ArticleForm
-      key={`edit-${id}-${articleData?.updated_at || articleData?.id || 'first'}`}
+        key={initialData ? initialData.id : 'loading'}
         onSubmit={handleSubmit}
-        initialData={articleData}
+        onCancel={handleCancel}
+        initialData={initialData}
         isEditing={true}
         isSubmitting={isSubmitting}
       />
+      {error && <p style={{ color: "red", textAlign: 'center', marginTop: '1rem' }}>{error}</p>}
     </div>
   );
 }

@@ -7,7 +7,7 @@ import './ArticleForm.css';
 
 const articleCategories = ["Fauna Abisal", "Ecosistemas", "Exploración", "Conservación"];
 
-const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmitting = false }) => {
+const ArticleForm = ({ onSubmit, onCancel, initialData = null, isEditing = false, isSubmitting = false }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -17,9 +17,7 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
     species: '',
   });
 
-  // 👇 --- NUEVO ESTADO PARA EL MÉTODO DE SUBIDA --- 👇
-  const [uploadMethod, setUploadMethod] = useState('file'); // 'file' o 'url'
-
+  const [uploadMethod, setUploadMethod] = useState('file');
   const [errors, setErrors] = useState({});
   const [editorKey, setEditorKey] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
@@ -83,7 +81,6 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
     if (!formData.image) {
       newErrors.image = 'La imagen es obligatoria.';
     } else {
-      // Validamos que sea una URL válida, ya sea de Cloudinary o pegada por el usuario
       try {
         new URL(formData.image);
       } catch (_) {
@@ -109,7 +106,6 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
       <h1 className="form-title">{isEditing ? 'Editar Entrada' : 'Crear Nueva Entrada'}</h1>
       <form onSubmit={handleSubmit} className="article-form">
         
-        {/* Campos de title, description, content, category y species (sin cambios) */}
         <div className="form-group">
           <label htmlFor="title">Título de la entrada</label>
           <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} placeholder="El misterio del calamar gigante..." />
@@ -137,38 +133,20 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
           {errors.species && <span className="error-text">{errors.species}</span>}
         </div>
 
-        {/* --- 👇 NUEVO SELECTOR DE MÉTODO DE SUBIDA 👇 --- */}
         <div className="form-group">
           <label>Imagen Principal</label>
           <div className="upload-method-selector">
             <button type="button" onClick={() => setUploadMethod('file')} className={uploadMethod === 'file' ? 'active' : ''}>Subir Archivo</button>
             <button type="button" onClick={() => setUploadMethod('url')} className={uploadMethod === 'url' ? 'active' : ''}>Usar URL</button>
           </div>
-
           {uploadMethod === 'file' ? (
-            <input
-              type="file"
-              id="image-upload"
-              onChange={handleImageUpload}
-              accept="image/png, image/jpeg, image/gif"
-              disabled={isUploading}
-            />
+            <input type="file" id="image-upload" onChange={handleImageUpload} accept="image/png, image/jpeg, image/gif" disabled={isUploading} />
           ) : (
-            <input
-              type="url"
-              id="image-url"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
-              placeholder="https://ejemplo.com/imagen.jpg"
-              disabled={isUploading}
-            />
+            <input type="url" id="image-url" name="image" value={formData.image} onChange={handleChange} placeholder="https://ejemplo.com/imagen.jpg" disabled={isUploading} />
           )}
-
           {isUploading && <span className="upload-text">Subiendo imagen...</span>}
           {errors.image && <span className="error-text">{errors.image}</span>}
         </div>
-        {/* --- 👆 FIN DEL NUEVO SELECTOR 👆 --- */}
 
         {formData.image && !errors.image && (
           <div className="image-preview">
@@ -178,7 +156,7 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
         )}
 
         <div className="form-actions">
-          <Button type="button" variant="secondary">Cancelar</Button>
+          <Button type="button" variant="secondary" onClick={onCancel}>Cancelar</Button>
           <Button type="submit" variant="primary" disabled={isSubmitting || isUploading}>
             {isUploading ? 'Procesando imagen...' : (isSubmitting ? 'Publicando...' : (isEditing ? 'Guardar Cambios' : 'Publicar'))}
           </Button>
@@ -188,12 +166,16 @@ const ArticleForm = ({ onSubmit, initialData = null, isEditing = false, isSubmit
   );
 };
 
-// ... (PropTypes sin cambios)
 ArticleForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func, // <--- Nueva prop
     initialData: PropTypes.object,
     isEditing: PropTypes.bool,
     isSubmitting: PropTypes.bool,
+};
+
+ArticleForm.defaultProps = {
+  onCancel: () => {},
 };
 
 export default ArticleForm;
