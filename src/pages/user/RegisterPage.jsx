@@ -1,16 +1,9 @@
 import React from "react";
-import FormCard from "../../components/common/RegisterForm/RegisterForm";
-
-
+import RegisterForm from "../../components/common/Forms/RegisterForm.jsx"
 
 
 function RegisterPage() {
-  return (
-    <div>
-        <h1>Página de Registro</h1>
-      <FormCard />
-    </div>
-  );
+  return <RegisterForm />;
 }
 
 export default RegisterPage;

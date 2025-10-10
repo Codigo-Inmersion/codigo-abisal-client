@@ -1,78 +1,86 @@
-
 import axios from "axios";
+import useAuthStore from "../stores/authStore";
 
-// 1) Leemos la URL base de Vite (.env). Debe empezar por VITE_
-const RAW_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+/**
+ * 🎓 EXPLICACIÓN: Cliente HTTP con Axios
+ *
+ * Este cliente se encarga de:
+ * 1. Configurar la URL base del backend
+ * 2. Agregar automáticamente el token JWT a todas las peticiones
+ * 3. Manejar errores de autenticación (401)
+ *
+ * INTERCEPTOR: Se ejecuta antes de cada petición
+ * - Lee el token del store de Zustand
+ * - Lo agrega al header Authorization
+ */
 
-// 2) Quitamos / final para evitar dobles //
-const BASE_URL = RAW_BASE_URL.replace(/\/+$/, "");
-
-// 3) Creamos la instancia de Axios
-export const api = axios.create({
-  baseURL: BASE_URL, // p.ej. http://localhost:8080
-  timeout: 8000,     // 8s de timeout
-  // withCredentials: true, // Actívalo si usas cookies httpOnly
+// Crear instancia de axios con configuración base
+const client = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 10000, // 10 segundos de timeout
 });
 
-// 4) Interceptor de REQUEST (sale de tu app hacia el backend)
-api.interceptors.request.use(
+// Log para verificar qué URL se está usando (solo en desarrollo)
+if (import.meta.env.DEV) {
+  console.log(
+    "🌐 API URL:",
+    import.meta.env.VITE_API_URL || "http://localhost:8080"
+  );
+}
+
+// 🔧 INTERCEPTOR DE PETICIONES (REQUEST)
+// Se ejecuta ANTES de enviar cada petición
+client.interceptors.request.use(
   (config) => {
-    // 4.1) Si ya tienes login en el futuro, leerás el access_token aquí
-    const token = localStorage.getItem("access_token");
+    // Obtener token del store sin usar el hook (getState funciona fuera de componentes)
+    /*EXPLICACIÓN
+     * Los hooks de React (incluyendo hooks de Zustand) SOLO pueden usarse dentro de componentes de React o custom hooks
+     * Un interceptor de Axios NO es un componente de React
+     * Es JavaScript puro que se ejecuta fuera del ciclo de vida de React
+     */
+    const token = useAuthStore.getState().token;
+
+    // Si hay token, agregarlo al header Authorization
     if (token) {
-      // 4.2) Inyectamos el Bearer token en Authorization
-      config.headers = {
-        ...config.headers,
-        Authorization: `Bearer ${token}`,
-      };
+      config.headers.Authorization = `Bearer ${token}`;
+      console.log("🔑 Token agregado a la petición:", config.url);
     }
-    // 4.3) Aceptamos JSON por defecto
-    config.headers = {
-      Accept: "application/json",
-      ...config.headers,
-    };
+
     return config;
   },
-  (error) => Promise.reject(error)
-);
-
-// 5) Interceptor de RESPONSE (entra la respuesta del backend)
-api.interceptors.response.use(
-  (r) => r,
-  (err) => {
-    // 5.1) Errores sin respuesta (caída de red, timeout)
-    if (!err.response) {
-      const reason =
-        err.code === "ECONNABORTED"
-          ? "La solicitud tardó demasiado (timeout)."
-          : "No se pudo conectar con el servidor.";
-      return Promise.reject(new Error(reason));
-    }
-
-    const { data, status } = err.response;
-
-    // 5.2) Manejo de express-validator: [{ msg, path/param, ... }]
-    if (Array.isArray(data?.errors) && data.errors.length > 0) {
-      const list = data.errors
-        .map((e) => {
-          const field = e.path || e.param || "campo";
-          return `${field}: ${e.msg}`;
-        })
-        .join(" | ");
-      return Promise.reject(new Error(list));
-    }
-
-    // 5.3) Mensajes típicos del backend
-    const msg =
-      data?.error ||
-      data?.message ||
-      (status ? `Error ${status}` : err.message);
-
-    // 5.4) Si quieres tratar 401 aquí (redirigir a /login), lo harás en el futuro
-    // if (status === 401) { /* limpiar tokens, navegar a /login */ }
-
-    return Promise.reject(new Error(msg));
+  (error) => {
+    console.error("❌ Error en interceptor de request:", error);
+    return Promise.reject(error);
   }
 );
 
-export default api;
+// 🔧 INTERCEPTOR DE RESPUESTAS (RESPONSE)
+// Se ejecuta DESPUÉS de recibir cada respuesta
+client.interceptors.response.use(
+  (response) => {
+    // Si la respuesta es exitosa (status 2xx), la devuelve tal cual
+    return response;
+  },
+  (error) => {
+    // Si hay error, verificar si es 401 (no autorizado)
+    if (error.response?.status === 401) {
+      console.log("❌ Error 401: Token inválido o expirado");
+
+      // Limpiar sesión y redirigir a login
+      const logout = useAuthStore.getState().logout;
+      logout();
+
+      // Redirigir a login (si estamos en el navegador)
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+export default client;
