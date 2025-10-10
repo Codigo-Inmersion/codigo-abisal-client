@@ -261,7 +261,7 @@ useEffect(() => {
             </Button>
 
             {/* Editar y Eliminar SIEMPRE visibles por ahora */}
-            <Button onClick={handleEdit} variant="secondary"
+            {/* <Button onClick={handleEdit} variant="secondary"
             className="article-detail-button article-detail-button-edit">
               <Edit size={18} />
               Editar
@@ -271,7 +271,7 @@ useEffect(() => {
              className="article-detail-button article-detail-button-delete">
               <Trash2 size={18} />
               Eliminar
-            </Button>
+            </Button> */}
 
             {/* Edit and Delete Buttons */}
              {/* {canEdit && (
