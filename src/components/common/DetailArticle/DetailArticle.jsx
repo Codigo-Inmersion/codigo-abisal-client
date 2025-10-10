@@ -136,7 +136,7 @@ useEffect(() => {
   };
  
   const handleEdit = () => {
-    navigate(`/admin/article/edit/${id}`);
+    navigate(`admin/article/edit/${id}`);
   };
 
   const HOME_PATH = "/";
@@ -275,7 +275,7 @@ useEffect(() => {
             </Button>
 
             {/* Edit and Delete Buttons */}
-            {/* {canEdit && (
+             {/* {canEdit && (
               <>
                 <button onClick={handleEdit} className="article-detail-button article-detail-button-edit">
                   <Edit size={18} />
@@ -287,7 +287,7 @@ useEffect(() => {
                   Eliminar
                 </button>
               </>
-            )}  esto esta asi porque solo lo puede borrar y editar el admin y si no no se pintan los botones*/}
+            )}   */}
 
 
           </div>

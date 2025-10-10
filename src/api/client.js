@@ -16,7 +16,7 @@ import useAuthStore from "../stores/authStore";
 
 // Crear instancia de axios con configuración base
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
   headers: {
     "Content-Type": "application/json",
   },
@@ -27,7 +27,7 @@ const client = axios.create({
 if (import.meta.env.DEV) {
   console.log(
     "🌐 API URL:",
-    import.meta.env.VITE_API_URL || "http://localhost:8080"
+    import.meta.env.VITE_API_URL || "http://localhost:8000"
   );
 }
 
