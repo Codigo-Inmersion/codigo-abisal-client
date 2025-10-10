@@ -31,28 +31,6 @@
   }
 }
 
-/* Footer minimalista con link de vuelta */
-.intro-footer {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-
-.back-link {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.back-link:hover {
-  color: rgba(255, 255, 255, 1);
-}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -63,10 +41,6 @@
   .intro-content {
     max-width: 100%;
   }
-  
-  .intro-footer {
-    bottom: 1rem;
-  }
 }
 
 /* pantallas muy pequeñas */
@@ -76,10 +50,4 @@
     padding-top: 2rem;
   }
   
-  .intro-footer {
-    position: relative;
-    margin-top: 2rem;
-    bottom: auto;
-    transform: none;
-  }
 }

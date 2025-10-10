@@ -1,5 +1,3 @@
-// src/components/layout/Layout_User/Layout_User.jsx
-
 import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_User.css';
