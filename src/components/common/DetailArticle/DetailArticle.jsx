@@ -136,7 +136,7 @@ useEffect(() => {
   };
  
   const handleEdit = () => {
-    navigate(`admin/article/edit/${id}`);
+    navigate(`/admin/article/edit/${id}`);
   };
 
   const HOME_PATH = "/";
@@ -238,7 +238,6 @@ useEffect(() => {
             <div className="article-detail-meta">
               <span>{formattedDate}</span>
               <span>•</span>
-              {/* <span>{article.username || `Usuario #${article.creator_id}`}</span> */}
                <span>@{authorName || `Usuario #${article?.creator_id ?? "?"}`}</span>
             </div>
           </div>
