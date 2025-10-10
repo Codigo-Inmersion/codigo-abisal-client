@@ -17,7 +17,7 @@ import DetailPage from '../pages/user/DetailPage';
 import ForbiddenPage from '../pages/user/ForbiddenPage/ForbiddenPage';
 
 // Páginas de admin (protegidas - solo admin)
-import DashboardPage from '../pages/admin/DashboardPage';
+import DashboardPage from '../pages/admin/dashboardPage/DashboardPage';
 import CreateArticlePage from '../pages/admin/CreateArticlePage';
 import EditArticlePage from '../pages/admin/EditArticlePage';
 
