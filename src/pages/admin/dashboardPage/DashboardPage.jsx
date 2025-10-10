@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, FileText, Plus } from 'lucide-react';
-import ArticlesTable from '../../components/admin/ArticlesTable/ArticlesTable';
-import UsersTable from '../../components/admin/UsersTable/UsersTable';
-import Button from '../../components/common/Button/Button';
-import { getAbisalArticles, deleteArticle } from '../../services/AbisalServices';
+import ArticlesTable from '../../../components/admin/ArticlesTable/ArticlesTable';
+import UsersTable from '../../../components/admin/UsersTable/UsersTable';
+import Button from '../../../components/common/Button/Button';
+import { getAbisalArticles, deleteArticle } from '../../../services/AbisalServices';
 import './DashboardPage.css';
 
 /**
