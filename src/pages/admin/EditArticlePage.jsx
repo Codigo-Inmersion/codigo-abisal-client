@@ -43,7 +43,7 @@ export default function EditArticlePage() {
       const res = await updateArticle(id, updatedData);
       if (res.ok) {
         alert("Artículo actualizado correctamente ✅");
-        navigate("/admin/dashboard"); // o a donde quieras volver
+        navigate(`/article/${id}`); // o a donde quieras volver
       } else {
         alert("No se pudo actualizar el artículo ❌");
       }

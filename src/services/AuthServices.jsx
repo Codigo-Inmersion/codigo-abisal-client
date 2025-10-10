@@ -1,4 +1,4 @@
-import client from '../api/client';
+import api from "../api/client";
 
 /**
  * 🎓 EXPLICACIÓN: Servicios de Autenticación
@@ -28,7 +28,7 @@ const AuthServices = {
     try {
       console.log('🔑 AuthServices.login: Intentando login para', email);
       
-      const response = await client.post('/auth/login', {
+      const response = await api.post('/auth/login', {
         email,
         password
       });
@@ -69,7 +69,7 @@ const AuthServices = {
     try {
       console.log('📝 AuthServices.register: Registrando usuario', userData.email);
       
-      const response = await client.post('/auth/register', {
+      const response = await api.post('/auth/register', {
         username: userData.username,
         name: userData.name,
         last_name: userData.last_name,

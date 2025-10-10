@@ -100,11 +100,11 @@ const router = createBrowserRouter([
         element: <DashboardPage />
       },
       {
-        path: 'articles/create',
+        path: 'article/create',
         element: <CreateArticlePage />
       },
       {
-        path: 'articles/edit/:id',
+        path: 'article/edit/:id',
         element: <EditArticlePage />
       }
     ]
