@@ -84,7 +84,7 @@ function DashboardPage() {
             </Button>
           )}
           <Button variant="secondary" onClick={() => navigate('/')}>
-            Volver al Home
+            Volver al Inicio
           </Button>
         </div>
       </header>

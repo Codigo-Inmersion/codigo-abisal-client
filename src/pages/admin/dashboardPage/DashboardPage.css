@@ -8,8 +8,9 @@
 /* Header del dashboard */
 .dashboard-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* 👈 Cambiar a columna */
+  align-items: center; /* 👈 Centrar horizontalmente */
+  gap: 1.5rem; /* Espacio entre título y botones */
   margin-bottom: 2rem;
   padding: 0 1rem;
 }
@@ -19,6 +20,8 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
+  text-align: center; /* 👈 Centrar el texto */
+  margin: 0; /* Quitar margen por defecto */
 }
 
 .header-actions {
