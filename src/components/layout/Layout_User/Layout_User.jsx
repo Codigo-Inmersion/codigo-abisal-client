@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_User.css';
+import Navbar from '../Navbar/Navbar';
 
 export default function LayoutUser() {
   return (
@@ -11,6 +12,8 @@ export default function LayoutUser() {
       <main className="user-layout-content">
         <Outlet />
       </main>
+      <Navbar/>
+      
 
       {/* Restauramos el footer con el enlace para volver al inicio */}
       <div className="user-layout-footer">

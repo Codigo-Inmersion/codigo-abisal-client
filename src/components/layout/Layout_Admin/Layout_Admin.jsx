@@ -3,6 +3,7 @@
 import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_Admin.css'; // <-- Importa el nuevo CSS
+import Navbar from '../Navbar/Navbar';
 
 export default function LayoutAdmin() {
   return (
@@ -12,6 +13,7 @@ export default function LayoutAdmin() {
       <main className="admin-content">
         <Outlet />
       </main>
+      <Navbar/>
       
       <div className="intro-footer">
         <a href="/" className="back-link">
