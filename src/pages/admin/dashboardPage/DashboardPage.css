@@ -1,0 +1,136 @@
+.dashboard-container {
+  width: 100%;
+  padding: 2rem 1rem;
+  color: white;
+  font-family: var(--font-rajdhani, sans-serif);
+}
+
+/* Header del dashboard */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Wrapper del dashboard (extiende article-detail-wrapper) */
+.dashboard-wrapper {
+  width: 80% !important; /* Más ancho que DetailArticle */
+  max-width: 1400px !important;
+}
+
+/* Pestañas */
+.dashboard-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  font-family: var(--font-rajdhani, sans-serif);
+}
+
+.tab-button:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tab-button.active {
+  color: #AEF7A6;
+  border-bottom-color: #AEF7A6;
+}
+
+/* Contador de elementos en la pestaña */
+.tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 0.5rem;
+  background-color: rgba(174, 247, 166, 0.2);
+  color: #AEF7A6;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Badge "Próximamente" */
+.tab-badge-soon {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background-color: rgba(102, 126, 234, 0.2);
+  color: #667eea;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Contenido del dashboard */
+.dashboard-content {
+  min-height: 400px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .header-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dashboard-wrapper {
+    width: 95% !important;
+  }
+
+  .dashboard-tabs {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .tab-button {
+    flex-shrink: 0;
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
+  }
+}
