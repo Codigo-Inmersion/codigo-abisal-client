@@ -2,9 +2,9 @@
   position: fixed;
   inset: 0;
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: flex-start; /* Alinea arriba */
-  padding-top: 8rem; /* Espacio desde la parte superior */
+  justify-content: center; 
+  align-items: flex-start;
+  padding-top: 8rem; 
   padding-left: 1rem;
   padding-right: 1rem;
   z-index: 10000;
@@ -13,7 +13,7 @@
   width: 100%;
   max-width: 500px;
   border-radius: 16px;
-  background: rgba(18, 22, 33, 0.7); /* Un poco más opaco que el form */
+  background: rgba(18, 22, 33, 0.7); 
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 1.5rem;
@@ -57,7 +57,6 @@
   line-height: 1.6;
 }
 
-/* Espacio para los botones de acción si los pones dentro del children */
 .modal-content .modal-actions {
   display: flex;
   justify-content: flex-end;

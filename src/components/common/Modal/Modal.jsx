@@ -7,7 +7,6 @@ const Modal = ({ isOpen, onClose, title, children }) => {
   return (
     <Transition appear show={isOpen}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        {/* El fondo oscuro translúcido */}
         <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -19,7 +18,6 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" aria-hidden="true" />
         </TransitionChild>
 
-        {/* Contenedor para centrar el modal */}
 <div className="modal-centering-container">
           <TransitionChild
             enter="ease-out duration-300"
@@ -38,7 +36,6 @@ const Modal = ({ isOpen, onClose, title, children }) => {
                 </button>
               </div>
 
-              {/* Contenido del Modal */}
               <div className="modal-content">
                 {children}
               </div>
