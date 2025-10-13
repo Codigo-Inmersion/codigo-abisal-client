@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_Intro.css';
 import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
 
 /*
  Layout Intro - Layout minimalista para autenticación
