@@ -44,7 +44,7 @@ export async function getAllUsers() {
 export async function updateUserRole(id, newRole) {
   try {
     // El backend espera un objeto con el campo que queremos actualizar
-    const response = await api.put(`/user/${id}`, { role: newRole });
+    const response = await api.put(`/users/${id}`, { role: newRole });
     
     console.log('✅ Rol actualizado correctamente');
     return { ok: true, data: response.data };
@@ -65,7 +65,7 @@ export async function updateUserRole(id, newRole) {
  */
 export async function deleteUser(id) {
   try {
-    const response = await api.delete(`/user/${id}`);
+    const response = await api.delete(`/users/${id}`);
     
     console.log('✅ Usuario eliminado correctamente');
     return { ok: true, data: response.data ?? true };
