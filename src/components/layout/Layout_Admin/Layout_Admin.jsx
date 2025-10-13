@@ -15,7 +15,6 @@ export default function LayoutAdmin() {
       
       <div className="intro-footer">
         <a href="/" className="back-link">
-          ← Volver al inicio
         </a>
       </div>
     </div>
