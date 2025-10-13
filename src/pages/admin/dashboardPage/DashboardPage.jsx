@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Users, FileText, Plus, AlertTriangle } from 'lucide-react';
+import {
+  Users,
+  FileText,
+  Plus,
+  AlertTriangle,
+  CheckCircle,
+} from "lucide-react";
 import ArticlesTable from "../../../components/admin/ArticlesTable/ArticlesTable";
 import UsersTable from "../../../components/admin/UsersTable/UsersTable";
 import Button from "../../../components/common/Button/Button";
-import Modal from "../../../components/common/Modal/Modal"; //
+import Modal from "../../../components/common/Modal/Modal";
 
-import {getAbisalArticles, deleteArticle} from "../../../services/AbisalServices";
-import {getAllUsers, deleteUser, updateUserRole} from "../../../services/UserServices";
+import {
+  getAbisalArticles,
+  deleteArticle,
+} from "../../../services/AbisalServices";
+import {
+  getAllUsers,
+  deleteUser,
+  updateUserRole,
+} from "../../../services/UserServices";
 import "./DashboardPage.css";
 
 /**
@@ -36,6 +49,14 @@ function DashboardPage() {
   const [isArticleModalOpen, setIsArticleModalOpen] = useState(false);
   const [articleToDelete, setArticleToDelete] = useState(null);
 
+  // Estados de los modales
+
+  const [modalState, setModalState] = useState({
+    showSuccess: false,
+    showError: false,
+    message: "",
+  });
+
   // Cargar artículos al montar el componente o cambiar a la pestaña
   useEffect(() => {
     if (activeTab === "articles") {
@@ -49,7 +70,12 @@ function DashboardPage() {
     if (res.ok) {
       setArticles(res.data);
     } else {
-      alert("❌ Error al cargar artículos: " + res.error);
+      // 👇 CORRECCIÓN: Se debe usar 'showError: true' en lugar de 'showModal: 'error''.
+      setModalState((prev) => ({
+        ...prev,
+        showError: true,
+        message: "Error al cargar artículos",
+      }));
     }
     setArticlesLoading(false);
   };
@@ -66,16 +92,24 @@ function DashboardPage() {
   const handleDeleteArticle = async () => {
     if (!articleToDelete) return;
 
+    setIsArticleModalOpen(false);
+
     const res = await deleteArticle(articleToDelete);
     if (res.ok) {
-      alert("✅ Artículo eliminado correctamente");
+      setModalState((prev) => ({
+        ...prev,
+        showSuccess: true,
+        message: "Artículo eliminado correctamente",
+      }));
       loadArticles(); // Recargar lista
     } else {
-      alert("❌ Error al eliminar: " + res.error);
+      setModalState((prev) => ({
+        ...prev,
+        showError: true,
+        message: "Error al eliminar el artículo",
+      }));
     }
 
-    // Cierra el modal y resetea el ID
-    setIsArticleModalOpen(false);
     setArticleToDelete(null);
   };
 
@@ -108,7 +142,12 @@ function DashboardPage() {
     if (res.ok) {
       setUsers(res.data);
     } else {
-      alert("❌ Error al cargar usuarios: " + res.error);
+      // 👇 CORRECCIÓN: El mensaje de error era incorrecto.
+      setModalState((prev) => ({
+        ...prev,
+        showError: true,
+        message: "Error al cargar usuarios",
+      }));
     }
     setUsersLoading(false);
   };
@@ -116,10 +155,18 @@ function DashboardPage() {
   const handleUpdateUserRole = async (userId, newRole) => {
     const res = await updateUserRole(userId, newRole);
     if (res.ok) {
-      alert("✅ Rol actualizado correctamente");
+      setModalState((prev) => ({
+        ...prev,
+        showSuccess: true,
+        message: "Rol actualizado correctamente",
+      }));
       loadUsers(); // Recargar lista
     } else {
-      alert("❌ Error al actualizar rol: " + res.error);
+      setModalState((prev) => ({
+        ...prev,
+        showError: true,
+        message: "Error al actualizar rol",
+      }));
     }
   };
 
@@ -131,17 +178,30 @@ function DashboardPage() {
   const handleDeleteUser = async () => {
     if (!userToDelete) return;
 
+    // 👇 CORRECCIÓN: Faltaba cerrar el modal de confirmación aquí.
+    setIsUserModalOpen(false);
+
     const res = await deleteUser(userToDelete);
     if (res.ok) {
-      alert("✅ Usuario eliminado correctamente");
+      setModalState((prev) => ({
+        ...prev,
+        showSuccess: true,
+        message: "Usuario eliminado correctamente",
+      }));
       loadUsers(); // Recargar lista
     } else {
-      alert("❌ Error al eliminar: " + res.error);
+      setModalState((prev) => ({
+        ...prev,
+        showError: true,
+        message: "Error al eliminar usuario",
+      }));
     }
 
     // Cierra el modal y resetea el ID
-    setIsUserModalOpen(false);
     setUserToDelete(null);
+  };
+  const closeFeedbackModal = () => {
+    setModalState({ showSuccess: false, showError: false, message: "" });
   };
 
   // ========================================
@@ -230,7 +290,10 @@ function DashboardPage() {
           puede deshacer.
         </p>
         <div className="modal-actions">
-          <Button variant="secondary" onClick={() => setIsArticleModalOpen(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setIsArticleModalOpen(false)}
+          >
             Cancelar
           </Button>
           <Button variant="tertiary" onClick={handleDeleteArticle}>
@@ -262,6 +325,58 @@ function DashboardPage() {
           </Button>
           <Button variant="tertiary" onClick={handleDeleteUser}>
             Eliminar
+          </Button>
+        </div>
+      </Modal>
+
+      {/* Modal de Éxito */}
+      <Modal
+        isOpen={modalState.showSuccess}
+        onClose={closeFeedbackModal}
+        title={
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              color: "#AEF7A6",
+            }}
+          >
+            <CheckCircle />
+            ¡Éxito!
+          </span>
+        }
+      >
+        <p>{modalState.message}</p>
+        <div className="modal-actions">
+          <Button variant="primary" onClick={closeFeedbackModal}>
+            Aceptar
+          </Button>
+        </div>
+      </Modal>
+
+      {/* Modal de Error */}
+      <Modal
+        isOpen={modalState.showError}
+        onClose={closeFeedbackModal}
+        title={
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              color: "#ef4444",
+            }}
+          >
+            <AlertTriangle />
+            Error
+          </span>
+        }
+      >
+        <p>{modalState.message}</p>
+        <div className="modal-actions">
+          <Button variant="primary" onClick={closeFeedbackModal}>
+            Aceptar
           </Button>
         </div>
       </Modal>
