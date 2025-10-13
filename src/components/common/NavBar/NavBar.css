@@ -36,3 +36,21 @@
 .navbar-links li a:hover {
   color: #007bff; /* Cambia según el color principal de tu proyecto */
 }
+
+.btn-nav {
+  background: transparent;
+  border: 1px solid #007bff;
+  border-radius: 4px;
+  color: #007bff;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  font-family: var(--font-rajdhani), sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-nav:hover {
+  background: #007bff;
+  color: white;
+}
+

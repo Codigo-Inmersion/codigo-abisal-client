@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_User.css';
-import Navbar from '../Navbar/Navbar';
+import NavBar from "../../common/NavBar/NavBar";
 //import Footer from '../Footer/Footer';
 
 export default function LayoutUser() {
   return (
     <div className="user-layout">  
-    <Navbar/>
+    <NavBar/>
       
       {/* El <main> sigue siendo el contenedor principal para el contenido de la página */}
       <main className="user-layout-content">

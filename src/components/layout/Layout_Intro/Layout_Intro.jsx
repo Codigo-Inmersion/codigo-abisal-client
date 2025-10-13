@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_Intro.css';
-import Navbar from '../Navbar/Navbar';
+import NavBar from "../../common/NavBar/NavBar";
 //import Footer from '../Footer/Footer';
 
 /*
@@ -19,7 +19,7 @@ import Navbar from '../Navbar/Navbar';
 export default function layoutIntro() {
   return (
     <div className="intro-layout"> 
-    <Navbar/>
+    <NavBar/>
       
       <div className="intro-content">
         <Background />

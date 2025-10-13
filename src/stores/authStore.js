@@ -25,30 +25,18 @@ const decodeToken = (token) => {
 };
 
 const useAuthStore = create((set, get) => ({
-  // 📦 ESTADO (los datos que guardamos)
-  
+  // 📦 ESTADO
   token: localStorage.getItem("token") || null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   isLoading: false,
 
-  // 🔧 ACCIONES (funciones para modificar el estado)
-
-  /**
-   * LOGIN - Guardar token y extraer datos del usuario
-   * Solo necesita el token, los datos se extraen automáticamente
-   */
+  // 🔧 ACCIONES
   login: (token) => {
     console.log("🔐 authStore: Guardando sesión");
     
-    // Decodificar el token para extraer datos del usuario
     const decoded = decodeToken(token);
-    
-    if (!decoded) {
-      console.error("❌ No se pudo decodificar el token");
-      return;
-    }
+    if (!decoded) return;
 
-    // Crear objeto de usuario con los datos del JWT
     const userData = {
       id: decoded.userId,
       email: decoded.email,
@@ -57,28 +45,19 @@ const useAuthStore = create((set, get) => ({
       iat: decoded.iat
     };
 
-    console.log("   - Usuario:", userData.email);
-    console.log("   - Rol:", userData.role);
-
-    // Guardar en localStorage
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));
 
-    // Actualizar estado de Zustand
     set({
       token: token,
       user: userData,
     });
-    
+
     console.log("✅ authStore: Sesión guardada correctamente");
   },
 
-  /**
-   * LOGOUT - Limpiar sesión
-   */
   logout: () => {
     console.log("👋 authStore: Cerrando sesión");
-    
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
@@ -86,30 +65,25 @@ const useAuthStore = create((set, get) => ({
       token: null,
       user: null,
     });
-    
+
     console.log("✅ authStore: Sesión cerrada");
   },
 
-  /**
-   * IS AUTHENTICATED - Verificar si hay sesión activa
-   */
-  isAuthenticated: () => {
-    const state = get();
-    return state.token !== null;
+  setLoading: (loading) => set({ isLoading: loading }),
+
+  // 🔹 MODIFICACIÓN PARA LA NAVBAR
+  get isAuthenticated() {
+    return get().token !== null;
   },
 
-  /**
-   * HAS ROLE - Verificar rol del usuario
-   */
+  get role() {
+    return get().user?.role || null;
+  },
+
   hasRole: (role) => {
     const state = get();
     return state.user?.role === role;
   },
-
-  /**
-   * SET LOADING - Actualizar estado de carga
-   */
-  setLoading: (loading) => set({ isLoading: loading }),
 }));
 
 export default useAuthStore;
