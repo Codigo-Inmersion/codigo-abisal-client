@@ -122,3 +122,10 @@
 .carousel-section {
   width: 100%;
 }
+
+.admin-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem; /* Espacio entre el carrusel y el botón */
+  padding-bottom: 1rem;
+}
