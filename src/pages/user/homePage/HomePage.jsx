@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom"; // 1. Importar useNavigate
-import { Plus } from "lucide-react"; // 2. Importar el ícono
+import { useNavigate, useSearchParams } from "react-router-dom"; // 1. Importar useNavigate
+import { Plus, Search, X  } from "lucide-react"; // 2. Importar el ícono
 import Carousel from "../../../components/common/Carousel/Carousel.jsx";
 import Button from "../../../components/common/Button/Button.jsx";
 import "react-multi-carousel/lib/styles.css";
@@ -55,6 +55,7 @@ function HomePage() {
   const { articles, isLoading, error } = useArticles();
   const { user } = useAuth(); // 4. Obtener la información del usuario
   const navigate = useNavigate(); // 5. Inicializar el hook de navegación
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const baseList = useMemo(() => {
     if (Array.isArray(articles)) return articles;
@@ -65,7 +66,14 @@ function HomePage() {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredArticles, setFilteredArticles] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || null);
+
+   useEffect(() => {
+    // Si hay una categoría en la URL al cargar, mostramos los filtros
+    if (searchParams.get("category")) {
+      setIsSearchVisible(true);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     let articlesToFilter = baseList;
@@ -89,14 +97,25 @@ function HomePage() {
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory((prev) => (prev === category ? null : category));
+    const newCategory = selectedCategory === category ? null : category;
+    setSelectedCategory(newCategory);
+    
+    // Actualizamos los parámetros de la URL
+    if (newCategory) {
+      setSearchParams({ category: newCategory });
+    } else {
+      setSearchParams({});
+    }
   };
 
   const toggleSearch = () => {
-    setIsSearchVisible((prev) => !prev);
-    if (isSearchVisible) {
+    const willBeVisible = !isSearchVisible;
+    setIsSearchVisible(willBeVisible);
+    if (!willBeVisible) {
       setSearchTerm("");
       setSelectedCategory(null);
+      // Limpiamos la URL al cerrar la búsqueda
+      setSearchParams({});
     }
   };
 
