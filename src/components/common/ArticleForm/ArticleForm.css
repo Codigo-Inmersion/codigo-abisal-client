@@ -88,8 +88,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* En src/components/common/ArticleForm/ArticleForm.css */
-
 .upload-method-selector {
   display: flex;
   gap: 10px;
@@ -116,4 +114,36 @@
   border-color: #007bff;
   color: white;
   font-weight: bold;
+}
+
+.error-message {
+  color: #fca5a5; /* Tono rojo claro */
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+/* Icono de advertencia para el error */
+.error-message::before {
+  content: '⚠';
+  font-size: 0.9rem;
+}
+
+/* Borde rojo en el input con error */
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+  border-color: rgba(239, 68, 68, 0.6) !important;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Efecto de foco para los inputs con error */
+.form-group input.error:focus,
+.form-group textarea.error:focus,
+.form-group select.error:focus {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.8) !important;
 }
