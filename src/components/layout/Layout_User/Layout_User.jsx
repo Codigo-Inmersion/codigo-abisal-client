@@ -2,18 +2,20 @@ import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_User.css';
 import Navbar from '../Navbar/Navbar';
-import Footer from '../Footer/Footer';
+//import Footer from '../Footer/Footer';
 
 export default function LayoutUser() {
   return (
-    <div className="user-layout">
-      <Background />
+    <div className="user-layout">  
+    <Navbar/>
       
       {/* El <main> sigue siendo el contenedor principal para el contenido de la página */}
       <main className="user-layout-content">
-        <Outlet />
+        <Background />
+       
       </main>
-      <Navbar/>
+       <Outlet />
+    
       
 
       {/* Restauramos el footer con el enlace para volver al inicio */}
