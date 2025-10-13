@@ -1,8 +1,9 @@
 /* Navbar.css */
 .navbar {
-  background-color: #fff; /* Cambia según tu proyecto */
+  background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   padding: 0.5rem 1rem;
+  font-family: var(--font-rajdhani), sans-serif;
 }
 
 .navbar-container {
@@ -27,7 +28,7 @@
 
 .navbar-links li a {
   text-decoration: none;
-  color: #333; /* Cambia según tu proyecto */
+  color: white; /* Cambia según tu proyecto */
   font-weight: 500;
   transition: color 0.3s;
 }
