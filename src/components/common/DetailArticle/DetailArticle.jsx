@@ -19,12 +19,6 @@ export default function DetailArticle() {
   const [isLikeLoading, setIsLikeLoading] = useState(false);
   
   const [authorName, setAuthorName] = useState("");
-  const handleCategoryClick = () => {
-    if (article?.category) {
-      // Navegamos a la home con el parámetro de búsqueda
-      navigate(`/?category=${encodeURIComponent(article.category)}`);
-    }
-  };
 
   useEffect(() => {
     if (!id || Number.isNaN(Number(id))) {
@@ -143,17 +137,11 @@ export default function DetailArticle() {
   return (
     <div className="article-detail-container">
       <div className="article-detail-breadcrumb">
-        <button onClick={() => navigate("/")} className="breadcrumb-back-button">
+        <button onClick={handleBack} className="breadcrumb-back-button">
           <ArrowLeft size={18} /> Volver al listado
         </button>
         <ChevronRight size={16} />
-        {/* Modificación aquí */}
-        <button 
-          onClick={() => navigate(`/category/${encodeURIComponent(article.category)}`)} 
-          className="breadcrumb-category-button"
-        >
-          {article.category}
-        </button>
+        <span>{article.category}</span>
         <ChevronRight size={16} />
         <span className="breadcrumb-current">Detalle</span>
       </div>
