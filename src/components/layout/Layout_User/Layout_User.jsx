@@ -15,7 +15,6 @@ export default function LayoutUser() {
       {/* Restauramos el footer con el enlace para volver al inicio */}
       <div className="user-layout-footer">
         <a href="/" className="back-link">
-          ← Volver al inicio
         </a>
       </div>
     </div>

@@ -129,3 +129,27 @@ export async function getUsernameById(id) {
     return { ok: false, error: e2.message || "No se encontró el usuario" };
   }
 }
+
+export async function likeArticle(id) {
+  try {
+    // Usamos el cliente 'api' que ya incluye el token de autorización
+    const response = await api.post(`/article/${id}/like`);
+    return { ok: true, data: response.data };
+  } catch (error) {
+    console.error("Error al dar like:", error.response?.data || error.message);
+    return { ok: false, error: error.response?.data?.message || "No se pudo dar like." };
+  }
+}
+
+/**
+ * DELETE /article/:id/like → Quita el "like" de un artículo
+ */
+export async function unlikeArticle(id) {
+  try {
+    const response = await api.delete(`/article/${id}/like`);
+    return { ok: true, data: response.data };
+  } catch (error) {
+    console.error("Error al quitar like:", error.response?.data || error.message);
+    return { ok: false, error: error.response?.data?.message || "No se pudo quitar el like." };
+  }
+}
