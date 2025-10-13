@@ -6,10 +6,8 @@ import UsersTable from "../../../components/admin/UsersTable/UsersTable";
 import Button from "../../../components/common/Button/Button";
 import Modal from "../../../components/common/Modal/Modal"; //
 
-import {
-  getAbisalArticles,
-  deleteArticle,
-} from "../../../services/AbisalServices";
+import {getAbisalArticles, deleteArticle} from "../../../services/AbisalServices";
+import {getAllUsers, deleteUser, updateUserRole} from "../../../services/UserServices";
 import "./DashboardPage.css";
 
 /**
@@ -17,8 +15,8 @@ import "./DashboardPage.css";
  *
  * Panel principal con pestañas para gestionar artículos y usuarios
  *
- * ✅ Pestaña Articles: Totalmente funcional
- * 🎨 Pestaña Users: Solo diseño (esperando endpoints de backend)
+ * ✅ Pestaña Articles: Gestión completa de artículos
+ * ✅ Pestaña Users: Gestión completa de usuarios
  */
 function DashboardPage() {
   const navigate = useNavigate();
@@ -26,15 +24,17 @@ function DashboardPage() {
   // Estado de las pestañas: 'articles' o 'users'
   const [activeTab, setActiveTab] = useState("articles");
 
+  // ========================================
+  // 📄 GESTIÓN DE ARTÍCULOS
+  // ========================================
+
   // Datos y estados de artículos
   const [articles, setArticles] = useState([]);
   const [articlesLoading, setArticlesLoading] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Modal de confirmación para eliminar artículo
+  const [isArticleModalOpen, setIsArticleModalOpen] = useState(false);
   const [articleToDelete, setArticleToDelete] = useState(null);
-  // ========================================
-  // 📄 GESTIÓN DE ARTÍCULOS
-  // ========================================
 
   // Cargar artículos al montar el componente o cambiar a la pestaña
   useEffect(() => {
@@ -49,7 +49,7 @@ function DashboardPage() {
     if (res.ok) {
       setArticles(res.data);
     } else {
-      alert("Error al cargar artículos: " + res.error);
+      alert("❌ Error al cargar artículos: " + res.error);
     }
     setArticlesLoading(false);
   };
@@ -57,30 +57,91 @@ function DashboardPage() {
   const handleEditArticle = (id) => {
     navigate(`/admin/article/edit/${id}`);
   };
-  const openDeleteModal = (id) => {
+
+  const openArticleDeleteModal = (id) => {
     setArticleToDelete(id);
-    setIsModalOpen(true);
+    setIsArticleModalOpen(true);
   };
-  const handleDeleteArticle = async (id) => {
+
+  const handleDeleteArticle = async () => {
     if (!articleToDelete) return;
 
     const res = await deleteArticle(articleToDelete);
     if (res.ok) {
-      // Aquí podrías usar un "toast" de éxito
-      alert("Artículo eliminado correctamente ✅");
+      alert("✅ Artículo eliminado correctamente");
       loadArticles(); // Recargar lista
     } else {
-      // Y aquí un modal o toast de error
-      alert("Error al eliminar: " + res.error);
+      alert("❌ Error al eliminar: " + res.error);
     }
 
     // Cierra el modal y resetea el ID
-    setIsModalOpen(false);
+    setIsArticleModalOpen(false);
     setArticleToDelete(null);
   };
 
   const handleCreateArticle = () => {
     navigate("/admin/article/create");
+  };
+
+  // ========================================
+  // 👥 GESTIÓN DE USUARIOS
+  // ========================================
+
+  // Datos y estados de usuarios
+  const [users, setUsers] = useState([]);
+  const [usersLoading, setUsersLoading] = useState(false);
+
+  // Modal de confirmación para eliminar usuario
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+
+  // Cargar usuarios al cambiar a la pestaña
+  useEffect(() => {
+    if (activeTab === "users") {
+      loadUsers();
+    }
+  }, [activeTab]);
+
+  const loadUsers = async () => {
+    setUsersLoading(true);
+    const res = await getAllUsers();
+    if (res.ok) {
+      setUsers(res.data);
+    } else {
+      alert("❌ Error al cargar usuarios: " + res.error);
+    }
+    setUsersLoading(false);
+  };
+
+  const handleUpdateUserRole = async (userId, newRole) => {
+    const res = await updateUserRole(userId, newRole);
+    if (res.ok) {
+      alert("✅ Rol actualizado correctamente");
+      loadUsers(); // Recargar lista
+    } else {
+      alert("❌ Error al actualizar rol: " + res.error);
+    }
+  };
+
+  const openUserDeleteModal = (userId) => {
+    setUserToDelete(userId);
+    setIsUserModalOpen(true);
+  };
+
+  const handleDeleteUser = async () => {
+    if (!userToDelete) return;
+
+    const res = await deleteUser(userToDelete);
+    if (res.ok) {
+      alert("✅ Usuario eliminado correctamente");
+      loadUsers(); // Recargar lista
+    } else {
+      alert("❌ Error al eliminar: " + res.error);
+    }
+
+    // Cierra el modal y resetea el ID
+    setIsUserModalOpen(false);
+    setUserToDelete(null);
   };
 
   // ========================================
@@ -125,7 +186,9 @@ function DashboardPage() {
           >
             <Users size={20} />
             Usuarios
-            <span className="tab-badge-soon">Próximamente</span>
+            {users.length > 0 && (
+              <span className="tab-count">{users.length}</span>
+            )}
           </button>
         </div>
 
@@ -135,23 +198,30 @@ function DashboardPage() {
             <ArticlesTable
               articles={articles}
               onEdit={handleEditArticle}
-              onDelete={openDeleteModal}
+              onDelete={openArticleDeleteModal}
               isLoading={articlesLoading}
             />
           ) : (
-            <UsersTable />
+            <UsersTable
+              users={users}
+              onUpdateRole={handleUpdateUserRole}
+              onDelete={openUserDeleteModal}
+              isLoading={usersLoading}
+            />
           )}
         </div>
       </div>
+
+      {/* Modal de confirmación para eliminar ARTÍCULO */}
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isArticleModalOpen}
+        onClose={() => setIsArticleModalOpen(false)}
         title={
           <span
             style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
           >
             <AlertTriangle color="#ef4444" />
-            Confirmar Eliminación
+            Confirmar Eliminación de Artículo
           </span>
         }
       >
@@ -160,10 +230,37 @@ function DashboardPage() {
           puede deshacer.
         </p>
         <div className="modal-actions">
-          <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+          <Button variant="secondary" onClick={() => setIsArticleModalOpen(false)}>
             Cancelar
           </Button>
           <Button variant="tertiary" onClick={handleDeleteArticle}>
+            Eliminar
+          </Button>
+        </div>
+      </Modal>
+
+      {/* Modal de confirmación para eliminar USUARIO */}
+      <Modal
+        isOpen={isUserModalOpen}
+        onClose={() => setIsUserModalOpen(false)}
+        title={
+          <span
+            style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+          >
+            <AlertTriangle color="#ef4444" />
+            Confirmar Eliminación de Usuario
+          </span>
+        }
+      >
+        <p>
+          ¿Estás seguro de que deseas eliminar este usuario? Esta acción no se
+          puede deshacer y eliminará todos sus datos.
+        </p>
+        <div className="modal-actions">
+          <Button variant="secondary" onClick={() => setIsUserModalOpen(false)}>
+            Cancelar
+          </Button>
+          <Button variant="tertiary" onClick={handleDeleteUser}>
             Eliminar
           </Button>
         </div>
