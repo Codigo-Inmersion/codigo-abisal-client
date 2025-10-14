@@ -65,7 +65,7 @@ export const useAuth = () => {
       // Redirigir según el rol
       if (currentUser?.role === 'admin') {
         console.log('→ Redirigiendo a panel de admin');
-        navigate('/admin/dashboard');
+        navigate('/admin');
       } else {
         console.log('→ Redirigiendo a home');
         navigate('/');

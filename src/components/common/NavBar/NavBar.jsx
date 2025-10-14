@@ -1,4 +1,5 @@
 import React from 'react';
+import { SquarePower, House, LayoutDashboard } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from "../../../stores/authStore"; 
 import './Navbar.css';
@@ -17,8 +18,8 @@ const NavBar = () => {
   };
 
   // 👇 Nueva lógica clara y separada
-  const isDashboard = location.pathname === "/admin/dashboard";
-  const isAdminPanel = location.pathname.startsWith("/admin/dashboard");
+  const isDashboard = location.pathname === "/admin";
+  const isAdminPanel = location.pathname.startsWith("/admin");
 
   return (
     <nav className="navbar">
@@ -37,18 +38,19 @@ const NavBar = () => {
                 <>
                   {isDashboard && (
                     <li>
-                      <Link to="/admin/dashboard" className="btn-nav">Panel de control</Link>
+                      <Link to="/admin/dashboard" ><LayoutDashboard /></Link>
                     </li>
                   )}
                   {isAdminPanel && (
                     <li>
-                      <Link to="/admin/dashboard" className="btn-nav">Volver al Inicio</Link>
+                      <Link to="/admin" ><House /></Link>
                     </li>
                   )}
                 </>
               )}
               <li>
-                <button onClick={handleLogout} className="btn-nav">Cerrar sesión</button>
+               <SquarePower  onClick={handleLogout} />
+                
               </li>
             </>
           )}
@@ -59,3 +61,4 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
