@@ -21,6 +21,8 @@ import DashboardPage from '../pages/admin/dashboardPage/DashboardPage';
 import CreateArticlePage from '../pages/admin/CreateArticlePage';
 import EditArticlePage from '../pages/admin/EditArticlePage';
 
+import CategoryPage from '../pages/user/categoryPage/CategoryPage';
+
 /**
  * 🎓 EXPLICACIÓN: Router - Opción B (Aplicación Interna)
  * 
@@ -71,6 +73,10 @@ const router = createBrowserRouter([
       {
         path: '/article/:id',
         element: <DetailPage />
+      },
+      {
+        path: '/category/:categoryName',
+        element: <CategoryPage />
       },
       {
         path: '/about',

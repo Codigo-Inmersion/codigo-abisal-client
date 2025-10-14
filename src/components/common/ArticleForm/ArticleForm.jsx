@@ -73,11 +73,28 @@ const ArticleForm = ({ onSubmit, onCancel, initialData = null, isEditing = false
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.title || formData.title.length < 10) newErrors.title = 'El título es obligatorio.';
-    if (!formData.description) newErrors.description = 'La descripción es obligatoria.';
-    if (!formData.content || formData.content.replace(/<(.|\n)*?>/g, '').trim().length < 100) newErrors.content = 'El contenido es obligatorio.';
-    if (!formData.species) newErrors.species = 'La especie es obligatoria.';
+
+    if (!formData.title.trim()) {
+      newErrors.title = 'El título es obligatorio.';
+    } else if (formData.title.trim().length < 10) {
+      newErrors.title = 'El título debe tener al menos 10 caracteres.';
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = 'La descripción es obligatoria.';
+    }
+
+    const textContent = formData.content.replace(/<(.|\n)*?>/g, '').trim();
+    if (!textContent) {
+      newErrors.content = 'El contenido es obligatorio.';
+    } else if (textContent.length < 100) {
+      newErrors.content = `El contenido debe tener al menos 100 caracteres (actualmente tienes ${textContent.length}).`;
+    }
     
+    if (!formData.species.trim()) {
+      newErrors.species = 'La especie es obligatoria.';
+    }
+
     if (!formData.image) {
       newErrors.image = 'La imagen es obligatoria.';
     } else {
@@ -108,29 +125,62 @@ const ArticleForm = ({ onSubmit, onCancel, initialData = null, isEditing = false
         
         <div className="form-group">
           <label htmlFor="title">Título de la entrada</label>
-          <input type="text" id="title" name="title" value={formData.title} onChange={handleChange} placeholder="El misterio del calamar gigante..." />
-          {errors.title && <span className="error-text">{errors.title}</span>}
+          <input 
+            type="text" 
+            id="title" 
+            name="title" 
+            value={formData.title} 
+            onChange={handleChange} 
+            placeholder="El misterio del calamar gigante..."
+            className={errors.title ? 'error' : ''}
+          />
+          {errors.title && <span className="error-message">{errors.title}</span>}
         </div>
         <div className="form-group">
           <label htmlFor="description">Descripción corta</label>
-          <input type="text" id="description" name="description" value={formData.description} onChange={handleChange} placeholder="Un breve resumen para las tarjetas." />
-          {errors.description && <span className="error-text">{errors.description}</span>}
+          <input 
+            type="text" 
+            id="description" 
+            name="description" 
+            value={formData.description} 
+            onChange={handleChange} 
+            placeholder="Un breve resumen para las tarjetas."
+            className={errors.description ? 'error' : ''}
+          />
+          {errors.description && <span className="error-message">{errors.description}</span>}
         </div>
         <div className="form-group">
           <label htmlFor="content">Contenido Principal</label>
-          <RichTextEditor key={editorKey} value={formData.content} onChange={handleContentChange} />
-          {errors.content && <span className="error-text">{errors.content}</span>}
+          <div className={errors.content ? 'error' : ''}>
+            <RichTextEditor key={editorKey} value={formData.content} onChange={handleContentChange} />
+          </div>
+          {errors.content && <span className="error-message">{errors.content}</span>}
         </div>
         <div className="form-group">
           <label htmlFor="category">Categoría</label>
-          <select id="category" name="category" value={formData.category} onChange={handleChange}>
+          <select 
+            id="category" 
+            name="category" 
+            value={formData.category} 
+            onChange={handleChange}
+            className={errors.category ? 'error' : ''}
+          >
             {articleCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
           </select>
+          {errors.category && <span className="error-message">{errors.category}</span>}
         </div>
         <div className="form-group">
           <label htmlFor="species">Especie Principal</label>
-          <input type="text" id="species" name="species" value={formData.species} onChange={handleChange} placeholder="Ej: Vampyroteuthis infernalis" />
-          {errors.species && <span className="error-text">{errors.species}</span>}
+          <input 
+            type="text" 
+            id="species" 
+            name="species" 
+            value={formData.species} 
+            onChange={handleChange} 
+            placeholder="Ej: Vampyroteuthis infernalis"
+            className={errors.species ? 'error' : ''}
+          />
+          {errors.species && <span className="error-message">{errors.species}</span>}
         </div>
 
         <div className="form-group">
@@ -140,12 +190,12 @@ const ArticleForm = ({ onSubmit, onCancel, initialData = null, isEditing = false
             <button type="button" onClick={() => setUploadMethod('url')} className={uploadMethod === 'url' ? 'active' : ''}>Usar URL</button>
           </div>
           {uploadMethod === 'file' ? (
-            <input type="file" id="image-upload" onChange={handleImageUpload} accept="image/png, image/jpeg, image/gif" disabled={isUploading} />
+            <input type="file" id="image-upload" onChange={handleImageUpload} accept="image/png, image/jpeg, image/gif" disabled={isUploading} className={errors.image ? 'error' : ''} />
           ) : (
-            <input type="url" id="image-url" name="image" value={formData.image} onChange={handleChange} placeholder="https://ejemplo.com/imagen.jpg" disabled={isUploading} />
+            <input type="url" id="image-url" name="image" value={formData.image} onChange={handleChange} placeholder="https://ejemplo.com/imagen.jpg" disabled={isUploading} className={errors.image ? 'error' : ''} />
           )}
           {isUploading && <span className="upload-text">Subiendo imagen...</span>}
-          {errors.image && <span className="error-text">{errors.image}</span>}
+          {errors.image && <span className="error-message">{errors.image}</span>}
         </div>
 
         {formData.image && !errors.image && (
@@ -168,7 +218,7 @@ const ArticleForm = ({ onSubmit, onCancel, initialData = null, isEditing = false
 
 ArticleForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    onCancel: PropTypes.func, // <--- Nueva prop
+    onCancel: PropTypes.func,
     initialData: PropTypes.object,
     isEditing: PropTypes.bool,
     isSubmitting: PropTypes.bool,

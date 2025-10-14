@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios"; // Asegúrate de importar axios
+import axios from "axios";
 import ArticleForm from "../../components/common/ArticleForm/ArticleForm";
-import { getArticleById } from "../../services/AbisalServices"; // Asumo que usas este servicio para obtener datos
+import { getArticleById } from "../../services/AbisalServices";
+import Modal from "../../components/common/Modal/Modal"; 
+import Button from "../../components/common/Button/Button"; 
+import { CheckCircle } from "lucide-react"; 
 
 export default function EditArticlePage() {
   const { id } = useParams();
@@ -12,8 +15,9 @@ export default function EditArticlePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
-  // Carga los datos del artículo cuando el componente se monta
+
   useEffect(() => {
     if (!id || isNaN(Number(id))) {
       setError("ID de artículo no válido.");
@@ -70,8 +74,7 @@ export default function EditArticlePage() {
         }
       });
       
-      alert("Artículo actualizado correctamente ✅");
-      navigate(`/article/${id}`); // Redirige a la página de detalle del artículo
+      setIsSuccessModalOpen(true);
 
     } catch (err) {
       console.error("Error al actualizar el artículo:", err);
@@ -85,6 +88,11 @@ export default function EditArticlePage() {
   // Maneja el clic en el botón "Cancelar"
   const handleCancel = () => {
     navigate(-1); // Esto navega a la página anterior en el historial
+  };
+
+    const handleCloseSuccessModal = () => {
+    setIsSuccessModalOpen(false);
+    navigate(`/article/${id}`); // Redirigir DESPUÉS de cerrar el modal
   };
 
   if (loading) return <p style={{ textAlign: 'center', marginTop: '2rem' }}>Cargando artículo...</p>;
@@ -104,6 +112,23 @@ export default function EditArticlePage() {
         isSubmitting={isSubmitting}
       />
       {error && <p style={{ color: "red", textAlign: 'center', marginTop: '1rem' }}>{error}</p>}
+       <Modal
+        isOpen={isSuccessModalOpen}
+        onClose={handleCloseSuccessModal}
+        title={
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#AEF7A6' }}>
+            <CheckCircle />
+            ¡Éxito!
+          </span>
+        }
+      >
+        <p>El artículo ha sido actualizado correctamente.</p>
+        <div className="modal-actions">
+          <Button variant="primary" onClick={handleCloseSuccessModal}>
+            Aceptar
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

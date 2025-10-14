@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@developer-hub/liquid-glass": "^1.2.3",
+    "@headlessui/react": "^2.2.9",
     "@tiptap/extension-horizontal-rule": "^3.6.5",
     "@tiptap/react": "^3.6.5",
     "@tiptap/starter-kit": "^3.6.5",
