@@ -1,45 +1,10 @@
-// // src/hooks/useArticles.js
-
-// import { useState, useEffect } from 'react';
-// // import { API_URL, fetchApi } from '../services/AbisalServices.jsx';
-// import { getAbisalArticles } from '../services/AbisalServices';
- 
-// /**
-//  * Custom Hook para obtener la lista de artículos.
-//  * Encapsula la lógica de fetching, el estado de carga y los errores.
-//  * @returns {{articles: Array, isLoading: boolean, error: Error|null}}
-//  */
-// export function useArticles() {
-//   const [articles, setArticles] = useState([]);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const getArticles = async () => {
-//       try {
-//         setIsLoading(true);
-//         setError(null);
-//         const data = await getAbisalArticles();
-//         setArticles(data); // Asumimos que la API ya los devuelve ordenados
-//       } catch (err) {
-//         setError(err);
-//       } finally {
-//         setIsLoading(false);
-//       }
-//     };
-
-//     getArticles();
-//   }, []); // El array vacío asegura que se ejecute solo una vez
-
-//   return { articles, isLoading, error };
-// }
 
 import { useState, useEffect } from 'react';
-import { getAbisalArticles } from '../services/AbisalServices';
+import { getAbisalArticles, getUsernameById } from '../services/AbisalServices';
 
 export function useArticles(params = {}) {
   const [articles, setArticles] = useState([]);
-  const [meta, setMeta] = useState(null);        // opcional, por si quieres paginación
+  const [meta, setMeta] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -49,12 +14,33 @@ export function useArticles(params = {}) {
       setIsLoading(true);
       setError(null);
 
-      const res = await getAbisalArticles(params); // ← res = { ok, data (array), meta? }
+      const res = await getAbisalArticles(params);
 
       if (!alive) return;
 
       if (res.ok) {
-        setArticles(Array.isArray(res.data) ? res.data : []); // 👈 guardo SOLO el array
+        const articlesData = Array.isArray(res.data) ? res.data : [];
+
+        // 2. Buscamos los nombres de usuario para cada artículo
+        const articlesWithUsernames = await Promise.all(
+          articlesData.map(async (article) => {
+            if (article.creator_id) {
+              const userRes = await getUsernameById(article.creator_id);
+              // Añadimos el username al objeto del artículo
+              return {
+                ...article,
+                username: userRes.ok ? userRes.name : 'Desconocido',
+              };
+            }
+            // Si no hay creator_id, lo dejamos como 'Desconocido'
+            return { ...article, username: 'Desconocido' };
+          })
+        );
+        
+        if (!alive) return;
+
+        // 3. Guardamos los artículos ya enriquecidos con el username
+        setArticles(articlesWithUsernames);
         setMeta(res.meta || null);
       } else {
         setArticles([]);

@@ -22,7 +22,8 @@ export default function Carousel({ items = [] }) {
     <div className="carousel-wrapper">
       <CarouselLib
         responsive={responsive}
-        infinite
+        autoPlay={true}
+        autoPlaySpeed={3000}
         keyBoardControl
         swipeable
         draggable

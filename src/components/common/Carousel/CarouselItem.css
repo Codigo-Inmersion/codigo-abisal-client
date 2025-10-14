@@ -16,7 +16,6 @@
   display: flex;
 }
 
-
 .carousel-item-content:hover {
   transform: scale(1.05);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
@@ -66,6 +65,47 @@
   margin-top: 0.6rem;
   font-weight: 500;
 }
+.category-tag {
+  position: absolute; 
+  top: 1rem;         
+  left: 1rem;         
+  z-index: 3;         
+  
+  background-color: #AEF7A6; 
+  color: #0c0c1a;           
+  padding: 4px 12px;        
+  border-radius: 50px;       
+  font-size: 0.75rem;      
+  font-weight: bold;         
+  text-transform: uppercase; 
+}
+
+.carousel-item-caption p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 0.6rem;
+  font-weight: 500;
+}
+
+.carousel-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 1rem;
+}
+
+.item-likes {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
 .category-tag {
   position: absolute; 
   top: 1rem;         
