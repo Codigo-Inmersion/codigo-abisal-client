@@ -97,7 +97,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'dashboard',
-        element: <DashboardPage />
+        element: <HomePage />
       },
       {
         path: 'article/create',
@@ -106,6 +106,10 @@ const router = createBrowserRouter([
       {
         path: 'article/edit/:id',
         element: <EditArticlePage />
+      },
+            {
+        path: 'admin-panel',
+        element: <DashboardPage />
       }
     ]
   }

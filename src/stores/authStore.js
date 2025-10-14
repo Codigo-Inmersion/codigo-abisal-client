@@ -71,7 +71,7 @@ const useAuthStore = create((set, get) => ({
 
   setLoading: (loading) => set({ isLoading: loading }),
 
-  // 🔹 MODIFICACIÓN PARA LA NAVBAR
+  // 🔹 MODIFICACIONES PARA LA NAVBAR
   get isAuthenticated() {
     return get().token !== null;
   },
@@ -83,6 +83,11 @@ const useAuthStore = create((set, get) => ({
   hasRole: (role) => {
     const state = get();
     return state.user?.role === role;
+  },
+
+  // 🔹 NUEVO: getter para el userId
+  get userId() {
+    return get().user?.id || null;
   },
 }));
 

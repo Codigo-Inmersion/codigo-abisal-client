@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_User.css';
 import NavBar from "../../common/NavBar/NavBar";
+import Footer from '../../common/Footer/Footer';
 //import Footer from '../Footer/Footer';
 
 export default function LayoutUser() {
@@ -19,11 +20,9 @@ export default function LayoutUser() {
       
 
       {/* Restauramos el footer con el enlace para volver al inicio */}
-      <div className="user-layout-footer">
-        <a href="/" className="back-link">
-          ← Volver al inicio
-        </a>
-      </div>
+      <footer>
+        <Footer/>
+      </footer>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
 import './Layout_Intro.css';
 import NavBar from "../../common/NavBar/NavBar";
+import Footer from '../../common/Footer/Footer';
 //import Footer from '../Footer/Footer';
 
 /*
@@ -19,7 +20,6 @@ import NavBar from "../../common/NavBar/NavBar";
 export default function layoutIntro() {
   return (
     <div className="intro-layout"> 
-    <NavBar/>
       
       <div className="intro-content">
         <Background />
@@ -27,7 +27,9 @@ export default function layoutIntro() {
       </div>
       <Outlet />
      
-      
+      <footer>
+        <Footer/>
+      </footer>
     </div>
   );
 }
