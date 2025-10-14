@@ -18,7 +18,7 @@ const NavBar = () => {
 
   // 👇 Nueva lógica clara y separada
   const isDashboard = location.pathname === "/admin/dashboard";
-  const isAdminPanel = location.pathname.startsWith("/admin/admin-panel");
+  const isAdminPanel = location.pathname.startsWith("/admin/dashboard");
 
   return (
     <nav className="navbar">
@@ -37,7 +37,7 @@ const NavBar = () => {
                 <>
                   {isDashboard && (
                     <li>
-                      <Link to="/admin/admin-panel" className="btn-nav">Panel de control</Link>
+                      <Link to="/admin/dashboard" className="btn-nav">Panel de control</Link>
                     </li>
                   )}
                   {isAdminPanel && (

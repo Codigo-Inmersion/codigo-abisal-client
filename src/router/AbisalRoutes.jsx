@@ -114,7 +114,7 @@ const router = createBrowserRouter([
         element: <EditArticlePage />
       },
             {
-        path: 'admin-panel',
+        path: 'dashboard',
         element: <DashboardPage />
       }
     ]
