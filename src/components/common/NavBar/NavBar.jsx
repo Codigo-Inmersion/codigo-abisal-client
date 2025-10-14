@@ -42,7 +42,7 @@ const NavBar = () => {
                   )}
                   {isAdminPanel && (
                     <li>
-                      <Link to="/admin/dashboard" className="btn-nav">Volver al Dashboard</Link>
+                      <Link to="/admin/dashboard" className="btn-nav">Volver al Inicio</Link>
                     </li>
                   )}
                 </>

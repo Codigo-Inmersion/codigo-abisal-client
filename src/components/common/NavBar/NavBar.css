@@ -34,15 +34,39 @@
   transition: color 0.3s;
 }
 
-.navbar-links li a:hover {
-  color: #007bff; /* Cambia según el color principal de tu proyecto */
+.navbar-links li a.btn-nav,
+.navbar-links li button.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px; /* 👈 ajusta este ancho si lo quieres más grande o pequeño */
+  height: 38px; /* 👈 altura uniforme */
+  padding: 0; /* removemos padding para que la altura sea exacta */
+  border-radius: 4px;
+  font-size: 0.95rem;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #007bff;
+  background: linear-gradient(135deg, #667eea 0%, rgb(105, 204, 223) 100%);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+/* Hover igual para ambos */
+.navbar-links li a.btn-nav:hover,
+.navbar-links li button.btn-nav:hover {
+  background: linear-gradient(135deg, #50e6d2 0%, #667eea 100%);
+  color: white;
+}
+
+
 .btn-nav {
-  background: transparent;
+  background: linear-gradient(135deg, #667eea 0%, rgb(105, 204, 223) 100%);
   border: 1px solid #007bff;
   border-radius: 4px;
-  color: #007bff;
+  color: white;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
   font-family: var(--font-rajdhani), sans-serif;
@@ -51,7 +75,7 @@
 }
 
 .btn-nav:hover {
-  background: #007bff;
+  background: linear-gradient(135deg, #50e6d2 0%, #667eea 100%);
   color: white;
 }
 
