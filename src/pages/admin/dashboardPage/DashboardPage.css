@@ -37,6 +37,8 @@
 .dashboard-wrapper {
   width: 80% !important; /* Más ancho que DetailArticle */
   max-width: 1400px !important;
+  margin: 0 auto; /* ✨ Añade esta línea para centrar el panel */
+
 }
 
 /* Pestañas */

@@ -46,8 +46,8 @@
 
 .search-toggle-header {
   position: absolute;
-  top: 1.5rem;
-  right: 2.5rem;
+  top: 2.0rem;
+  right: 2rem;
   z-index: 10;
 }
 
