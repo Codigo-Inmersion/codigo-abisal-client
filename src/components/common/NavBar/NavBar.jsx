@@ -17,13 +17,12 @@ const NavBar = () => {
     navigate("/");
   };
 
-  // 👇 Nueva lógica clara y separada
-  const isDashboard = location.pathname === "/admin";
   const isAdminPanel = location.pathname.startsWith("/admin");
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
+      {/* <img className="navBar-logo" src="/navBarLogo.png" alt="Código Abisal Logo" /> */}
         <ul className="navbar-links">
           {!isAuthenticated && (
             <>
@@ -35,22 +34,20 @@ const NavBar = () => {
           {isAuthenticated && (
             <>
               {role === "admin" && (
-                <>
-                  {isDashboard && (
-                    <li>
-                      <Link to="/admin/dashboard" ><LayoutDashboard /></Link>
-                    </li>
+                <li>
+                  {isAdminPanel ? (
+                    <Link to="/" title="Ir al inicio">
+                      <House />
+                    </Link>
+                  ) : (
+                    <Link to="/admin/dashboard" title="Ir al Dashboard">
+                      <LayoutDashboard />
+                    </Link>
                   )}
-                  {isAdminPanel && (
-                    <li>
-                      <Link to="/admin" ><House /></Link>
-                    </li>
-                  )}
-                </>
+                </li>
               )}
               <li>
-               <SquarePower  onClick={handleLogout} />
-                
+               <SquarePower onClick={handleLogout} cursor="pointer" title="Cerrar sesión" />
               </li>
             </>
           )}
@@ -61,4 +58,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
