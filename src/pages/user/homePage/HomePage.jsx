@@ -121,7 +121,7 @@ function HomePage() {
 
   // 6. Función para navegar a la página de creación
   const handleCreateArticle = () => {
-    navigate("/admin/article/create");
+    navigate("/article/create");
   };
 
   const renderContent = () => {

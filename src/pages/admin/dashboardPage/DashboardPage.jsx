@@ -114,7 +114,7 @@ function DashboardPage() {
   };
 
   const handleCreateArticle = () => {
-    navigate("/admin/article/create");
+    navigate("/article/create");
   };
 
   // ========================================
