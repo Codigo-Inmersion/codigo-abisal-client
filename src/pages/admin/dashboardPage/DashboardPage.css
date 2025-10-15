@@ -3,10 +3,7 @@
   padding: 2rem 1rem;
   color: white;
   font-family: var(--font-rajdhani, sans-serif);
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  
 }
 
 /* Header del dashboard */
