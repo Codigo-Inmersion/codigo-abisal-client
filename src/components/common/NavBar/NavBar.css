@@ -79,6 +79,22 @@
   color: white;
 }
 
-.navBar-logo{
-  height: ;
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  /* 👇 ELIMINA o comenta estas dos líneas para que ocupe todo el ancho */
+  /* max-width: 1200px; */
+  /* margin: 0 auto; */
+
+  /* Puedes añadir un padding si no quieres que esté totalmente pegado a los bordes */
+  padding: 0 1rem; /* Ajusta este valor si es necesario */
+}
+
+.navbar-logo img {
+  /* 👇 AUMENTA este valor para hacerlo más ancho */
+  height: 60px; /* Prueba con 60px o el tamaño que prefieras */
+  width: auto;
+  align-items: left;
 }

@@ -1,8 +1,8 @@
-import React from 'react';
-import { SquarePower, House, LayoutDashboard } from 'lucide-react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import useAuthStore from "../../../stores/authStore"; 
-import './Navbar.css';
+import React from "react";
+import { SquarePower, House, LayoutDashboard } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import useAuthStore from "../../../stores/authStore";
+import "./Navbar.css";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -22,12 +22,26 @@ const NavBar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-      {/* <img className="navBar-logo" src="/navBarLogo.png" alt="Código Abisal Logo" /> */}
+        <div className="navbar-logo">
+          <img
+            className="navBar-logo"
+            src="/logo2.png"
+            alt="Código Abisal Logo"
+          />
+        </div>
         <ul className="navbar-links">
           {!isAuthenticated && (
             <>
-              <li><Link to="/login" className="btn-nav">Iniciar sesión</Link></li>
-              <li><Link to="/register" className="btn-nav">Registrarse</Link></li>
+              <li>
+                <Link to="/login" className="btn-nav">
+                  Iniciar sesión
+                </Link>
+              </li>
+              <li>
+                <Link to="/register" className="btn-nav">
+                  Registrarse
+                </Link>
+              </li>
             </>
           )}
 
@@ -47,7 +61,11 @@ const NavBar = () => {
                 </li>
               )}
               <li>
-               <SquarePower onClick={handleLogout} cursor="pointer" title="Cerrar sesión" />
+                <SquarePower
+                  onClick={handleLogout}
+                  cursor="pointer"
+                  title="Cerrar sesión"
+                />
               </li>
             </>
           )}
