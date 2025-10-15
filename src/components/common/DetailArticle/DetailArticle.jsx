@@ -28,12 +28,12 @@ export default function DetailArticle() {
   const [isLikeLoading, setIsLikeLoading] = useState(false);
 
   const [authorName, setAuthorName] = useState("");
-  const handleCategoryClick = () => {
-    if (article?.category) {
-      // Navegamos a la home con el parámetro de búsqueda
-      navigate(`/?category=${encodeURIComponent(article.category)}`);
-    }
-  };
+  // const handleCategoryClick = () => {
+  //   if (article?.category) {
+  //     // Navegamos a la home con el parámetro de búsqueda
+  //     navigate(`/?category=${encodeURIComponent(article.category)}`);
+  //   }
+  // };
 
   useEffect(() => {
     if (!id || Number.isNaN(Number(id))) {

@@ -2,6 +2,8 @@
 
 import { Outlet } from 'react-router-dom';
 import Background from '../Background/Background';
+import NavBar from '../../common/NavBar/NavBar';
+import Footer from '../../common/Footer/Footer';
 import './Layout_Admin.css'; // <-- Importa el nuevo CSS
 
 export default function LayoutAdmin() {
@@ -9,13 +11,14 @@ export default function LayoutAdmin() {
     // Usa las nuevas clases de CSS
     <div className="admin-layout">
       <Background />
+      <NavBar />
       <main className="admin-content">
         <Outlet />
       </main>
       
       <div className="intro-footer">
-        <a href="/" className="back-link">
-        </a>
+      <Footer />
+
       </div>
     </div>
   );
