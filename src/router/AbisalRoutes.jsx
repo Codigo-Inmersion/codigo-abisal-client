@@ -1,3 +1,5 @@
+// src/router/AbisalRoutes.jsx
+
 import { createBrowserRouter } from 'react-router-dom';
 import ProtectedRoute from '../components/common/ProtectedRoute/ProtectedRoute';
 
@@ -9,37 +11,36 @@ import Layout_Admin from '../components/layout/Layout_Admin/Layout_Admin';
 // Páginas públicas
 import LoginPage from '../pages/user/LoginPage';
 import RegisterPage from '../pages/user/RegisterPage';
-
-// Páginas de usuario (protegidas)
 import HomePage from '../pages/user/homePage/HomePage';
-import AboutPage from '../pages/user/AboutPage';
 import DetailPage from '../pages/user/DetailPage';
 import ForbiddenPage from '../pages/user/ForbiddenPage/ForbiddenPage';
 
-// Páginas de admin (protegidas - solo admin)
-import DashboardPage from '../pages/admin/dashboardPage/DashboardPage';
+// Páginas de usuario registrado
 import CreateArticlePage from '../pages/admin/CreateArticlePage';
 import EditArticlePage from '../pages/admin/EditArticlePage';
 
-import CategoryPage from '../pages/user/categoryPage/CategoryPage';
+// Páginas de admin
+import DashboardPage from '../pages/admin/DashboardPage';
 
 /**
- * 🎓 EXPLICACIÓN: Router - Opción B (Aplicación Interna)
+ * 🎓 NUEVO SISTEMA DE PERMISOS:
  * 
- * ESTRUCTURA:
- * - Layout_Intro: Login y Register (PÚBLICAS)
- * - Layout_User: Home, artículos, about (PROTEGIDAS - cualquier usuario autenticado)
- * - Layout_Admin: Panel admin (PROTEGIDAS - solo rol "admin")
+ * PÚBLICAS (sin login):
+ * - Home, Detail, Login, Register
  * 
- * COMPORTAMIENTO:
- * - Si no estás autenticado → redirige a /login
- * - Si estás autenticado como "user" → puedes ver Layout_User pero NO Layout_Admin
- * - Si estás autenticado como "admin" → puedes ver TODO
+ * USUARIO REGISTRADO (con login):
+ * - Crear artículos
+ * - Editar SUS artículos (se valida en el componente)
+ * 
+ * ADMIN (rol admin):
+ * - Dashboard
+ * - Editar CUALQUIER artículo
+ * - Gestionar usuarios
  */
 
 const router = createBrowserRouter([
   // ========================================
-  // 🌍 LAYOUT INTRO - Rutas públicas (NO protegidas)
+  // 🌍 RUTAS PÚBLICAS - Sin autenticación
   // ========================================
   {
     element: <Layout_Intro />,
@@ -56,16 +57,12 @@ const router = createBrowserRouter([
   },
 
   // ========================================
-  // 🔒 LAYOUT USER - Rutas protegidas (requiere autenticación)
+  // 🌐 LAYOUT USER - Mixto (públicas y protegidas)
   // ========================================
-  // Pueden acceder usuarios con rol "user" o "admin"
   {
-    element: (
-      <ProtectedRoute>
-        <Layout_User />
-      </ProtectedRoute>
-    ),
+    element: <Layout_User />,
     children: [
+      // 👉 PÚBLICAS (cualquiera puede ver)
       {
         index: true,
         element: <HomePage />
@@ -74,14 +71,26 @@ const router = createBrowserRouter([
         path: '/article/:id',
         element: <DetailPage />
       },
+
+      // 👉 PROTEGIDAS (requieren login - user o admin)
       {
-        path: '/category/:categoryName',
-        element: <CategoryPage />
+        path: '/article/create',
+        element: (
+          <ProtectedRoute>
+            <CreateArticlePage />
+          </ProtectedRoute>
+        )
       },
       {
-        path: '/about',
-        element: <AboutPage />
+        path: '/article/edit/:id',
+        element: (
+          <ProtectedRoute>
+            <EditArticlePage />
+          </ProtectedRoute>
+        )
       },
+
+      // 👉 Página de error
       {
         path: '/403',
         element: <ForbiddenPage />
@@ -92,7 +101,6 @@ const router = createBrowserRouter([
   // ========================================
   // 🔐 LAYOUT ADMIN - Solo administradores
   // ========================================
-  // Requiere rol "admin" específicamente
   {
     path: '/admin',
     element: (
@@ -104,14 +112,6 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <DashboardPage />
-      },
-      {
-        path: 'article/create',
-        element: <CreateArticlePage />
-      },
-      {
-        path: 'article/edit/:id',
-        element: <EditArticlePage />
       }
     ]
   }
