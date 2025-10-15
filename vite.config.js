@@ -7,4 +7,9 @@ export default defineConfig({
   server: {
     port: 5174, // ← Forzar puerto 5174 (como la configuración de cors del backend)
   },
+ test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/setupTest.js', // Archivo de configuración para las pruebas
+  },
 });
