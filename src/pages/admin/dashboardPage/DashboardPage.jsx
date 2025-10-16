@@ -81,7 +81,7 @@ function DashboardPage() {
   };
 
   const handleEditArticle = (id) => {
-    navigate(`/admin/article/edit/${id}`);
+    navigate(`/article/edit/${id}`);
   };
 
   const openArticleDeleteModal = (id) => {
