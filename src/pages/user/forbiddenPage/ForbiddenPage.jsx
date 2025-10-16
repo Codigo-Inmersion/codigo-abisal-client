@@ -1,11 +1,15 @@
 import { useNavigate } from 'react-router-dom';
+import { ShieldAlert, ArrowLeft, Home } from 'lucide-react';
+import Button from '../../../components/common/Button/Button';
 import './ForbiddenPage.css';
 
 /**
  * 🎓 EXPLICACIÓN: Página 403 Forbidden
  * 
  * Esta página se muestra cuando un usuario intenta acceder 
- * a una ruta para la que no tiene permisos
+ * a una ruta para la que no tiene permisos.
+ * 
+ * ✨ Actualizada para seguir el estilo visual de la aplicación
  */
 
 function ForbiddenPage() {
@@ -13,7 +17,12 @@ function ForbiddenPage() {
 
   return (
     <div className="forbidden-container">
-      <div className="forbidden-content">
+      <div className="forbidden-card">
+        {/* Ícono de alerta */}
+        <div className="forbidden-icon">
+          <ShieldAlert size={80} strokeWidth={1.5} />
+        </div>
+
         {/* Código de error */}
         <h1 className="error-code">403</h1>
         
@@ -22,24 +31,27 @@ function ForbiddenPage() {
         
         {/* Descripción */}
         <p className="error-description">
-          No tienes permisos para acceder a esta página.
+          No tienes los permisos necesarios para acceder a esta página. 
+          Si crees que esto es un error, contacta con el administrador.
         </p>
         
         {/* Botones de acción */}
         <div className="error-actions">
-          <button 
+          <Button 
+            variant="secondary"
             onClick={() => navigate(-1)}
-            className="btn-secondary"
           >
-            ← Volver atrás
-          </button>
+            <ArrowLeft size={18} />
+            Volver atrás
+          </Button>
           
-          <button 
+          <Button 
+            variant="primary"
             onClick={() => navigate('/')}
-            className="btn-primary"
           >
+            <Home size={18} />
             Ir al inicio
-          </button>
+          </Button>
         </div>
       </div>
     </div>

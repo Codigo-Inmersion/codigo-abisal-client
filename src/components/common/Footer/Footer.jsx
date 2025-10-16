@@ -7,9 +7,8 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-copy">
           <p>
-            © {new Date().getFullYear()} Código Abisal | Proyecto hecho en{" "}
-            <span className="footer-highlight">Factoría F5</span>.
-          </p>
+            © {new Date().getFullYear()} Código Abisal | Proyecto realizado por Gema, Camila, Mariana, Olga y Rocío para el Bootcamp Fullstack (Femcoders – Factoría F5).</p>
+          <p>Todos los contenidos tienen fines educativos y de divulgación.</p>
         </div>
       </div>
     </footer>

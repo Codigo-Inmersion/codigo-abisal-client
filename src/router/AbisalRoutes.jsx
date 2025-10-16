@@ -13,7 +13,7 @@ import LoginPage from "../pages/user/LoginPage";
 import RegisterPage from "../pages/user/RegisterPage";
 import HomePage from "../pages/user/homePage/HomePage";
 import DetailPage from "../pages/user/DetailPage";
-import ForbiddenPage from "../pages/user/ForbiddenPage/ForbiddenPage";
+import ForbiddenPage from "../pages/user/forbiddenPage/ForbiddenPage";
 import CategoryPage from '../pages/user/categoryPage/CategoryPage';
 
 // Páginas de usuario registrado

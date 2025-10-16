@@ -8,23 +8,22 @@
 
 .user-layout > main {
   flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
   width: 100%; /* Asegurar que ocupe todo el ancho */
 }
 
 .user-layout-content {
   flex-grow: 1; /* Permite que el contenido principal ocupe el espacio disponible */
-  overflow-y: auto; /* Habilita el scroll vertical si el contenido es muy largo */
-  overflow-x: hidden;
   width: 100%;
-  
+  overflow-y: auto; /* ✅ Scroll aquí */
+  overflow-x: hidden;
+
   /* Usamos un max-width para que en pantallas muy grandes no se estire demasiado */
-  max-width: 1400px; 
+  max-width: 1400px;
   margin: 0 auto; /* Centra el contenido */
   padding: 0 2rem; /* Añade un poco de espacio lateral para que no se pegue a los bordes */
-  
+
   box-sizing: border-box;
   position: relative; /* Asegura que se muestre por encima del fondo */
   z-index: 1;
+  overflow: visible;
 }
