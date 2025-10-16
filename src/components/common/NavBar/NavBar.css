@@ -1,10 +1,11 @@
-/* Navbar.css - con la alineación de iconos corregida */
+/* Navbar.css - Versión mejorada con mejor lógica responsive */
 
 .navbar {
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   padding: 0.5rem 1rem;
   font-family: var(--font-rajdhani), sans-serif;
+  position: sticky;
   top: 0;
   z-index: 1000;
 }
@@ -20,6 +21,11 @@
 .navbar-logo img {
   height: 40px;
   display: block; 
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo img:hover {
+  transform: scale(1.05);
 }
 
 .navbar-links {
@@ -31,7 +37,6 @@
   padding: 0;
 }
 
-/* ✅ REGLA AÑADIDA PARA LA ALINEACIÓN */
 .navbar-links li {
   display: flex;
   align-items: center;
@@ -41,9 +46,13 @@
   text-decoration: none;
   color: white;
   font-weight: 500;
-  transition: color 0.3s;
+  transition: color 0.3s, transform 0.2s;
   display: flex;
   align-items: center;
+}
+
+.navbar-links li a:hover svg {
+  transform: scale(1.1);
 }
 
 .navbar .btn {
@@ -51,36 +60,116 @@
   padding: 0.5rem 1.2rem; 
 }
 
-/* --- CSS RESPONSIVE --- */
-
+/* Hamburger menu (oculto por defecto) */
 .hamburger-menu {
   display: none;
   cursor: pointer;
   z-index: 1001;
   color: white;
+  padding: 0.5rem;
+  transition: transform 0.2s;
 }
 
+.hamburger-menu:hover {
+  transform: scale(1.1);
+}
+
+.hamburger-menu:active {
+  transform: scale(0.95);
+}
+
+/* --- RESPONSIVE --- */
+
 @media (max-width: 768px) {
+  /* Mostrar hamburguesa cuando existe */
   .hamburger-menu {
     display: block;
   }
 
-  .navbar-links {
+  /* SOLO aplicar estilos de menú mobile cuando existe la hamburguesa Y está activo */
+  .navbar-container:has(.hamburger-menu) .navbar-links {
     position: fixed;
     top: 0;
     right: -100%;
     width: 70%;
     max-width: 300px;
     height: 100vh;
-    background: rgba(12, 12, 26, 0.95);
+    background: rgba(12, 12, 26, 0.98);
+    backdrop-filter: blur(10px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2.5rem;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
     transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  .navbar-links.active {
+  .navbar-container:has(.hamburger-menu) .navbar-links.active {
     right: 0;
+  }
+
+  /* Overlay */
+  .navbar-container:has(.hamburger-menu) .navbar-links.active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+
+  /* Animaciones */
+  .navbar-container:has(.hamburger-menu) .navbar-links.active li {
+    animation: slideIn 0.3s ease forwards;
+    opacity: 0;
+  }
+
+  .navbar-container:has(.hamburger-menu) .navbar-links.active li:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .navbar-container:has(.hamburger-menu) .navbar-links.active li:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .navbar-container:has(.hamburger-menu) .navbar-links.active li:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  /* Cuando NO hay hamburguesa, mantener layout horizontal normal */
+  .navbar-container:not(:has(.hamburger-menu)) .navbar-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+    position: static;
+    background: transparent;
+    height: auto;
+    width: auto;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .navbar-container:has(.hamburger-menu) .navbar-links {
+    width: 80%;
+  }
+  
+  .navbar .btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
   }
 }
