@@ -12,8 +12,24 @@ import './App.css'
  * RouterProvider es el que hace funcionar todas las rutas.
  */
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
-);
+async function enableMocking() {
+  // Solo activamos los mocks si la variable de entorno está explícitamente en 'true'
+  if (import.meta.env.VITE_ENABLE_MOCKS !== 'true') {
+    return;
+  }
+
+  const { worker } = await import('./mocks/browser');
+  
+  // Mensaje para saber que los mocks están activos
+  console.log("✅ Mock Service Worker está activado.");
+  return worker.start();
+}
+
+// Arrancamos la app después de que la configuración de mocks termine
+enableMocking().then(() => {
+  createRoot(document.getElementById('root')).render(
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>
+  );
+});
