@@ -114,7 +114,7 @@ function DashboardPage() {
   };
 
   const handleCreateArticle = () => {
-    navigate("/admin/article/create");
+    navigate("/article/create");
   };
 
   // ========================================
@@ -227,7 +227,7 @@ function DashboardPage() {
       </header>
 
       {/* Card Container (mismo estilo que DetailArticle) */}
-      <div className="article-detail-wrapper dashboard-wrapper">
+      <div className="dashboard-wrapper">
         {/* Pestañas */}
         <div className="dashboard-tabs">
           <button

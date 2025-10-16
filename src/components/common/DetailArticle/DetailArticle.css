@@ -179,9 +179,9 @@
 .article-detail-button {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.5rem !important;
   padding: 0.75rem 1.5rem;
-  border-radius: 50px;
+  /*border-radius: 50px;*/
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;

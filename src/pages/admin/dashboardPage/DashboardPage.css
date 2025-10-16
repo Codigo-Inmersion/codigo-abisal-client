@@ -3,7 +3,6 @@
   padding: 2rem 1rem;
   color: white;
   font-family: var(--font-rajdhani, sans-serif);
-  
 }
 
 /* Header del dashboard */
@@ -32,10 +31,22 @@
 
 /* Wrapper del dashboard (extiende article-detail-wrapper) */
 .dashboard-wrapper {
-  width: 80% !important; /* Más ancho que DetailArticle */
-  max-width: 1400px !important;
-  margin: 0 auto; /* ✨ Añade esta línea para centrar el panel */
-
+  /* 👇 Tamaño y centrado */
+  width: 80%;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* 👇 Estilos del efecto glassmorphism */
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 2rem;
+  box-sizing: border-box;
+  /* 👇 Layout interno */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Pestañas */
@@ -67,8 +78,8 @@
 }
 
 .tab-button.active {
-  color: #AEF7A6;
-  border-bottom-color: #AEF7A6;
+  color: #aef7a6;
+  border-bottom-color: #aef7a6;
 }
 
 /* Contador de elementos en la pestaña */
@@ -80,7 +91,7 @@
   height: 24px;
   padding: 0 0.5rem;
   background-color: rgba(174, 247, 166, 0.2);
-  color: #AEF7A6;
+  color: #aef7a6;
   border-radius: 12px;
   font-size: 0.85rem;
   font-weight: 700;
