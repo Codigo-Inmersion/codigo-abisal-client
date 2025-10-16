@@ -2,7 +2,7 @@ import React from "react";
 import { SquarePower, House, LayoutDashboard } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAuthStore from "../../../stores/authStore";
-import "./Navbar.css";
+import "./NavBar.css";
 
 const NavBar = () => {
   const navigate = useNavigate();

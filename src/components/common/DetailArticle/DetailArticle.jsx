@@ -12,6 +12,14 @@ import {
 } from "../../../services/AbisalServices";
 import useAuthStore from "../../../stores/authStore";
 import DOMPurify from "dompurify";
+import {
+  Users,
+  FileText,
+  Plus,
+  AlertTriangle,
+  CheckCircle,
+} from "lucide-react";
+
 
 export default function DetailArticle() {
   const { id } = useParams();
