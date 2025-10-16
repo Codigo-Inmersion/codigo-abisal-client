@@ -194,7 +194,7 @@ function HomePage() {
 
         <main className="carousel-section">{renderContent()}</main>
 
-        {/* --- 7. BOTÓN PARA ADMINS --- */}
+        {/* --- 7. BOTÓN PARA ADMINS Y USUARIOS REGISTRADOS --- */}
         {(user?.role === "admin"||user?.role === "user" ) && (
           <div className="admin-actions">
             <Button variant="primary" onClick={handleCreateArticle}>
