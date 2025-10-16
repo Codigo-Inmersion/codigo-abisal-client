@@ -137,17 +137,70 @@
   }
 
   .dashboard-wrapper {
-    width: 95% !important;
+    width: 95%;
+    padding: 1.5rem 1rem;
   }
 
+  /* 👇 NUEVO: Pestañas con solo iconos en móvil */
   .dashboard-tabs {
     width: 100%;
-    overflow-x: auto;
+    justify-content: center; /* Centrar las pestañas */
+    gap: 1.5rem; /* Más espacio entre pestañas */
   }
 
   .tab-button {
-    flex-shrink: 0;
-    font-size: 0.95rem;
-    padding: 0.8rem 1rem;
+    flex-direction: column; /* 👈 Icono arriba, contador abajo */
+    padding: 1rem;
+    font-size: 0;  /* 👈 Ocultar el texto */
+    gap: 0.5rem;
+    min-width: 80px; /* Ancho fijo para que sean cuadrados */
+    border-radius: 12px; /* Bordes redondeados */
+  }
+
+  /* El icono se hace más grande */
+  .tab-button svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* El contador se ve debajo del icono */
+  .tab-count {
+    position: static; /* Ya no es absolute */
+    margin-top: 0.25rem;
+  }
+
+  /* Mostrar borde alrededor en lugar de abajo */
+  .tab-button.active {
+    background-color: rgba(174, 247, 166, 0.1);
+    border: 2px solid #aef7a6;
+    border-bottom: 2px solid #aef7a6; /* Sobrescribir el borde inferior */
+  }
+
+  .dashboard-content {
+    min-height: 300px;
+    width: 100%;
   }
 }
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .tab-button {
+    min-width: 70px;
+    padding: 0.85rem;
+  }
+
+  .tab-button svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dashboard-wrapper {
+    width: 98%;
+    padding: 1rem 0.75rem;
+  }
+}
+

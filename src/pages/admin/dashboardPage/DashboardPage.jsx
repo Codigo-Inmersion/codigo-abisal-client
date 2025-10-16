@@ -233,6 +233,7 @@ function DashboardPage() {
           <button
             className={`tab-button ${activeTab === "articles" ? "active" : ""}`}
             onClick={() => setActiveTab("articles")}
+            title="Artículos" 
           >
             <FileText size={20} />
             Artículos
@@ -243,6 +244,7 @@ function DashboardPage() {
           <button
             className={`tab-button ${activeTab === "users" ? "active" : ""}`}
             onClick={() => setActiveTab("users")}
+            title="Usuarios"
           >
             <Users size={20} />
             Usuarios

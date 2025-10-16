@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Edit, Trash2, Save, X } from 'lucide-react';
-import Button from '../../common/Button/Button';
-import './UsersTable.css';
+import React, { useState } from "react";
+import { Edit, Trash2, Save, X } from "lucide-react";
+import Button from "../../common/Button/Button";
+import "./UsersTable.css";
 
 /**
  * 👥 Tabla de Usuarios
@@ -10,12 +10,12 @@ import './UsersTable.css';
 const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
   // Estado para saber qué usuario está siendo editado
   const [editingUserId, setEditingUserId] = useState(null);
-  const [selectedRole, setSelectedRole] = useState('');
+  const [selectedRole, setSelectedRole] = useState("");
 
   const formatDate = (dateString) => {
-    if (!dateString) return '-';
+    if (!dateString) return "-";
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES');
+    return date.toLocaleDateString("es-ES");
   };
 
   // Activar modo edición
@@ -27,7 +27,7 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
   // Cancelar edición
   const handleCancelEdit = () => {
     setEditingUserId(null);
-    setSelectedRole('');
+    setSelectedRole("");
   };
 
   // Guardar cambio de rol
@@ -59,9 +59,11 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td className="table-username">{user.username}</td>
-              <td>{user.email}</td>
-              <td>
+              <td data-label="Username" className="table-username">
+                {user.username}
+              </td>
+              <td data-label="Email">{user.email}</td>
+              <td data-label="Rol">
                 {editingUserId === user.id ? (
                   // Modo edición: mostrar select
                   <select
