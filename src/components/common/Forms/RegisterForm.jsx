@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import './Form.css';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+
 
 /**
  * 🎓 EXPLICACIÓN: Formulario de Registro
@@ -18,7 +21,8 @@ import './Form.css';
 
 const RegisterForm = () => {
   const { register, loading, error, clearError } = useAuth();
-  
+  const navigate = useNavigate();
+
   // Estado del formulario
   const [formData, setFormData] = useState({
     name: '',
@@ -41,7 +45,7 @@ const RegisterForm = () => {
    */
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Limpiar error del campo al empezar a escribir
     if (validationErrors[name]) {
       setValidationErrors(prev => ({
@@ -49,7 +53,7 @@ const RegisterForm = () => {
         [name]: ''
       }));
     }
-    
+
     // Limpiar error general si existe
     if (error) clearError();
 
@@ -347,6 +351,14 @@ const RegisterForm = () => {
             <div className="signup-link">
               ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
             </div>
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="back-button"
+            >
+              <ArrowLeft size={20} /> Volver al inicio
+            </button>
+
           </form>
         </div>
       </div>
