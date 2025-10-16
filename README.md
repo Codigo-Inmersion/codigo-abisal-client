@@ -1,11 +1,16 @@
 # 🌊 Código Abisal - Frontend
 
 > Plataforma web interactiva para explorar y compartir información sobre el océano profundo y sus misterios.
+
+---
+
 ![React](https://img.shields.io/badge/React-19.1.1-61DAFB?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-7.1.7-646CFF?logo=vite)
 ![Zustand](https://img.shields.io/badge/Zustand-5.0.8-orange)
 
 ---
+## 🎬 Visualización
+![Demo Código Abisal](./public/codigo_abisal-optimized.gif)
 
 ## 📋 Tabla de Contenidos
 
