@@ -1,6 +1,9 @@
 # 🌊 Código Abisal - Frontend
 
 > Plataforma web interactiva para explorar y compartir información sobre el océano profundo y sus misterios.
+![React](https://img.shields.io/badge/React-19.1.1-61DAFB?logo=react)
+![Vite](https://img.shields.io/badge/Vite-7.1.7-646CFF?logo=vite)
+![Zustand](https://img.shields.io/badge/Zustand-5.0.8-orange)
 
 ---
 
@@ -429,11 +432,14 @@ VITE_API_URL=http://localhost:8000
 
 Este proyecto fue desarrollado por:
 
-- **Gema** - Full Stack Developer
-- **Camila** - Full Stack Developer
-- **Olga** - Full Stack Developer
-- **Mariana** - Frontend Developer
-- **Rocío** - Frontend Developer
+| Desarrolladora | GitHub | LinkedIn |
+|----------------|--------|----------|
+| **Camila Arenas** | [GitHub](https://github.com/mcarenashd) | [LinkedIn](https://www.linkedin.com/in/mcarenash) |
+| **Gema Yébenes** | [GitHub](https://github.com/gemayc) | [LinkedIn](https://www.linkedin.com/in/gema-yebenes-83b6a6100/) |
+| **Mariana Moreno** | [GitHub](https://github.com/MarianaMH1195) | [LinkedIn](https://www.linkedin.com/in/mariana-moreno-henao-70305a16b/) |
+| **Olga Ramírez** | [GitHub](https://github.com/olgararo) | [LinkedIn](https://www.linkedin.com/in/olga-ramirez-rodriguez/) |
+| **Rocio Coronel** | [GitHub](https://github.com/Rocio-Coronel) | [LinkedIn](https://www.linkedi) |
+
 
 **Bootcamp:** Fullstack Web Development  
 **Organización:** Femcoders - Factoría F5  
@@ -453,9 +459,9 @@ Este proyecto fue desarrollado por:
 
 - Nunca commitear el archivo `.env`
 - Las contraseñas deben tener mínimo 6 caracteres
-- El token se almacena en localStorage (considera usar httpOnly cookies en producción)
+- El token se almacena en localStorage 
 
-### 🐛 Problemas Conocidos
+### 🐛 Inconvenientes Conocidos
 
 - El editor de texto no soporta pegar imágenes directamente
 - En iOS, el tipo de float para texturas puede causar problemas de rendimiento
@@ -474,3 +480,5 @@ Este proyecto está en desarrollo activo. Si encuentras algún bug o tienes idea
 ---
 
 *Desarrollado con 💙 por el equipo de Código Abisal*
+
+[![GitHub](https://img.shields.io/badge/GitHub-Codigo--Inmersion-181717?style=flat-square&logo=github)](https://github.com/Codigo-Inmersion)
