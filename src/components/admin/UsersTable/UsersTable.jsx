@@ -70,13 +70,17 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                     className="role-select"
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value)}
+                    title="Seleccionar nuevo rol"
+                    aria-label={`Cambiar rol de ${user.username}`}
                   >
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                   </select>
                 ) : (
                   // Modo normal: mostrar badge
-                  <span className={`role-badge role-${user.role}`}>
+                  <span className={`role-badge role-${user.role}`}
+                  title={`Rol actual: ${user.role}`}
+                  >
                     {user.role}
                   </span>
                 )}
@@ -90,6 +94,8 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                       variant="primary"
                       onClick={() => handleSaveRole(user.id)}
                       type="button"
+                      title="Guardar cambios"
+                      aria-label={`Guardar cambios de rol para ${user.username}`}
                     >
                       <Save size={16} />
                     </Button>
@@ -97,6 +103,8 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                       variant="secondary"
                       onClick={handleCancelEdit}
                       type="button"
+                      title="Cancelar edición"
+                      aria-label="Cancelar cambios de rol" 
                     >
                       <X size={16} />
                     </Button>
@@ -108,6 +116,8 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                       variant="secondary"
                       onClick={() => handleEditClick(user)}
                       type="button"
+                      title="Editar rol"
+                      aria-label={`Editar rol de ${user.username}`}
                     >
                       <Edit size={16} />
                     </Button>
@@ -115,6 +125,8 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                       variant="tertiary"
                       onClick={() => onDelete(user.id)}
                       type="button"
+                      title="Eliminar usuario" 
+                      aria-label={`Eliminar usuario ${user.username}`}
                     >
                       <Trash2 size={16} />
                     </Button>

@@ -51,6 +51,8 @@ const ArticlesTable = ({ articles, onEdit, onDelete, isLoading }) => {
                   variant="secondary"
                   onClick={() => onEdit(article.id)}
                   type="button"
+                  title="Editar artículo"
+                  aria-label={`Editar artículo`}
                 >
                   <Edit size={16} />
                 </Button>
@@ -58,6 +60,8 @@ const ArticlesTable = ({ articles, onEdit, onDelete, isLoading }) => {
                   variant="tertiary"
                   onClick={() => onDelete(article.id)}
                   type="button"
+                  title="Eliminar artículo"
+                  aria-label={`Eliminar artículo`}
                 >
                   <Trash2 size={16} />
                 </Button>
