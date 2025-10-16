@@ -1,0 +1,149 @@
+
+.article-form-container {
+    max-width: 900px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  border-radius: 20px;
+  background: rgba(18, 22, 33, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: var(--font-rajdhani), sans-serif;
+  font-size: 2.5rem;
+  color: #fff;
+}
+
+.article-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #a4b2c1;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.image-preview {
+  margin-top: 20px;
+  border: 1px solid #333; 
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+}
+
+.image-preview p {
+  color: #ccc;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.image-preview img {
+  max-width: 300px; 
+  height: auto;   
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.upload-method-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.upload-method-selector button {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid #444;
+  background-color: transparent;
+  color: #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.upload-method-selector button:hover {
+  background-color: #333;
+}
+
+.upload-method-selector button.active {
+  background-color: #007bff; 
+  border-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #fca5a5; 
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.25rem;
+}
+
+/* Icono de advertencia para el error */
+.error-message::before {
+  content: '⚠';
+  font-size: 0.9rem;
+}
+
+/* Borde rojo en el input con error */
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+  border-color: rgba(239, 68, 68, 0.6) !important;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* Efecto de foco para los inputs con error */
+.form-group input.error:focus,
+.form-group textarea.error:focus,
+.form-group select.error:focus {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.8) !important;
+}

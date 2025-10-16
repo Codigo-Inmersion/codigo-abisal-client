@@ -1,0 +1,186 @@
+/* ======================================== */
+/* Container principal                      */
+/* ======================================== */
+
+.forbidden-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: var(--font-rajdhani, sans-serif);
+}
+
+/* ======================================== */
+/* Card con efecto glassmorphism            */
+/* ======================================== */
+
+.forbidden-card {
+  /* Efecto glassmorphism (igual que tus otros cards) */
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  
+  /* Estructura */
+  max-width: 600px;
+  width: 100%;
+  padding: 3rem 2.5rem;
+  box-sizing: border-box;
+  
+  /* Centrado y espaciado */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  
+  /* Animación de entrada */
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* ======================================== */
+/* Animación de entrada                     */
+/* ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ======================================== */
+/* Ícono de alerta                          */
+/* ======================================== */
+
+.forbidden-icon {
+  color: #ef4444;
+  opacity: 0.9;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ======================================== */
+/* Código de error (403)                    */
+/* ======================================== */
+
+.error-code {
+  font-size: 6rem;
+  font-weight: 700;
+  color: #ef4444;
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -2px;
+  text-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+}
+
+/* ======================================== */
+/* Título del error                         */
+/* ======================================== */
+
+.error-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ======================================== */
+/* Descripción                              */
+/* ======================================== */
+
+.error-description {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 450px;
+}
+
+/* ======================================== */
+/* Contenedor de botones                    */
+/* ======================================== */
+
+.error-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.error-actions .btn {
+  /* Ajustar espaciado de los botones */
+  gap: 0.5rem;
+  min-width: 150px;
+}
+
+/* ======================================== */
+/* Responsive                               */
+/* ======================================== */
+
+@media (max-width: 768px) {
+  .forbidden-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .forbidden-icon svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .error-code {
+    font-size: 4rem;
+  }
+  
+  .error-title {
+    font-size: 1.5rem;
+  }
+
+  .error-description {
+    font-size: 1rem;
+  }
+  
+  .error-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .error-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ======================================== */
+/* Pantallas muy pequeñas                   */
+/* ======================================== */
+
+@media (max-width: 480px) {
+  .forbidden-container {
+    padding: 1rem;
+  }
+
+  .forbidden-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .error-code {
+    font-size: 3rem;
+  }
+}

@@ -1,0 +1,60 @@
+@import '../ArticlesTable/ArticlesTable.css';
+
+/* Username destacado */
+.table-username {
+  font-weight: 600;
+  color: rgba(174, 247, 166, 0.9);
+}
+
+/* Badge de rol */
+.role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.role-badge.role-admin {
+  background-color: rgba(102, 126, 234, 0.2);
+  color: #667eea;
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.role-badge.role-user {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Select de rol (modo edición) */
+.role-select {
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  font-family: var(--font-rajdhani, sans-serif);
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.role-select:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.role-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+/* Opciones del select */
+.role-select option {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 0.5rem;
+}

@@ -1,0 +1,257 @@
+/* ======================================== */
+/* Container & Wrapper            */
+/* ======================================== */
+
+/* Contenedor principal de toda la página de detalle */
+.article-detail-container {
+  width: 60%;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem; /* Ajuste de padding */
+  box-sizing: border-box;
+  font-family: var(--font-rajdhani, sans-serif);
+}
+
+/* Contenedor del contenido del artículo (el recuadro con blur) */
+.article-detail-wrapper {
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 10px;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ======================================== */
+/* NUEVO: Breadcrumb Styles        */
+/* ======================================== */
+
+.article-detail-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Espaciado entre elementos */
+  margin-bottom: 1.5rem; /* Espacio debajo del breadcrumb */
+  padding-left: 0.5rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6); /* Color para los separadores */
+}
+
+/* Estilo para los botones/enlaces del breadcrumb */
+.breadcrumb-back-button,
+.breadcrumb-category-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.8); /* Un poco más brillante */
+  font-size: inherit; /* Hereda el tamaño de fuente del contenedor */
+  font-family: inherit;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-back-button:hover,
+.breadcrumb-category-button:hover {
+  color: #fff; /* Blanco al pasar el mouse */
+  text-decoration: underline;
+}
+
+/* Estilo para el elemento actual (no es un enlace) */
+.breadcrumb-current {
+  color: #fff; /* Blanco para destacar */
+  font-weight: 600;
+}
+
+/* Ajuste para los iconos separadores */
+.article-detail-breadcrumb svg {
+  flex-shrink: 0;
+}
+
+
+/* ======================================== */
+/* Estilos del Artículo          */
+/* ======================================== */
+
+/* Hero Card */
+ .article-detail-hero {
+  position: relative;
+  height: 450px;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  color: white;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+} 
+
+/* Imagen del artículo */
+.article-detail-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+/* Placeholder de la imagen */
+.article-detail-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a2e;
+  opacity: 0.4;
+}
+
+/* Título y descripción sobre la imagen */
+.article-detail-category-tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 3;
+  background-color: #AEF7A6;
+  color: #0c0c1a;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.article-detail-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 30%, transparent 100%);
+  z-index: 2;
+  align-self: flex-end;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.article-detail-title {
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 0.6rem;
+}
+
+.article-detail-description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0.6rem 0;
+  font-weight: 500;
+}
+
+.article-detail-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.8rem;
+}
+
+/* Botones de acción */
+.article-detail-actions {
+  padding: 1.5rem;
+  margin-top:  20px;
+}
+
+.article-detail-actions-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Estilo de los botones */
+.article-detail-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1.5rem;
+  /*border-radius: 50px;*/
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.article-detail-button:hover {
+  transform: scale(1.05);
+}
+
+.article-detail-button-like {
+  background-color: rgba(174, 247, 166, 0.1);
+  color: #AEF7A6;
+  border: 2px solid rgba(174, 247, 166, 0.3);
+}
+
+.article-detail-button-like.liked {
+  background-color: #AEF7A6;
+  color: #0c0c1a;
+  border: 2px solid #AEF7A6;
+}
+
+.article-detail-button-like:not(.liked):hover {
+  background-color: rgba(174, 247, 166, 0.2);
+}
+
+.article-detail-button-edit {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.article-detail-button-edit:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.article-detail-button-delete {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 2px solid rgba(239, 68, 68, 0.3);
+}
+
+.article-detail-button-delete:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .article-detail-container {
+    width: 90%;
+  }
+
+  .article-detail-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .article-detail-content {
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .article-detail-title {
+    font-size: 1.5rem;
+  }
+
+  .article-detail-hero {
+    height: 350px;
+  }
+
+  .article-detail-wrapper {
+    width: 100%;
+  }
+}

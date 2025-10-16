@@ -1,42 +1,64 @@
+/* APP.CSS => Estilos específicos del componente App
+
+-Layout principal de la aplicación
+-Estilos específicos del wrapper principal
+-Estilos que afectan solo a App.jsx */
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  height: 100vh;
+  /* overflow: hidden; */
+}
+
+/* Container principal de la app */
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  /* overflow: hidden; */
+}
+
+/* Fondo LiquidEther fijo en toda la página */
+.liquid-ether-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none; /* Permite que los clicks pasen al contenido */
+}
+
+/* Contenido de la aplicación por encima del fondo */
+.app-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 2rem;
-  text-align: center;
+  color: #fff;
+  pointer-events: auto; /* Restaura la interacción en el contenido */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Si quieres que el mouse interactúe con el fondo también */
+.liquid-ether-background.interactive {
+  pointer-events: auto;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Opcional: estilo para el contenido de ejemplo */
+.app-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.app-content p {
+  font-size: 1.2rem;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
 }
