@@ -152,7 +152,7 @@ function HomePage() {
 
         <main className="carousel-section">{renderContent()}</main>
 
-        {user?.role === "admin" && (
+        {(user?.role === "admin" || user?.role === "user" && (
           <div className="admin-actions">
             <Button variant="primary" onClick={handleCreateArticle}>
               <Plus size={18} />
