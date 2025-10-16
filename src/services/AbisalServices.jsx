@@ -84,6 +84,7 @@ export async function deleteArticle(id) {
     return { ok: false, error: error.message || "Error eliminando el artículo" };
   }
 }
+
 export async function getUsernameById(id) {
   // Helper que saca el usuario “real” de payloads raros
   const pickUserObject = (payload) => {
@@ -106,21 +107,21 @@ export async function getUsernameById(id) {
   };
 
   try {
-    // Intento 1: /user/:id
+    // Intento 1: /user/:id (se mantiene igual, fallará pero es parte del flujo)
     const r1 = await api.get(`/user/${id}`);
     const u1 = pickUserObject(r1.data);
     const name1 = extractName(u1);
     if (name1) return { ok: true, name: name1, raw: r1.data };
   } catch (e1) {
-    // si 404 pruebo /users/:id
     if (e1?.response?.status !== 404) {
       return { ok: false, error: e1.message || "Error cargando usuario" };
     }
   }
 
   try {
-    // Intento 2: /users/:id
-    const r2 = await api.get(`/users/${id}`);
+    // 👇 Intento 2: ¡AQUÍ ESTÁ EL CAMBIO!
+    // Se ajusta la ruta para que coincida con la del backend: /users/user/:id
+    const r2 = await api.get(`/users/user/${id}`); 
     const u2 = pickUserObject(r2.data);
     const name2 = extractName(u2);
     if (name2) return { ok: true, name: name2, raw: r2.data };
