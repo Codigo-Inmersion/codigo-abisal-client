@@ -1,9 +1,12 @@
-/* Navbar.css */
+/* Navbar.css - con la alineación de iconos corregida */
+
 .navbar {
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   padding: 0.5rem 1rem;
   font-family: var(--font-rajdhani), sans-serif;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar-container {
@@ -15,86 +18,69 @@
 }
 
 .navbar-logo img {
-  height: 40px; /* Ajusta según tu diseño */
+  height: 40px;
+  display: block; 
 }
 
 .navbar-links {
   list-style: none;
   display: flex;
+  align-items: center;
   gap: 1.5rem;
   margin: 0;
   padding: 0;
-  margin-left: auto; /* 👈 esta línea */
+}
+
+/* ✅ REGLA AÑADIDA PARA LA ALINEACIÓN */
+.navbar-links li {
+  display: flex;
+  align-items: center;
 }
 
 .navbar-links li a {
   text-decoration: none;
-  color: white; /* Cambia según tu proyecto */
+  color: white;
   font-weight: 500;
   transition: color 0.3s;
-}
-
-.navbar-links li a.btn-nav,
-.navbar-links li button.btn-nav {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 140px; /* 👈 ajusta este ancho si lo quieres más grande o pequeño */
-  height: 38px; /* 👈 altura uniforme */
-  padding: 0; /* removemos padding para que la altura sea exacta */
-  border-radius: 4px;
-  font-size: 0.95rem;
-  text-align: center;
-  text-decoration: none;
-  border: 1px solid #007bff;
-  background: linear-gradient(135deg, #667eea 0%, rgb(105, 204, 223) 100%);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-/* Hover igual para ambos */
-.navbar-links li a.btn-nav:hover,
-.navbar-links li button.btn-nav:hover {
-  background: linear-gradient(135deg, #50e6d2 0%, #667eea 100%);
-  color: white;
-}
-
-
-.btn-nav {
-  background: linear-gradient(135deg, #667eea 0%, rgb(105, 204, 223) 100%);
-  border: 1px solid #007bff;
-  border-radius: 4px;
-  color: white;
-  padding: 0.4rem 0.8rem;
-  cursor: pointer;
-  font-family: var(--font-rajdhani), sans-serif;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.btn-nav:hover {
-  background: linear-gradient(135deg, #50e6d2 0%, #667eea 100%);
-  color: white;
-}
-
-.navbar-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  
-  /* 👇 ELIMINA o comenta estas dos líneas para que ocupe todo el ancho */
-  /* max-width: 1200px; */
-  /* margin: 0 auto; */
-
-  /* Puedes añadir un padding si no quieres que esté totalmente pegado a los bordes */
-  padding: 0 1rem; /* Ajusta este valor si es necesario */
 }
 
-.navbar-logo img {
-  /* 👇 AUMENTA este valor para hacerlo más ancho */
-  height: 60px; /* Prueba con 60px o el tamaño que prefieras */
-  width: auto;
-  align-items: left;
+.navbar .btn {
+  margin-top: 0;
+  padding: 0.5rem 1.2rem; 
+}
+
+/* --- CSS RESPONSIVE --- */
+
+.hamburger-menu {
+  display: none;
+  cursor: pointer;
+  z-index: 1001;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .hamburger-menu {
+    display: block;
+  }
+
+  .navbar-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    background: rgba(12, 12, 26, 0.95);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .navbar-links.active {
+    right: 0;
+  }
 }
