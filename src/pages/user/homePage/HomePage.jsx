@@ -86,7 +86,7 @@ function HomePage() {
   };
 
   const handleCreateArticle = () => {
-    navigate("/admin/article/create");
+    navigate("/article/create");
   };
 
   const renderContent = () => {
