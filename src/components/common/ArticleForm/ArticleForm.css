@@ -59,7 +59,7 @@
 
 .form-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 1rem;
   margin-top: 1.5rem;
 }
@@ -146,4 +146,87 @@
 .form-group select.error:focus {
   box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
   border-color: rgba(239, 68, 68, 0.8) !important;
+}
+
+@media (max-width: 480px) {
+  .form-actions {
+    flex-direction: column;
+    /* align-items: stretch; */
+  }
+  .form-actions button,
+  .form-actions a {
+    width: 80%;
+  }
+}
+
+/* Selector de método de subida: centrado y responsive */
+.upload-method-selector {
+  display: flex;
+  justify-content: center;   /* <— centrado */
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.upload-method-selector button {
+  flex: 1 1 200px;           /* crece y se parte en varias filas si hace falta */
+}
+
+/* En móvil: cada botón a una fila */
+@media (max-width: 480px) {
+  .upload-method-selector button {
+    width: 80%;
+  }
+}
+
+/* Acciones del modal (Aceptar) centradas también */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+button,
+.button {
+  display: inline-flex; /* asegura comportamiento consistente */
+  align-items: center;  /* centra verticalmente */
+  justify-content: center; /* centra horizontalmente */
+  text-align: center;  /* centra texto si es inline */
+  font-family: var(--font-rajdhani), sans-serif;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0.8rem 1.5rem;
+}
+
+/* Variante primaria (por ejemplo, “Publicar”) */
+button.primary,
+.button.primary {
+  background: linear-gradient(90deg, #4b6bff, #5bd8ff);
+  color: #fff;
+  border: none;
+}
+
+/* Variante secundaria (por ejemplo, “Cancelar”) */
+button.secondary,
+.button.secondary {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+/* Hover */
+button:hover,
+.button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+/* En móvil: que sigan centrados */
+@media (max-width: 480px) {
+  button,
+  .button {
+    width: 80%;
+    margin: 0 auto;
+  }
 }

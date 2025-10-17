@@ -72,7 +72,10 @@
 .article-detail-breadcrumb svg {
   flex-shrink: 0;
 }
-
+.article-detail-content {
+    overflow-wrap: break-word !important;
+    word-break: break-all; /* Alternativa más agresiva */
+}
 
 /* ======================================== */
 /* Estilos del Artículo          */
@@ -230,28 +233,36 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  /* El contenedor principal ahora usa casi todo el ancho */
   .article-detail-container {
-    width: 90%;
+    width: 95%; /* antes 90% */
+    padding: 0.5rem; /* menos padding lateral */
+  }
+
+  /* El recuadro transparente (wrapper) se junta más a los bordes */
+  .article-detail-wrapper {
+    width: 100%;
+    padding: 1rem; /* antes 2rem → más compacto */
+  }
+
+  /* El contenido del artículo (texto) ocupa más espacio */
+  .article-detail-content {
+    padding: 1rem; /* antes 1.5rem */
+    font-size: 1rem;
+    overflow-wrap: break-word;
+  }
+
+  /* Ajustes de texto del título */
+  .article-detail-title {
+    font-size: 1.4rem; /* un poco más pequeño y proporcional */
+  }
+
+  /* Ajuste del alto de la imagen principal */
+  .article-detail-hero {
+    height: 320px; /* un poco menos alta */
   }
 
   .article-detail-content h2 {
-    font-size: 1.5rem;
-  }
-
-  .article-detail-content {
-    padding: 1.5rem;
-    font-size: 1rem;
-  }
-
-  .article-detail-title {
-    font-size: 1.5rem;
-  }
-
-  .article-detail-hero {
-    height: 350px;
-  }
-
-  .article-detail-wrapper {
-    width: 100%;
+    font-size: 1.4rem;
   }
 }

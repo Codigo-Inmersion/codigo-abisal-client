@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/useAuth';
 import './Form.css';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+
 
 const LoginForm = () => {
   const { login, loading, error, clearError } = useAuth();
-  
+  const navigate = useNavigate();
+
   // Estado del formulario
   const [formData, setFormData] = useState({
     email: '',
@@ -24,7 +28,7 @@ const LoginForm = () => {
    */
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
     // Limpiar error del campo al empezar a escribir
     if (validationErrors[name]) {
       setValidationErrors(prev => ({
@@ -32,7 +36,7 @@ const LoginForm = () => {
         [name]: ''
       }));
     }
-    
+
     // Limpiar error general si existe
     if (error) clearError();
 
@@ -203,6 +207,14 @@ const LoginForm = () => {
             <div className="signup-link">
               ¿No tienes cuenta? <Link to="/register">Regístrate</Link>
             </div>
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="back-button"
+            >
+              <ArrowLeft size={20} /> Volver al inicio
+            </button>
+
           </form>
         </div>
       </div>

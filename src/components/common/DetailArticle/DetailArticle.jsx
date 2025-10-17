@@ -1,8 +1,19 @@
+// src/components/common/DetailArticle/DetailArticle.jsx
+
 import { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ChevronRight, Heart, ArrowLeft, Edit, Trash2 } from "lucide-react";
+import {
+  ChevronRight,
+  Heart,
+  ArrowLeft,
+  Edit,
+  Trash2,
+  AlertTriangle,
+  CheckCircle,
+} from "lucide-react";
 import "./DetailArticle.css";
 import Button from "../Button/Button";
+import Modal from "../Modal/Modal"; // Importar el componente Modal
 import {
   getArticleById,
   getUsernameById,
@@ -16,7 +27,7 @@ import DOMPurify from "dompurify";
 export default function DetailArticle() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const user = useAuthStore((state) => state.user); // 👈 NUEVO
+  const user = useAuthStore((state) => state.user);
   const token = useAuthStore((state) => state.token);
 
   const [article, setArticle] = useState(null);
@@ -26,14 +37,15 @@ export default function DetailArticle() {
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isLikeLoading, setIsLikeLoading] = useState(false);
-
   const [authorName, setAuthorName] = useState("");
-  // const handleCategoryClick = () => {
-  //   if (article?.category) {
-  //     // Navegamos a la home con el parámetro de búsqueda
-  //     navigate(`/?category=${encodeURIComponent(article.category)}`);
-  //   }
-  // };
+
+  // --- 👇 1. AÑADIR ESTADOS PARA LOS MODALES ---
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [modalState, setModalState] = useState({
+    showSuccess: false,
+    showError: false,
+    message: "",
+  });
 
   useEffect(() => {
     if (!id || Number.isNaN(Number(id))) {
@@ -46,7 +58,6 @@ export default function DetailArticle() {
       setLoading(true);
       setError(null);
       setAuthorName("");
-
       try {
         const res = await getArticleById(id);
         if (!res.ok) {
@@ -54,12 +65,10 @@ export default function DetailArticle() {
           setArticle(null);
           return;
         }
-
         const data = res.data;
         setArticle(data);
         setLikes(typeof data.likes === "number" ? data.likes : 0);
         setIsLiked(Boolean(data.isLikedByCurrentUser));
-
         if (data?.creator_id) {
           const ures = await getUsernameById(data.creator_id);
           if (ures.ok && ures.name) {
@@ -77,7 +86,6 @@ export default function DetailArticle() {
         setLoading(false);
       }
     };
-
     fetchArticleData();
   }, [id]);
 
@@ -95,49 +103,42 @@ export default function DetailArticle() {
     });
   }, [article?.content]);
 
-  // 🔐 Calcular permisos
   const isAuthenticated = !!token;
   const isAuthor = article?.creator_id === Number(user?.id);
   const isAdmin = user?.role === "admin";
+  const canLike = isAuthenticated;
+  const canEdit = isAuthenticated && (isAuthor || isAdmin);
+  const canDelete = isAdmin;
 
-  // Permisos calculados
-  const canLike = isAuthenticated; // Solo logueados pueden dar like
-  const canEdit = isAuthenticated && (isAuthor || isAdmin); // Autor o admin
-  const canDelete = isAdmin; // Solo admin
+  // --- 👇 2. FUNCIÓN PARA CERRAR MODALES DE FEEDBACK ---
+  const closeFeedbackModal = () => {
+    setModalState({ showSuccess: false, showError: false, message: "" });
+  };
 
   const handleLike = async () => {
-    if (isLikeLoading) return; // Evita clics múltiples mientras se procesa
-
+    if (isLikeLoading) return;
     setIsLikeLoading(true);
-
-    // Guardamos el estado anterior por si la petición al backend falla
     const previousState = { isLiked, likes };
-
-    // Actualización optimista: cambiamos la UI al instante
     setIsLiked((current) => !current);
     setLikes((current) =>
       previousState.isLiked ? Math.max(0, current - 1) : current + 1
     );
-
     try {
-      // Llamamos al servicio correspondiente
       const res = previousState.isLiked
         ? await unlikeArticle(id)
         : await likeArticle(id);
-
-      // Si el servicio nos devuelve un error, lo lanzamos para que lo capture el catch
-      if (!res.ok) {
-        throw new Error(res.error);
-      }
+      if (!res.ok) throw new Error(res.error);
     } catch (err) {
       console.error("Error en la operación de like:", err);
-      // Si algo falló, revertimos la UI al estado anterior
       setIsLiked(previousState.isLiked);
       setLikes(previousState.likes);
-      // Y mostramos un mensaje al usuario
-      alert("No se pudo procesar tu 'Me gusta'. Inténtalo de nuevo.");
+      // 👇 REEMPLAZAR ALERT CON MODAL
+      setModalState({
+        showError: true,
+        message: "No se pudo procesar tu 'Me gusta'. Inténtalo de nuevo.",
+      });
     } finally {
-      setIsLikeLoading(false); // Habilitamos el botón de nuevo
+      setIsLikeLoading(false);
     }
   };
 
@@ -146,23 +147,24 @@ export default function DetailArticle() {
   };
 
   const handleDelete = async () => {
-    if (
-      !window.confirm("¿Estás seguro de que deseas eliminar este artículo?")
-    ) {
-      return;
-    }
-
+    setIsDeleteModalOpen(false); // Cerrar modal de confirmación
     try {
       const res = await deleteArticle(id);
       if (res.ok) {
-        alert("Artículo eliminado correctamente ✅");
         navigate("/");
       } else {
-        alert("No se pudo eliminar el artículo ❌");
+        // 👇 REEMPLAZAR ALERT CON MODAL DE ERROR
+        setModalState({
+          showError: true,
+          message: "No se pudo eliminar el artículo.",
+        });
       }
     } catch (err) {
       console.error("Error eliminando artículo:", err);
-      alert("Error al eliminar el artículo");
+      setModalState({
+        showError: true,
+        message: "Error de conexión al eliminar el artículo.",
+      });
     }
   };
 
@@ -188,7 +190,6 @@ export default function DetailArticle() {
       </div>
     );
   }
-
   if (error || !article) {
     return (
       <div className="article-detail-wrapper">
@@ -200,6 +201,7 @@ export default function DetailArticle() {
 
   return (
     <div className="article-detail-container">
+      {/* ... (código del breadcrumb y hero sin cambios) ... */}
       <div className="article-detail-breadcrumb">
         <button
           onClick={() => navigate("/")}
@@ -208,7 +210,6 @@ export default function DetailArticle() {
           <ArrowLeft size={18} /> Volver al listado
         </button>
         <ChevronRight size={16} />
-        {/* Modificación aquí */}
         <button
           onClick={() =>
             navigate(`/category/${encodeURIComponent(article.category)}`)
@@ -245,7 +246,6 @@ export default function DetailArticle() {
 
         <div className="article-detail-actions">
           <div className="article-detail-actions-wrapper">
-            {/* 👉 LIKE - Solo si está logueado */}
             {canLike && (
               <Button
                 onClick={handleLike}
@@ -259,8 +259,6 @@ export default function DetailArticle() {
                 <span>{likes}</span>
               </Button>
             )}
-
-            {/* 👉 EDITAR - Solo el autor o admin */}
             {canEdit && (
               <Button
                 onClick={handleEdit}
@@ -271,11 +269,10 @@ export default function DetailArticle() {
                 Editar
               </Button>
             )}
-
-            {/* 👉 ELIMINAR - Solo admin */}
             {canDelete && (
+              // 👇 REEMPLAZAR LLAMADA DIRECTA CON APERTURA DE MODAL
               <Button
-                onClick={handleDelete}
+                onClick={() => setIsDeleteModalOpen(true)}
                 variant="tertiary"
                 className="article-detail-button article-detail-button-delete"
               >
@@ -283,8 +280,6 @@ export default function DetailArticle() {
                 Eliminar
               </Button>
             )}
-
-            {/* 👉 Si NO está logueado, mostrar mensaje */}
             {!isAuthenticated && (
               <p style={{ color: "rgba(255,255,255,0.7)", marginTop: "1rem" }}>
                 <a href="/login" style={{ color: "#AEF7A6" }}>
@@ -296,6 +291,90 @@ export default function DetailArticle() {
           </div>
         </div>
       </div>
+
+      {/* --- 👇 3. AÑADIR LOS MODALES AL FINAL DEL COMPONENTE --- */}
+
+      {/* Modal de confirmación para ELIMINAR */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title={
+          <span
+            style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
+          >
+            <AlertTriangle color="#ef4444" />
+            Confirmar Eliminación
+          </span>
+        }
+      >
+        <p>
+          ¿Estás seguro de que deseas eliminar este artículo? Esta acción no se
+          puede deshacer.
+        </p>
+        <div className="modal-actions">
+          <Button
+            variant="secondary"
+            onClick={() => setIsDeleteModalOpen(false)}
+          >
+            Cancelar
+          </Button>
+          <Button variant="tertiary" onClick={handleDelete}>
+            Eliminar
+          </Button>
+        </div>
+      </Modal>
+
+      {/* Modal de ÉXITO */}
+      <Modal
+        isOpen={modalState.showSuccess}
+        onClose={closeFeedbackModal}
+        title={
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              color: "#AEF7A6",
+            }}
+          >
+            <CheckCircle />
+            ¡Éxito!
+          </span>
+        }
+      >
+        <p>{modalState.message}</p>
+        <div className="modal-actions">
+          <Button variant="primary" onClick={closeFeedbackModal}>
+            Aceptar
+          </Button>
+        </div>
+      </Modal>
+
+      {/* Modal de ERROR */}
+      <Modal
+        isOpen={modalState.showError}
+        onClose={closeFeedbackModal}
+        title={
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              color: "#ef4444",
+            }}
+          >
+            <AlertTriangle />
+            Error
+          </span>
+        }
+      >
+        <p>{modalState.message}</p>
+        <div className="modal-actions">
+          <Button variant="primary" onClick={closeFeedbackModal}>
+            Aceptar
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

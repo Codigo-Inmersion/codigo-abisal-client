@@ -1,7 +1,7 @@
-import React from 'react';
-import { Edit, Trash2 } from 'lucide-react';
-import Button from '../../common/Button/Button';
-import './ArticlesTable.css';
+import React from "react";
+import { Edit, Trash2 } from "lucide-react";
+import Button from "../../common/Button/Button";
+import "./ArticlesTable.css";
 
 /**
  * 📄 Tabla de Artículos
@@ -10,9 +10,9 @@ import './ArticlesTable.css';
 const ArticlesTable = ({ articles, onEdit, onDelete, isLoading }) => {
   // Formatear fecha: "2025-01-15T10:30:00Z" → "15/01/2025"
   const formatDate = (dateString) => {
-    if (!dateString) return '-';
+    if (!dateString) return "-";
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES');
+    return date.toLocaleDateString("es-ES");
   };
 
   if (isLoading) {
@@ -38,17 +38,21 @@ const ArticlesTable = ({ articles, onEdit, onDelete, isLoading }) => {
         <tbody>
           {articles.map((article) => (
             <tr key={article.id}>
-              <td className="table-title">{article.title}</td>
-              <td>
+              <td data-label="Título" className="table-title">
+                {article.title}
+              </td>
+              <td data-label="Categoría">
                 <span className="category-badge">{article.category}</span>
               </td>
-              <td>{formatDate(article.created_at)}</td>
-              <td>{formatDate(article.updated_at)}</td>
-              <td className="table-actions">
+              <td data-label="Creado">{formatDate(article.created_at)}</td>
+              <td data-label="Actualizado">{formatDate(article.updated_at)}</td>
+              <td data-label="Acciones" className="table-actions">
                 <Button
                   variant="secondary"
                   onClick={() => onEdit(article.id)}
                   type="button"
+                  title="Editar artículo"
+                  aria-label={`Editar artículo`}
                 >
                   <Edit size={16} />
                 </Button>
@@ -56,6 +60,8 @@ const ArticlesTable = ({ articles, onEdit, onDelete, isLoading }) => {
                   variant="tertiary"
                   onClick={() => onDelete(article.id)}
                   type="button"
+                  title="Eliminar artículo"
+                  aria-label={`Eliminar artículo`}
                 >
                   <Trash2 size={16} />
                 </Button>

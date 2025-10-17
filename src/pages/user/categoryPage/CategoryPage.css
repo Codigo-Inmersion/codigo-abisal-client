@@ -12,7 +12,7 @@
 }
 
 .category-header h1 {
-  font-size: 2.5rem;
+  font-size: 2.5rem; /* 40px */
   font-family: var(--font-rajdhani);
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
@@ -48,4 +48,24 @@
 
 .category-error {
   color: #ef4444;
+}
+
+/* --- NUEVO BLOQUE RESPONSIVE --- */
+/* Estilos para pantallas de 768px de ancho o menos (tablets y móviles) */
+@media (max-width: 768px) {
+  .category-page-container {
+    /* Reducimos el padding para dar más espacio al contenido */
+    padding: 1.5rem 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .category-header h1 {
+    /* Reducimos el tamaño del título para que no se desborde */
+    font-size: 2rem; /* 32px */
+  }
+
+  .category-header {
+    margin-bottom: 2rem;
+  }
 }

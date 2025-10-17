@@ -91,3 +91,24 @@
   font-size: 1.2rem;
   color: rgba(255, 255, 255, 0.7);
 }
+
+/* --- BLOQUE RESPONSIVE CORREGIDO --- */
+@media (max-width: 600px) {
+  .article-list-item {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .item-image-container {
+    width: 100%;
+    height: 180px; 
+  }
+
+  .item-title {
+    font-size: 1.25rem;
+  }
+
+  .item-description {
+    font-size: 0.9rem;
+  }
+}

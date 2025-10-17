@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Edit, Trash2, Save, X } from 'lucide-react';
-import Button from '../../common/Button/Button';
-import './UsersTable.css';
+import React, { useState } from "react";
+import { Edit, Trash2, Save, X } from "lucide-react";
+import Button from "../../common/Button/Button";
+import "./UsersTable.css";
 
 /**
  * 👥 Tabla de Usuarios
@@ -10,12 +10,12 @@ import './UsersTable.css';
 const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
   // Estado para saber qué usuario está siendo editado
   const [editingUserId, setEditingUserId] = useState(null);
-  const [selectedRole, setSelectedRole] = useState('');
+  const [selectedRole, setSelectedRole] = useState("");
 
   const formatDate = (dateString) => {
-    if (!dateString) return '-';
+    if (!dateString) return "-";
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES');
+    return date.toLocaleDateString("es-ES");
   };
 
   // Activar modo edición
@@ -27,7 +27,7 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
   // Cancelar edición
   const handleCancelEdit = () => {
     setEditingUserId(null);
-    setSelectedRole('');
+    setSelectedRole("");
   };
 
   // Guardar cambio de rol
@@ -59,22 +59,28 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td className="table-username">{user.username}</td>
-              <td>{user.email}</td>
-              <td>
+              <td data-label="Username" className="table-username">
+                {user.username}
+              </td>
+              <td data-label="Email">{user.email}</td>
+              <td data-label="Rol">
                 {editingUserId === user.id ? (
                   // Modo edición: mostrar select
                   <select
                     className="role-select"
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value)}
+                    title="Seleccionar nuevo rol"
+                    aria-label={`Cambiar rol de ${user.username}`}
                   >
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                   </select>
                 ) : (
                   // Modo normal: mostrar badge
-                  <span className={`role-badge role-${user.role}`}>
+                  <span className={`role-badge role-${user.role}`}
+                  title={`Rol actual: ${user.role}`}
+                  >
                     {user.role}
                   </span>
                 )}
@@ -88,6 +94,8 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                       variant="primary"
                       onClick={() => handleSaveRole(user.id)}
                       type="button"
+                      title="Guardar cambios"
+                      aria-label={`Guardar cambios de rol para ${user.username}`}
                     >
                       <Save size={16} />
                     </Button>
@@ -95,6 +103,8 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                       variant="secondary"
                       onClick={handleCancelEdit}
                       type="button"
+                      title="Cancelar edición"
+                      aria-label="Cancelar cambios de rol" 
                     >
                       <X size={16} />
                     </Button>
@@ -106,6 +116,8 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                       variant="secondary"
                       onClick={() => handleEditClick(user)}
                       type="button"
+                      title="Editar rol"
+                      aria-label={`Editar rol de ${user.username}`}
                     >
                       <Edit size={16} />
                     </Button>
@@ -113,6 +125,8 @@ const UsersTable = ({ users, onUpdateRole, onDelete, isLoading }) => {
                       variant="tertiary"
                       onClick={() => onDelete(user.id)}
                       type="button"
+                      title="Eliminar usuario" 
+                      aria-label={`Eliminar usuario ${user.username}`}
                     >
                       <Trash2 size={16} />
                     </Button>

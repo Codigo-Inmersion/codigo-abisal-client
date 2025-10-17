@@ -359,3 +359,9 @@
   outline: 2px solid var(--blue-baby);
   outline-offset: 2px;
 }
+.back-button {
+  display: flex;              /* Para poder usar justify-content */
+  justify-content: center;    /* Centra el contenido (icono + texto) */
+  align-items: center;        /* Centra verticalmente el icono con el texto */
+  margin: 1.5rem auto 0;      /* Centra el botón dentro del contenedor */
+}

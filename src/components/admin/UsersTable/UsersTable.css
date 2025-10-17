@@ -14,6 +14,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .role-badge.role-admin {
@@ -40,6 +41,7 @@
   cursor: pointer;
   outline: none;
   transition: all 0.2s ease;
+  min-width: 100px;
 }
 
 .role-select:hover {
@@ -57,4 +59,29 @@
   background-color: #1a1a2e;
   color: white;
   padding: 0.5rem;
+}
+
+/* ======================================== */
+/* RESPONSIVE - Ajustes específicos Users  */
+/* ======================================== */
+
+@media (max-width: 768px) {
+  .table-username {
+    font-size: 0.95rem;
+  }
+
+  .role-select {
+    width: 100%;
+    max-width: 150px;
+  }
+
+  .role-badge {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  /* Ajustar acciones para modo edición */
+  .table-actions {
+    gap: 0.5rem;
+  }
 }

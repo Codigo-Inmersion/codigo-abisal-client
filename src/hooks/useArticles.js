@@ -9,6 +9,7 @@ export function useArticles(params = {}) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    
     let alive = true;
     (async () => {
       setIsLoading(true);
@@ -40,6 +41,8 @@ export function useArticles(params = {}) {
         if (!alive) return;
 
         // 3. Guardamos los artículos ya enriquecidos con el username
+          console.log('🕵️‍♂️ Datos listos para guardar en el estado:', articlesWithUsernames);
+
         setArticles(articlesWithUsernames);
         setMeta(res.meta || null);
       } else {
@@ -52,6 +55,8 @@ export function useArticles(params = {}) {
     })();
 
     return () => { alive = false; };
+
+    
   }, [JSON.stringify(params)]);
 
   return { articles, meta, isLoading, error };
