@@ -271,7 +271,7 @@ const RegisterForm = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Mínimo 6 caracteres"
+                  placeholder="Mínimo 8 caracteres"
                   className={validationErrors.password ? 'error' : ''}
                   disabled={loading}
                   aria-invalid={!!validationErrors.password}
